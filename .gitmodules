@@ -1,0 +1,7 @@
+[submodule "makeTemplate"]
+	path = makeTemplate
+	url = https://github.com/yixuehan/makeTemplate.git
+[submodule "boost"]
+	path = boost
+	url = https://github.com/boostorg/boost.git
+    branch = master
