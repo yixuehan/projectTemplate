@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [${PRONAME}x == ""x]
+if [ ${PRONAME}x == ""x ]
 then
     echo 请先设置[PRONAME]
     exit 1
@@ -10,15 +10,15 @@ fi
 shellpath=$PWD/$(dirname $0)
 mkhome=$shellpath/makeTemplate
 
-cd $shellpath
+cd ${PRONAME}
 mkdir ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
-git submodule add https://github.com/yixuehan/makeTemplate.git
-git submodule add https://github.com/boostorg/boost.git
+cd $shellpath
+#git submodule add https://github.com/boostorg/boost.git
 git submodule update --init --recursive
 
 # 编译boost
 cd $shellpath/boost
-./bootstrap.sh --libdir=${PRONAME}/lib --includedir=${PRONAME}/include
+./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
 ./bjam cxxflags="-std=c++1z" variant=release install
 
 #提示
