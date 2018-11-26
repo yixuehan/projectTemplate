@@ -35,13 +35,13 @@ export PS1
 
 alias cds='cd $PRONAME/src'
 alias cdi='cd $PRONAME/include'
-alias cdm='cd $MKHOME/mak'
-alias cde='cd $MKHOME/../etc'
+alias cdm='cd $PRONAME/projectTemplate/mak'
+alias cde='cd $PRONAME/projectTemplate/etc'
 alias cdl='cd $PRONAME/log'
 alias cdb='cd $PRONAME/bin'
 alias cdp='cd $PRONAME'
 alias cdlib='cd $PRONAME/lib'
-alias cpmake='cp $MKHOME/mak/build.sh . && chmod +x build.sh'
+alias cpmake='cp $PRONAME/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 
 function cd()
