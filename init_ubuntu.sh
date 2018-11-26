@@ -16,9 +16,9 @@ cd $shellpath/boost
 ./bjam cxxflags="-std=c++1z" variant=release install
 
 #拷贝配置文件
-cp -i ${mkhome}/etc/env.sh ${PRONAME}/etc/env.sh
-rm -ri ${PRONAME}/mak
-cp -R ${mkhome} ${PRONAME}/mak
+#cp -i ${mkhome}/etc/env.sh ${PRONAME}/etc/env.sh
+#rm -ri ${PRONAME}/mak
+#cp -R ${mkhome} ${PRONAME}/mak
 
 #提示
 oldpath=$mkhome
@@ -26,5 +26,5 @@ cd $mkhome
 mkhome=$PWD
 cd $oldpath
 echo 在.bashrc中增加:
-echo export MKHOME=${PRONAME}/mak
-echo . ${PRONAME}/etc/env.sh
+echo export MKHOME=${shellpath}/makeTemplate/mak
+echo '. ${MKHOME}/etc/env.sh'
