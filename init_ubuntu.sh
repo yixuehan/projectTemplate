@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [${PRONAME}x == ""x]
+then
+    echo 请先设置[PRONAME]
+    exit 1
+fi
+
 #设置mak、shell路径`
 shellpath=$PWD/$(dirname $0)
 mkhome=$shellpath/makeTemplate
@@ -15,16 +21,11 @@ cd $shellpath/boost
 ./bootstrap.sh --libdir=${PRONAME}/lib --includedir=${PRONAME}/include
 ./bjam cxxflags="-std=c++1z" variant=release install
 
-#拷贝配置文件
-#cp -i ${mkhome}/etc/env.sh ${PRONAME}/etc/env.sh
-#rm -ri ${PRONAME}/mak
-#cp -R ${mkhome} ${PRONAME}/mak
-
 #提示
 oldpath=$mkhome
 cd $mkhome
 mkhome=$PWD
 cd $oldpath
 echo 在.bashrc中增加:
-echo export MKHOME=${shellpath}/makeTemplate/mak
-echo '. ${MKHOME}/etc/env.sh'
+echo export MKHOME='${PRONAME}/makeTemplate/mak'
+echo '. ${PRONAME}/projectTemplate/etc/env.sh'
