@@ -46,7 +46,7 @@ make_func()
                 cmd=${cmd}${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             else
-                export CXXFLAGS=-ggdb3
+                export CXXFLAGS=-g
                 cmd=debug${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             fi
@@ -59,9 +59,9 @@ make_func()
             elif [ ${targetType} = "static" ]; then
                 suffix=".a"
                 preFix=${PRONAME}/lib/lib
-                strip ${preFix}${target}${suffix}
+                echo strip ${preFix}${target}${suffix}
             else
-                strip ${preFix}${target}
+                echo strip ${preFix}${target}
             fi
         fi
    done

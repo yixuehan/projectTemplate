@@ -1,11 +1,11 @@
 RM:=rm -f
 RMDIR:=rmdir
-CXX:=g++ -std=c++1y -Wall -static
+CXX:=g++ -std=c++1y -Wall -static -save-temps
 #CC:=gcc -Wall 
 AR:=ar
 LD:=ld
 SLFLAG:=-ruc
-DLFLAG_OBJ:=-fPIC 
+DLFLAG_OBJ:=-fPIC
 DLFLAG_TARGET:=-shared
 PROC:=proc
 CP:=cp
@@ -14,8 +14,8 @@ JAVAC:=javac
 #各类型文件存放路径
 INCLUDEPATH:= $(SINCLUDEPATH) -I$(HOME)/usr/include
 LIBOUTPATH:=$(PRONAME)/lib
-#BINPATH:=$(PRONAME)/bin
-BINPATH:=.
+BINPATH:=$(PRONAME)/bin
+#BINPATH:=.
 DEPENDPATH:=depend
 OBJPATH:=obj
 OBJS:=$(addprefix $(OBJPATH)/, $(SOBJS))
