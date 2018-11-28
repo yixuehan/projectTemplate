@@ -2,3 +2,6 @@
 	path = boost
 	url = https://github.com/boostorg/boost.git
     branch = master
+[submodule "grpc"]
+	path = grpc
+	url = https://github.com/grpc/grpc.git
