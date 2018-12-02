@@ -1,6 +1,7 @@
 RM:=rm -f
 RMDIR:=rmdir
-CXX:=g++ -std=c++1y -Wall -static -save-temps
+CXX:=ccache g++ -std=c++1y -Wall -static
+#CXX:=g++ -std=c++1y -Wall -static -save-temps
 #CC:=gcc -Wall 
 AR:=ar
 LD:=ld

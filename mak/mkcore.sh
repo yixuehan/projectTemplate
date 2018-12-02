@@ -42,7 +42,7 @@ make_func()
                make -f ${MKHOME}/mkcore.mak ${cmd} 
             elif [ "release" = ${cmd} ]
             then
-                export CXXFLAGS=-O3
+                export CXXFLAGS="-O3 "
                 cmd=${cmd}${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             else
