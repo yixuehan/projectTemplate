@@ -18,18 +18,44 @@ git submodule update --init --recursive
 
 
 # 编译boost
-cd $shellpath/boost
-./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
-./bjam cxxflags="-std=c++1z" variant=release install
+boost()
+{
+    echo 编译boost...
+    cd $shellpath/boost
+    ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
+    ./bjam cxxflags="-std=c++1z" variant=release install
+}
 
 # 编译grpc
-sudo apt-get install build-essential autoconf libtool pkg-config -y
-sudo apt-get install libgflags-dev libgtest-dev -y
-sudo apt-get install clang libc++-dev -y
-cd $shellpath/grpc
-make && make install prefix=${HOME}/usr
-cd $shellpath/grpc/third_party/protobuf
-make && make install prefix=${HOME}/usr
+grpc()
+{
+    echo 编译grpc...
+    sudo apt-get install build-essential autoconf libtool pkg-config -y
+    sudo apt-get install libgflags-dev libgtest-dev -y
+    sudo apt-get install clang libc++-dev -y
+    cd $shellpath/grpc
+    make && make install prefix=${HOME}/usr
+    cd $shellpath/grpc/third_party/protobuf
+    make && make install prefix=${HOME}/usr
+}
+
+# 编译json
+json()
+{
+    echo 编译json...
+    cd $shellpath/json
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
+    make install
+}
+
+echo $*
+for library in $* ; do
+    echo $library
+    #json
+    eval "${library}"
+done
 
 #提示
 echo 在.bashrc中增加:
