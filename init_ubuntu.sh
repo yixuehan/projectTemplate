@@ -33,5 +33,5 @@ make && make install prefix=${HOME}/usr
 
 #提示
 echo 在.bashrc中增加:
-echo export MKHOME='${PRONAME}/makeTemplate/mak'
-echo '. ${PRONAME}/projectTemplate/etc/env.sh'
+echo 'export MKHOME=${HOME}/makeTemplate/mak'
+echo '. ${HOME}/projectTemplate/etc/env.sh'
