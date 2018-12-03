@@ -14,8 +14,9 @@ mkdir ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}
 #git submodule add https://github.com/yixuehan/makeTemplate.git
 #git submodule add https://github.com/boostorg/boost.git
 #git submodule add https://github.com/grpc/grpc.git
-git submodule update --init --recursive
-
+cd ${shellpath}
+git submodule init
+git submodule update --recursive
 
 # 编译boost
 boost()
