@@ -6,19 +6,23 @@ then
     exit 1
 fi
 
-#设置mak、shell路径`
-shellpath=$PWD/$(dirname $0)
-
-cd ${PRONAME}
-mkdir ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
-#git submodule add https://github.com/yixuehan/makeTemplate.git
-#git submodule add https://github.com/boostorg/boost.git
-#git submodule add https://github.com/grpc/grpc.git
-cd ${shellpath}
-git submodule update --init --recursive
-git pull --recurse-submodules
-
 sudo apt install cmake -y
+
+#设置mak、shell路径`
+shellpath=$PWD
+
+pull()
+{
+   cd ${PRONAME}
+   mkdir ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
+   #git submodule add https://github.com/yixuehan/makeTemplate.git
+   #git submodule add https://github.com/boostorg/boost.git
+   #git submodule add https://github.com/grpc/grpc.git
+   cd ${shellpath}
+   git pull
+   git submodule update --init --recursive
+   git pull --recurse-submodules
+}
 
 # 编译boost
 boost()

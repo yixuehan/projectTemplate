@@ -1,4 +1,3 @@
 #!/bin/bash
 
-git submodule update --recursive
-git pull
+git submodule update --init --recursive
