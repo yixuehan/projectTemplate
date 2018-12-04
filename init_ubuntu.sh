@@ -15,8 +15,10 @@ mkdir ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}
 #git submodule add https://github.com/boostorg/boost.git
 #git submodule add https://github.com/grpc/grpc.git
 cd ${shellpath}
-git submodule init
-git submodule update --recursive
+git submodule update --init --recursive
+git pull --recurse-submodules
+
+sudo apt install cmake -y
 
 # 编译boost
 boost()
@@ -45,6 +47,7 @@ json()
 {
     echo 编译json...
     cd $shellpath/json
+    rm -rf build
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
@@ -54,7 +57,6 @@ json()
 echo $*
 for library in $* ; do
     echo $library
-    #json
     eval "${library}"
 done
 
