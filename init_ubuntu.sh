@@ -11,10 +11,10 @@ sudo apt install cmake ccache -y
 #设置mak、shell路径`
 shellpath=$PWD
 
+mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
+
 pull()
 {
-   cd ${PRONAME}
-   mkdir ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
    #git submodule add https://github.com/yixuehan/makeTemplate.git
    #git submodule add https://github.com/boostorg/boost.git
    #git submodule add https://github.com/grpc/grpc.git
