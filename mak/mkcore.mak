@@ -1,6 +1,6 @@
 RM:=rm -f
 RMDIR:=rmdir
-CXX:=ccache g++ -std=c++1y -Wall -static
+CXX:=ccache g++ -std=c++1z -Wall
 #CXX:=g++ -std=c++1y -Wall -static -save-temps
 #CC:=gcc -Wall 
 AR:=ar
@@ -92,13 +92,13 @@ $(SLTARGET):$(OBJS)
 
 $(OBJPATH)/%.o: %.cpp $(DEPENDPATH)/%.d
 	@echo "[$^ -> $@]"
-	$(CXX) -c $< $(CXXFLAGS) $(DFLAG_OBJ) -o $@ $(INCLUDEPATH)
+	$(CXX) -c $< $(CXXFLAGS) $(DFLAG_OBJ) -o $@ $(INCLUDEPATH) $(LIBS)
 
 
 $(OBJPATH)/%.o: %.pc $(DEPENDPATH)/%.d
 	@echo "[$^ -> $@]"
 	$(PROC) iname=$<  oname=$(patsubst %.pc,%.cpp,$<) code=CPP mode=ANSI parse=NONE sqlcheck=FULL lines=YES
-	$(CXX) -c $(patsubst %.pc,%.cpp,$<) $(CXXFLAGS) $(DFLAG_OBJ) -o $@ $(INCLUDEPATH)
+	$(CXX) -c $(patsubst %.pc,%.cpp,$<) $(CXXFLAGS) $(DFLAG_OBJ) -o $@ $(INCLUDEPATH) $(LIBS)
 	$(RM) $(patsubst %.pc,%.lis,$<) $(patsubst %.pc,%.cpp,$<)
 
 $(DEPENDPATH)/%.d:%.pc

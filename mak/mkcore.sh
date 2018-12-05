@@ -46,7 +46,7 @@ make_func()
                 cmd=${cmd}${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             else
-                export CXXFLAGS="-ggdb3"
+                export CXXFLAGS="-ggdb3 -fno-inline-small-functions"
                 cmd=debug${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             fi

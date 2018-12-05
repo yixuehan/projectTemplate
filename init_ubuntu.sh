@@ -6,7 +6,7 @@ then
     exit 1
 fi
 
-sudo apt install cmake -y
+sudo apt install cmake ccache -y
 
 #设置mak、shell路径`
 shellpath=$PWD
