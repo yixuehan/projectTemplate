@@ -66,5 +66,5 @@ done
 
 #提示
 echo 在.bashrc中增加:
-echo 'export MKHOME=${HOME}/makeTemplate/mak'
+echo 'export MKHOME=${HOME}/projectTemplate/mak'
 echo '. ${HOME}/projectTemplate/env/env.sh'

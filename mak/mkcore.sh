@@ -2,7 +2,7 @@
 #默认为debug方式
 if [ 0 -eq $# ]
 then
-   cmds=debug
+   cmds=release
 else
    cmds=$@
 fi
@@ -42,11 +42,11 @@ make_func()
                make -f ${MKHOME}/mkcore.mak ${cmd} 
             elif [ "release" = ${cmd} ]
             then
-                export CXXFLAGS="-O3 "
+                export CXXFLAGS="-O3 -g"
                 cmd=${cmd}${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             else
-                export CXXFLAGS=-g
+                export CXXFLAGS="-ggdb3"
                 cmd=debug${targetType}
                 make -f ${MKHOME}/mkcore.mak ${cmd}
             fi

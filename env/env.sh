@@ -40,7 +40,7 @@ alias cdl='cd $PRONAME/log'
 alias cdb='cd $PRONAME/bin'
 alias cdp='cd $PRONAME'
 alias cdlib='cd $PRONAME/lib'
-alias cpmake='cp $PRONAME/projectTemplate/mak/build.sh . && chmod +x build.sh'
+alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 
 function cd()
