@@ -7,3 +7,6 @@
 [submodule "grpc"]
 	path = grpc
 	url = https://github.com/grpc/grpc.git
+[submodule "demjson"]
+	path = demjson
+	url = https://github.com/dmeranda/demjson.git
