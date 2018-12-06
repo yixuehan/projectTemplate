@@ -58,6 +58,12 @@ json()
     make install
 }
 
+demjson()
+{
+    cd demjson
+    python3 setup.py install --prefix ${HOME}/usr
+}
+
 echo $*
 for library in $* ; do
     echo $library
@@ -68,4 +74,4 @@ done
 echo 在.bashrc中增加:
 echo 'export MKHOME=${HOME}/projectTemplate/mak'
 echo '. ${HOME}/projectTemplate/env/env.sh'
-echo 'PYTHONPATH=$PYTHONPATH:${HOME}/projectTemplate/demjson'
+echo 'export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages'
