@@ -9,7 +9,14 @@ fi
 sudo apt install cmake ccache -y
 
 #设置mak、shell路径`
+download_path=${HOME}/git_download
 shellpath=$PWD
+
+if [ ! -d $download_path ]
+then
+    echo mkdir $download_path
+    mkdir $download_path
+fi
 
 mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
 
@@ -18,10 +25,26 @@ pull()
    #git submodule add https://github.com/yixuehan/makeTemplate.git
    #git submodule add https://github.com/boostorg/boost.git
    #git submodule add https://github.com/grpc/grpc.git
-   cd ${shellpath}
-   git pull
-   git submodule update --init --recursive
-   git pull --recurse-submodules
+   #cd ${shellpath}
+   #git pull
+   #git pull --recurse-submodules
+   null
+}
+
+update_module()
+{
+    echo "update_module $1 $2"
+    cd $download_path
+    if [ -d $1 ]
+    then
+        cd $1
+        git pull
+        git submodule update --init --recursive
+    else
+        git clone $2 $1
+        cd $1
+        git submodule update --init --recursive
+    fi
 }
 
 # 编译boost
@@ -36,11 +59,11 @@ boost()
 # 编译grpc
 grpc()
 {
+    update_module grpc https://github.com/grpc/grpc.git
     echo 编译grpc...
     sudo apt-get install build-essential autoconf libtool pkg-config -y
     sudo apt-get install libgflags-dev libgtest-dev -y
     sudo apt-get install clang libc++-dev -y
-    cd $shellpath/grpc
     make && make install prefix=${HOME}/usr
     cd $shellpath/grpc/third_party/protobuf
     make && make install prefix=${HOME}/usr
@@ -50,6 +73,7 @@ grpc()
 json()
 {
     echo 编译json...
+    update_module json https://github.com/nlohmann/json.git
     cd $shellpath/json
     rm -rf build
     mkdir build
@@ -60,6 +84,7 @@ json()
 
 demjson()
 {
+    update_module demjson https://github.com/dmeranda/demjson.git
     cd demjson
     python3 setup.py install --prefix ${HOME}/usr
 }
