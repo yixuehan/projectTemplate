@@ -51,7 +51,7 @@ update_module()
 boost()
 {
     echo 编译boost...
-    cd $shellpath/boost
+    update_module boost https://github.com/boostorg/boost.git
     ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
     ./bjam cxxflags="-std=c++1z" variant=release install
 }
