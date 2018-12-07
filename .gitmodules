@@ -1,6 +1,0 @@
-[submodule "json"]
-	path = json
-	url = https://github.com/nlohmann/json.git
-[submodule "grpc"]
-	path = grpc
-	url = https://github.com/grpc/grpc.git
