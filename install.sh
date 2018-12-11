@@ -6,7 +6,18 @@ then
     exit 1
 fi
 
-sudo apt install cmake ccache -y
+if [ -e '/etc/centos-release' ]
+then
+    MKOSTYPE=centos
+else
+    MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
+fi
+
+case $MKOSTYPE in
+    ubuntu) sudo apt install cmake ccache -y;;
+    centos) sudo yum install devtoolset-7 -y
+            echo 手动安装ccache,cmake ;;
+esac
 
 #设置mak、shell路径`
 download_path=${HOME}/git_download
@@ -61,9 +72,14 @@ grpc()
 {
     update_module grpc https://github.com/grpc/grpc.git
     echo 编译grpc...
-    sudo apt-get install build-essential autoconf libtool pkg-config -y
-    sudo apt-get install libgflags-dev libgtest-dev -y
-    sudo apt-get install clang libc++-dev -y
+    case $MKOSTYPE in
+        ubuntu) sudo apt-get install build-essential autoconf libtool pkg-config -y
+                sudo apt-get install libgflags-dev libgtest-dev -y
+                sudo apt-get install clang libc++-dev -y;;
+        centos) sudo yum install build-essential autoconf libtool pkg-config -y
+                sudo yum install libgflags-dev libgtest-dev -y
+                sudo yum install libc++-dev -y;;
+    esac
     make && make install prefix=${HOME}/usr
     cd $shellpath/grpc/third_party/protobuf
     make && make install prefix=${HOME}/usr
@@ -97,5 +113,4 @@ done
 
 #提示
 echo 在.bashrc中增加:
-echo 'export MKHOME=${HOME}/projectTemplate/mak'
 echo '. ${HOME}/projectTemplate/env/env.sh'
