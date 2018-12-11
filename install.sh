@@ -16,7 +16,18 @@ fi
 case $MKOSTYPE in
     ubuntu) sudo apt install cmake ccache -y;;
     centos) sudo yum install devtoolset-7 -y
-            echo 手动安装ccache,cmake ;;
+            which ccache 1>/dev/null
+            if [ $? != 0 ]
+            then
+                echo 手动安装ccache
+            fi
+            which cmake 1>/dev/null
+            if [ $? != 0 ]
+            then
+                echo 手动安装cmake
+            fi
+            ;;
+            
 esac
 
 #设置mak、shell路径`
