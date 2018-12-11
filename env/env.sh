@@ -20,7 +20,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HOME}/usr/lib
 
 LIBRARY_PATH=$LD_LIBRARY_PATH
 
-PATH=$PATH:${PRONAME}/bin
+PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin
 
 PS1='[\u@\h \W]\$ '
 

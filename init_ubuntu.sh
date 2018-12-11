@@ -99,4 +99,3 @@ done
 echo 在.bashrc中增加:
 echo 'export MKHOME=${HOME}/projectTemplate/mak'
 echo '. ${HOME}/projectTemplate/env/env.sh'
-echo 'export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages'
