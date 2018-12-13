@@ -15,8 +15,9 @@ fi
 
 case $MKOSTYPE in
     ubuntu) sudo apt install cmake ccache -y;;
-    centos) sudo yum install centos-release-scl
+    centos) sudo yum install centos-release-scl -y
             sudo yum install devtoolset-7 -y
+            . software.sh
             which ccache 1>/dev/null
             if [ $? != 0 ]
             then
