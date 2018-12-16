@@ -13,23 +13,28 @@ else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
 
+software()
+{
+    which $1 1>/dev/null
+    if [ $? != 0 ]
+    then
+    	. ${1}.sh
+    	which ccache 1>/dev/null
+    	if [ $? != 0 ]
+	    then
+            echo 手动安装$1
+	        exit 1
+        fi
+    fi
+}
+
 case $MKOSTYPE in
     ubuntu) sudo apt install cmake ccache -y;;
     centos) sudo yum install centos-release-scl -y
             sudo yum install devtoolset-7 -y
-            . software.sh
-            which ccache 1>/dev/null
-            if [ $? != 0 ]
-            then
-                echo 手动安装ccache
-		exit 1
-            fi
-            which cmake 1>/dev/null
-            if [ $? != 0 ]
-            then
-                echo 手动安装cmake
-                exit 1
-            fi
+            sudo yum install wget
+            software cmake
+            software ccache
             ;;
             
 esac

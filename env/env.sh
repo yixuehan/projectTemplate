@@ -52,3 +52,9 @@ function cd()
 }
 
 ulimit -c unlimited
+
+# devtoolset-7
+if [ 1 -eq $SHLVL ]
+then
+    scl enable devtoolset-7 bash
+fi
