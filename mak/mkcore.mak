@@ -1,12 +1,12 @@
 RM:=rm -f
 RMDIR:=rmdir
-CXX:=ccache g++ -std=c++11 -Wall
+CXX:=ccache g++ -std=c++1z -Wall
 #CXX:=g++ -std=c++1y -Wall -static -save-temps
 #CC:=gcc -Wall 
 AR:=ar
 LD:=ld
 SLFLAG:=-ruc
-DLFLAG_OBJ:=-fPIC
+#DLFLAG_OBJ:=-fPIC
 DLFLAG_TARGET:=-shared
 PROC:=proc
 CP:=cp
@@ -92,7 +92,7 @@ $(SLTARGET):$(OBJS)
 
 $(OBJPATH)/%.o: %.cpp $(DEPENDPATH)/%.d
 	@echo "[$^ -> $@]"
-	$(CXX) -c $< $(CXXFLAGS) $(DFLAG_OBJ) -o $@ $(INCLUDEPATH) $(LIBS)
+	$(CXX) -c $< $(CXXFLAGS) $(DLFLAG_OBJ) -o $@ $(INCLUDEPATH) $(LIBS)
 
 
 $(OBJPATH)/%.o: %.pc $(DEPENDPATH)/%.d

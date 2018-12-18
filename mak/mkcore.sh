@@ -34,7 +34,7 @@ make_func()
             export SLIBS="`eval echo '$'{${target}_libs'}'`" 
             export SINCLUDEPATH="`eval echo '$'{${target}_include_path'}'`"
             if [ ${targetType} = "dynamic" ]; then
-                export DLFLAG_OBJ:=-fPIC
+                export DLFLAG_OBJ="-fPIC"
             fi
 
             if [ "clean" = ${cmd} ]
