@@ -11,6 +11,7 @@ targets=
 #指定目标依赖
 #命名规则  目标_ojbs  目标_libs  如:test_objs  test_libs test_includepath
 testmake_objs=
+testmake_sources=
 testmake_libs=
 xxx_include_path=
 
