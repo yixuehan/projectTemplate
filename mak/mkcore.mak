@@ -5,7 +5,7 @@ CXX:=ccache g++ -std=c++1z -Wall
 #CC:=gcc -Wall 
 AR:=ar
 LD:=ld
-SLFLAG:=-ruc
+SLFLAG:=rc
 #DLFLAG_OBJ:=-fPIC
 DLFLAG_TARGET:=-shared
 PROC:=proc
