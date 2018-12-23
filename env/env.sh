@@ -58,3 +58,12 @@ if [ 1 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
 then
     scl enable devtoolset-7 bash
 fi
+
+which ccache &> /dev/null
+if [ 0 -eq $? ]
+then
+    export CCACHE_DIR=/tmp/ccache
+    ccache --max-size=10G > /dev/null
+    export CCACHE_SIZE=10G # redundant; set anyway
+    export CCACHE_UMASK=0 # shared to world
+fi
