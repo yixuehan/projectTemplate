@@ -19,7 +19,7 @@ software()
     if [ $? != 0 ]
     then
     	. ${1}.sh
-    	which ccache 1>/dev/null
+    	which $1 1>/dev/null
     	if [ $? != 0 ]
 	    then
             echo 手动安装$1
@@ -32,6 +32,13 @@ case $MKOSTYPE in
     ubuntu) sudo apt install cmake ccache -y;;
     centos) sudo yum install centos-release-scl -y
             sudo yum install devtoolset-7 -y
+            #提示
+            if [ 2 -eq $SHLVL ]
+            then
+                echo 在.bashrc中增加:
+                echo '. ${HOME}/projectTemplate/env/env.sh'
+                exit 1
+            fi
             sudo yum install wget
             software cmake
             software ccache
@@ -110,7 +117,6 @@ json()
 {
     echo 编译json...
     update_module json https://github.com/nlohmann/json.git
-    cd $shellpath/json
     rm -rf build
     mkdir build
     cd build
@@ -118,10 +124,19 @@ json()
     make install
 }
 
+scons()
+{
+    update_module scons https://github.com/SCons/scons.git
+    export setenv MYSCONS=`pwd`/src
+    python $MYSCONS/script/scons.py
+    python bootstrap.py build/scons
+    cd build/scons
+    python setup.py install --prefix=${HOME}/usr
+}
+
 demjson()
 {
     update_module demjson https://github.com/dmeranda/demjson.git
-    cd demjson
     python3 setup.py install --prefix ${HOME}/usr
 }
 
@@ -131,6 +146,3 @@ for library in $* ; do
     eval "${library}"
 done
 
-#提示
-echo 在.bashrc中增加:
-echo '. ${HOME}/projectTemplate/env/env.sh'
