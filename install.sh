@@ -83,6 +83,7 @@ update_module()
         cd $1
         git submodule update --init --recursive
     fi
+    git checkout master
 }
 
 # 编译boost
