@@ -146,10 +146,12 @@ you()
     sudo apt install build-essential cmake python3-dev
     # git clone https://github.com/Valloric/YouCompleteMe.git ~/YouCompleteMe
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    ln -s ${PWD}/vimrc ~/.vimrc
+    if [ ! -f ~/.vimrc ]
+    then
+        ln -s ${PWD}/vimrc ~/.vimrc
+    fi
     vim +PluginInstall +qall
     cd ~/.vim/bundle/YouCompleteMe
-    # if [ -f "${HOME}/.vim/
     git submodule update --init --recursive
     python3 install.py --clang-completer --go-completer
 }
