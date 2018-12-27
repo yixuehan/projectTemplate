@@ -29,9 +29,13 @@ software()
 }
 
 case $MKOSTYPE in
-    ubuntu) sudo apt install cmake ccache -y;;
+    ubuntu) sudo apt install cmake ccache -y
+            sudo apt install git -y
+            sudo apt install wget -y
+            ;;
     centos) sudo yum install centos-release-scl -y
             sudo yum install devtoolset-7 -y
+            sudo yum install git -y
             #提示
             if [ 2 -eq $SHLVL ]
             then
@@ -45,6 +49,8 @@ case $MKOSTYPE in
             ;;
             
 esac
+
+git config --global credential.helper store
 
 #设置mak、shell路径`
 download_path=${HOME}/git_download
@@ -144,16 +150,27 @@ demjson()
 you()
 {
     sudo apt install build-essential cmake python3-dev
+    sudo apt install ctags
+    sudo apt install golang
+    go get -u github.com/jstemmer/gotags
     # git clone https://github.com/Valloric/YouCompleteMe.git ~/YouCompleteMe
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    if [ ! -d ~/.vim/bundle/Vundle.vim ]
+    then
+        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    fi
     if [ ! -f ~/.vimrc ]
     then
         ln -s ${PWD}/vimrc ~/.vimrc
     fi
-    vim +PluginInstall +qall
+    vim +PluginInstall! +PlugClean! +qall
+    vim +GoInstallBinaries! +qall
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
     python3 install.py --clang-completer --go-completer
+    if [ ! -f ~/.ycm_extra_conf.py ]
+    then
+        cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
+    fi
 }
 
 echo $*
