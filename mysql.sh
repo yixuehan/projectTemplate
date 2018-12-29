@@ -7,6 +7,7 @@ then
 fi
 cd mysql++-${version}
 ./configure --prefix=${HOME}/usr --enable-shared=no --enable-static=yes
+exit 1
 make install
 if [ 0 -eq $? ]
 then

@@ -12,13 +12,25 @@ Plugin 'Valloric/YouCompleteMe'
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" go 插件
-Plugin 'fatih/vim-go'
-
 " 语法检查
 Plugin 'scrooloose/syntastic'
 
-
+" Bundle 'gmarik/Vundle.vim'
+" Plugin 'tpope/vim-fugitive'
+Plugin 'Shougo/neocomplete'
+Plugin 'ervandew/supertab'
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'vim-scripts/OmniCppComplete'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'rking/ag.vim'  "https://geoff.greer.fm/ag/releases/the_silver_searcher-1.0.2.tar.gz
+Plugin 'Valloric/ListToggle'
+Plugin 'fatih/vim-go' " :GoInstallBinaries
+Plugin 'python.vim'
+Plugin 'nvie/vim-flake8'
+Plugin 'tell-k/vim-autopep8'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -215,7 +227,7 @@ function! AutoSetFileHead()
 
     "如果文件类型为python
     if &filetype == 'python'
-        call setline(1, "\#!/usr/bin/env python")
+        call setline(1, "\#!/usr/bin/env python3")
         call setline(2, "\# -*- coding: utf-8 -*-")
     endif
 
@@ -223,4 +235,85 @@ function! AutoSetFileHead()
     normal o
     normal o
 endfunc
+
+
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+" automatically open and close the popup menu / preview window
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+set completeopt=menuone,menu,longest,preview
+
+"--------------------------------------------------------------------------------
+"tagbar
+"nnoremap <silent> <F11> :TagbarToggle<CR>
+let g:tagbar_autoclose = 0
+let g:tagbar_sort = 0
+let g:tagbar_indent = 1
+"let g:tagbar_iconchars = ['+', '-']
+let g:tagbar_left = 1
+let g:tagbar_width = 42
+let g:tagbar_compact = 1
+
+"------------------------------------------------------------
+"nerdtree
+autocmd WinEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeWinSize = 82
+let NERDTreeWinPos = "right"
+let NERDTreeShowHidden = 1
+let NERDTreeAutoCenter = 1
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeDirArrowExpandable = '+'
+let NERDTreeDirArrowCollapsible = '-'
+let NERDTreeRespectWildIgnore = 1
+let NERDTreeQuitOnOpen = 1
+
+"------------------------------------------------------------
+"minbufexplorer
+
+"------------------------------------------------------------
+"ag.vim
+let g:ag_prg = "ag --cpp --cc --vimgrep"
+let g:ag_working_path_mode = "r"
+let g:ag_highlight = 1
+let g:ag_qhandler="copen 20"
+let g:ag_mapping_message = 0
+let g:ag_apply_qmappings = 1
+
+let g:lt_height = 20
+
+"------------------------------------------------------------
+"go.vim
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+"let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_autosave = 0
+let g:go_play_open_browser = 0
+let g:go_get_update = 0
+
+let g:neocomplete#enable_at_startup = 1
+
+autocmd BufWritePre *.go GoFmt
+"autocmd BufWritePre *.go GoErrCheck
+
+"-------------------------------------------------------------
+"Flake8
+let g:flake8_quickfix_height = 7
+highlight link Flake8_Error      Error
+highlight link Flake8_Warning    WarningMsg
+highlight link Flake8_Complexity WarningMsg
+highlight link Flake8_Naming     WarningMsg
+highlight link Flake8_PyFlake    WarningMsg
+autocmd BufWritePost *.py call Flake8()
 
