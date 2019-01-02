@@ -30,6 +30,8 @@ export PS1
 export MKHOME=${HOME}/projectTemplate/mak
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 
+export NUM_CPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
+
 #export MANPATH=/home/wangkai/project/thirdLib/${MKOSTYPE}/google_coredumper/man
 
 alias cds='cd $PRONAME/src'
