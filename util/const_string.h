@@ -3,7 +3,6 @@
 #include <cassert>
 #include <cstdio>
 
-namespace desert {
 namespace util {
 constexpr size_t LenStr( const char * const str, size_t len = 0 )
 {
@@ -25,4 +24,3 @@ constexpr __uint128_t _IntStr<0>( const char * const, __uint128_t base )
 
 #define IntStr( str ) _IntStr<LenStr(str)>(str)
 } // util
-} // desert

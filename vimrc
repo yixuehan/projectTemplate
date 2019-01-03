@@ -17,7 +17,7 @@ Plugin 'scrooloose/syntastic'
 
 " Bundle 'gmarik/Vundle.vim'
 " Plugin 'tpope/vim-fugitive'
-Plugin 'Shougo/neocomplete'
+" Plugin 'Shougo/neocomplete'
 Plugin 'ervandew/supertab'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
