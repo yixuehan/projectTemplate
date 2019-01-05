@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ $MKOSTYPE == 'centos' ]
+then
+    sudo yum install mysql-devel -y
+elif [ $MKOSTYPE == 'ubuntu' ]
+then
+    sudo apt install libmysqlclient-dev
+fi
 version=3.2.4
 if [ ! -f mysql++-${version}.tar.gz ]
 then
