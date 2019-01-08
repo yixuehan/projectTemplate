@@ -17,7 +17,7 @@ Plugin 'scrooloose/syntastic'
 
 " Bundle 'gmarik/Vundle.vim'
 " Plugin 'tpope/vim-fugitive'
-" Plugin 'Shougo/neocomplete'
+Plugin 'Shougo/neocomplete'
 Plugin 'ervandew/supertab'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
@@ -218,7 +218,7 @@ au BufEnter /usr/include/*     setf cpp
 
 
 "自动添加文件头
-autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
+autocmd BufNewFile *.sh,*.py,*.h,*.cpp exec ":call AutoSetFileHead()"
 function! AutoSetFileHead()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
@@ -229,6 +229,11 @@ function! AutoSetFileHead()
     if &filetype == 'python'
         call setline(1, "\#!/usr/bin/env python3")
         call setline(2, "\# -*- coding: utf-8 -*-")
+    endif
+
+    if &filetype == 'cpp'
+        call setline(1, "\#include <iostream>")
+        call setline(2, "using namespace std;")
     endif
 
     normal G
@@ -291,6 +296,7 @@ let g:lt_height = 20
 "go.vim
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_operators = 1

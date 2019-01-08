@@ -149,6 +149,12 @@ demjson()
 
 you()
 {
+    update_module k-vim https://github.com/yixuehan/k-vim.git
+    ./merge.sh
+    ./ubuntu.sh
+    ./install.sh
+    return
+
     sudo apt install build-essential cmake python3-dev
     sudo apt install ctags
     sudo apt install golang
