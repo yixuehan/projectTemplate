@@ -47,7 +47,6 @@ case $MKOSTYPE in
             software cmake
             software ccache
             ;;
-            
 esac
 
 git config --global credential.helper store
@@ -153,6 +152,10 @@ you()
     ./merge.sh
     ./ubuntu.sh
     ./install.sh
+    if [ ! -f ~/.ycm_extra_conf.py ]
+    then
+        cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
+    fi
     return
 
     sudo apt install build-essential cmake python3-dev
