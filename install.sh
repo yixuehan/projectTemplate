@@ -35,6 +35,7 @@ case $MKOSTYPE in
             ;;
     centos) sudo yum install centos-release-scl -y
             sudo yum install devtoolset-7 -y
+            sudo yum install rh-python36
             sudo yum install git -y
             #提示
             if [ 2 -eq $SHLVL ]
