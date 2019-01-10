@@ -2,6 +2,7 @@
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
+    PYTHON=python36
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
@@ -55,8 +56,15 @@ ulimit -c unlimited
 # devtoolset-7
 if [ 1 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
 then
-    scl enable devtoolset-7 bash
+    export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
+    export PATH=/opt/rh/rh-python36/root/bin:$PATH
+    # scl enable devtoolset-7 bash
 fi
+
+#if [ 4 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
+#then
+#    scl enable rh-${PYTHON} bash
+#fi
 
 which ccache &> /dev/null
 if [ 0 -eq $? ]
