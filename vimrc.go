@@ -21,8 +21,6 @@ call vundle#end()
 
 filetype plugin indent on
 
-autocmd BufWritePre *.go :Fmt
-
 "插入模式下直接通过<C-z>键来触发UltiSnips的代码块补全
 
 let g:UltiSnipsExpandTrigger="<C-z>"
@@ -61,4 +59,21 @@ let g:tagbar_autopreview = 1
 
 let g:tagbar_sort = 0
 
+"go.vim
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
+"let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_autosave = 0
+let g:go_play_open_browser = 0
+let g:go_get_update = 0
+
+let g:neocomplete#enable_at_startup = 1
+
+autocmd BufWritePre *.go GoFmt
