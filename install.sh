@@ -146,23 +146,12 @@ demjson()
     python3 setup.py install --prefix ${HOME}/usr
 }
 
-you()
+vimdev()
 {
-    update_module k-vim https://github.com/yixuehan/k-vim.git
-    ./merge.sh
-    ./ubuntu.sh
-    ./install.sh
-    if [ ! -f ~/.ycm_extra_conf.py ]
-    then
-        cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
-    fi
-    return
-
     sudo apt install build-essential cmake python3-dev
     sudo apt install ctags
     sudo apt install golang
     go get -u github.com/jstemmer/gotags
-    # git clone https://github.com/Valloric/YouCompleteMe.git ~/YouCompleteMe
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
         git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -170,9 +159,19 @@ you()
     if [ ! -f ~/.vimrc ]
     then
         ln -s ${PWD}/vimrc ~/.vimrc
+    else
+        mv ~/.vimrc ~/.vimrc.bak
+        ln -s ${PWD}/vimrc ~/.vimrc
+	    mv ~/.vimrc.go ~/.vimrc.go.bak
+        ln -s ${PWD}/vimrc.go ~/.vimrc.go
+        mv ~/.vimrc.bundle ~/.vimrc.bundle.bak
+        ln -s ${PWD}/vimrc.bundle ~/.vimrc.bundle
     fi
     vim +PluginInstall! +PlugClean! +qall
-    vim +GoInstallBinaries! +qall
+    vim -u $HOME/.vimrc.bundle +PluginInstall! +PlugClean! +qall
+    vim -u $HOME/.vimrc.bundle +GoInstallBinaries! +qall
+
+    return
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
     python3 install.py --clang-completer --go-completer
