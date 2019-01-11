@@ -61,7 +61,7 @@ set nohlsearch
 set pastetoggle=<F5>
 
 "if &filetype == 'go'
-	source ~/.vimrc.go
+	source ~/.vimrc.cpp
 "endif
 
 

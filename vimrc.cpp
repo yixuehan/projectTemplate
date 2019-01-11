@@ -1,6 +1,38 @@
+set nocompatible
+
+filetype off 
+
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+Plugin 'Raimondi/delimitMate'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+Plugin 'Manishearth/godef'
+Plugin 'fatih/vim-go'
+
+call vundle#end()
+
+filetype plugin indent on
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_error_symbol = '>>'
 let g:ycm_warning_symbol = '>*'
+let g:ycm_auto_trigger = 1
+let g:ycm_max_num_candidates  =  0
+let g:ycm_max_num_identifier_candidates  =  0
+let g:ycm_always_populate_location_list  =  1
+let g:ycm_collect_identifiers_from_tags_files  =  1
+let g:ycm_seed_identifiers_with_syntax  =  1
+let g:ycm_disable_for_files_larger_than_kb  =  0
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_tags_files = 1"
+let g:ycm_log_level='debug'
+
 " 自动补全配置
 set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif    "离开插入模式后自动关闭预览窗口
@@ -29,23 +61,7 @@ nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntast
 "nnoremap <leader>lc :lclose<CR>    "close locationlist
 let mapleader=","
 inoremap <leader><leader> <C-x><C-o>
-"在注释输入中也能补全
-let g:ycm_complete_in_comments = 1
-"在字符串输入中也能补全
-let g:ycm_complete_in_strings = 1
-"注释和字符串中的文字也会被收入补全
-let g:ycm_collect_identifiers_from_comments_and_strings = 0
 
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-let g:go_fmt_fail_silently = 1
-" format with goimports instead of gofmt
-let g:go_fmt_command = "goimports"
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 
 let g:tagbar_type_go = {
@@ -77,7 +93,7 @@ let g:tagbar_type_go = {
 \ }
 
 let g:syntastic_error_symbol='>>'
-let g:syntastic_warning_symbol='>'
+let g:syntastic_warning_symbol='>*'
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_enable_highlighting=1
@@ -103,7 +119,7 @@ let g:syntastic_auto_jump = 0
 let g:syntastic_loc_list_height = 5
 let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
 
-"nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
+nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
 
 
 
@@ -148,39 +164,7 @@ let NERDTreeDirArrowCollapsible = '-'
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeQuitOnOpen = 1
 
-"------------------------------------------------------------
-"minbufexplorer
-
-"------------------------------------------------------------
-"ag.vim
-let g:ag_prg = "ag --cpp --cc --vimgrep"
-let g:ag_working_path_mode = "r"
-let g:ag_highlight = 1
-let g:ag_qhandler="copen 20"
-let g:ag_mapping_message = 0
-let g:ag_apply_qmappings = 1
-
-let g:lt_height = 20
-
-"------------------------------------------------------------
-"go.vim
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-"let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_autosave = 0
-let g:go_play_open_browser = 0
-let g:go_get_update = 0
-
-let g:neocomplete#enable_at_startup = 1
-
-autocmd BufWritePre *.go GoFmt
+"autocmd BufWritePre *.go GoFmt
 "autocmd BufWritePre *.go GoErrCheck
 
 "-------------------------------------------------------------
@@ -193,3 +177,44 @@ highlight link Flake8_Naming     WarningMsg
 highlight link Flake8_PyFlake    WarningMsg
 autocmd BufWritePost *.py call Flake8()
 
+
+
+"插入模式下直接通过<C-z>键来触发UltiSnips的代码块补全
+
+let g:UltiSnipsExpandTrigger="<C-z>"
+
+"弹出UltiSnips的可用列表,由于不常用, 所以这里设置成了特殊的<C-i>映射
+
+let g:UltiSnipsListSnippets="<C-i>"
+
+"<C-f>跳转的到下一个代码块可编辑区
+
+let g:UltiSnipsJumpForwardTrigger="<C-f>"
+
+"<C-b>跳转到上一个代码块可编辑区
+
+let g:UltiSnipsJumpBackwardTrigger="<C-b>"
+
+
+" 设置NerdTree
+
+map <F7> :NERDTreeMirror<CR>
+
+map <F7> :NERDTreeToggle<CR>
+
+"tagbar
+"F9触发，设置宽度为30
+
+let g:tagbar_width = 30
+
+nmap <F9> :TagbarToggle<CR>
+
+"开启自动预览(随着光标在标签上的移动，顶部会出现一个实时的预览窗口)
+
+let g:tagbar_autopreview = 1
+
+"关闭排序,即按标签本身在文件中的位置排序
+
+let g:tagbar_sort = 0
+
+autocmd BufWritePre *.go GoFmt
