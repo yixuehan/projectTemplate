@@ -169,13 +169,13 @@ let NERDTreeQuitOnOpen = 1
 
 "-------------------------------------------------------------
 "Flake8
-let g:flake8_quickfix_height = 7
-highlight link Flake8_Error      Error
-highlight link Flake8_Warning    WarningMsg
-highlight link Flake8_Complexity WarningMsg
-highlight link Flake8_Naming     WarningMsg
-highlight link Flake8_PyFlake    WarningMsg
-autocmd BufWritePost *.py call Flake8()
+"let g:flake8_quickfix_height = 7
+"highlight link Flake8_Error      Error
+"highlight link Flake8_Warning    WarningMsg
+"highlight link Flake8_Complexity WarningMsg
+"highlight link Flake8_Naming     WarningMsg
+"highlight link Flake8_PyFlake    WarningMsg
+"autocmd BufWritePost *.py call Flake8()
 
 
 
