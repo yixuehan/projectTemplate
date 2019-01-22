@@ -5,18 +5,21 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-
 Plugin 'gmarik/Vundle.vim'
 Plugin 'fatih/vim-go'
-Plugin 'dgryski/vim-godef'
-Plugin 'Blackrush/vim-gocode'
-Plugin 'honza/vim-snippets'
+" Plugin 'Shougo/neocomplete'
+" Plugin 'zchee/deoplete-go'
 
+" Plugin 'SirVer/ultisnips'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'Raimondi/delimitMate'
+
+" Plugin 'dgryski/vim-godef'
+" Plugin 'Blackrush/vim-gocode'
+" Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'Raimondi/delimitMate'
-
+Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 
 filetype plugin indent on
@@ -60,20 +63,32 @@ let g:tagbar_autopreview = 1
 let g:tagbar_sort = 0
 
 "go.vim
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
+"let g:go_highlight_functions = 1
+"let g:go_highlight_methods = 1
+"let g:go_highlight_structs = 1
+"let g:go_highlight_fields = 1
+"let g:go_highlight_types = 1
+"let g:go_highlight_operators = 1
+"let g:go_highlight_build_constraints = 1
 
-"let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_autosave = 0
-let g:go_play_open_browser = 0
-let g:go_get_update = 0
+let g:go_fmt_command = "goimports"
+"let g:go_fmt_fail_silently = 1
+"let g:go_fmt_autosave = 0
+"let g:go_play_open_browser = 0
+"let g:go_get_update = 0
+"
+"let g:neocomplete#enable_at_startup = 1
 
-let g:neocomplete#enable_at_startup = 1
+"autocmd BufWritePre *.go GoFmt
 
-autocmd BufWritePre *.go GoFmt
+" YCM settings
+let g:ycm_key_list_select_completion = ['', '']
+let g:ycm_key_list_previous_completion = ['']
+let g:ycm_key_invoke_completion = '<C-Space>'
+
+" UltiSnips setting
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+imap <F6> <C-x><C-o>
