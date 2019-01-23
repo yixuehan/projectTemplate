@@ -22,43 +22,43 @@
 "let g:rehash256 = 1
 "" F2 行号开关，用于鼠标复制代码用
 "" 为方便复制，用<F2>开启/关闭行号显示:
-"function! HideNumber()
-"  if(&relativenumber == &number)
-"    set relativenumber! number!
-"  elseif(&number)
-"    set number!
-"  else
-"    set relativenumber!
-"  endif
-"  set number?
-"endfunc
-"nnoremap <F2> :call HideNumber()<CR>
+function! HideNumber()
+  if(&relativenumber == &number)
+    set relativenumber! number!
+  elseif(&number)
+    set number!
+  else
+    set relativenumber!
+  endif
+  set number?
+endfunc
+nnoremap <F2> :call HideNumber()<CR>
 "
-"au InsertLeave * set nopaste
+au InsertLeave * set nopaste
 "
-"set rnu
-"set number
-"set ffs=unix
-""set mouse=a
-"au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-"set tabstop=4
-"set expandtab
-"set softtabstop=4
-"set autoindent
-"set smartindent
-"set cindent
-"set shiftwidth=4
-"filetype on
-"filetype plugin on
-"filetype indent on
-"autocmd FileType make set noexpandtab
-"set tags=tags;
-"set termencoding=utf-8
-"set encoding=utf-8
-"set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5,latin-1
-"set nohlsearch
+set rnu
+set number
+set ffs=unix
+"set mouse=a
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+set tabstop=4
+set expandtab
+set softtabstop=4
+set autoindent
+set smartindent
+set cindent
+set shiftwidth=4
+filetype on
+filetype plugin on
+filetype indent on
+autocmd FileType make set noexpandtab
+set tags=tags;
+set termencoding=utf-8
+set encoding=utf-8
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5,latin-1
+set nohlsearch
 "
-"set pastetoggle=<F5>
+set pastetoggle=<F5>
 "
 ""if &filetype == 'go'
 source ~/.vimrc.go

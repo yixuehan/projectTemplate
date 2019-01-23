@@ -87,7 +87,7 @@ let g:ycm_key_list_previous_completion = ['']
 let g:ycm_key_invoke_completion = '<C-Space>'
 
 " UltiSnips setting
-let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
