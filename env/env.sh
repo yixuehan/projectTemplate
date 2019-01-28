@@ -45,7 +45,7 @@ alias cdp='cd $PRONAME'
 alias cdlib='cd $PRONAME/lib'
 alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
-alias cleandocker='docker image prune'
+alias cleandocker='docker rmi -f  `docker images | grep "<none>" | awk "{print $3}"`'
 
 function cd()
 {

@@ -22,6 +22,9 @@
 "let g:rehash256 = 1
 "" F2 行号开关，用于鼠标复制代码用
 "" 为方便复制，用<F2>开启/关闭行号显示:
+autocmd BufReadPre,BufNewFile *.cpp,*.h,*.hpp,*.c,*.ipp exec ":source ~/.cpp.vimrc"
+autocmd BufReadPre,BufNewFile *.go source ~/.go.vimrc
+"source ~/.cpp.vimrc
 function! HideNumber()
   if(&relativenumber == &number)
     set relativenumber! number!
@@ -60,26 +63,24 @@ set nohlsearch
 "
 set pastetoggle=<F5>
 "
-""if &filetype == 'go'
-source ~/.vimrc.go
-""endif
+"
 "
 "
 "" 定义函数AutoSetFileHead，自动插入文件头
-"autocmd BufNewFile *.sh,*.py,*.go exec ":call AutoSetFileHead()"
-"function! AutoSetFileHead()
-"    "如果文件类型为.sh文件
-"    if &filetype == 'sh'
-"        call setline(1, "\#!/bin/bash")
-"    endif
-"
-"    "如果文件类型为python
-"    if &filetype == 'python'
-"        call setline(1, "\#!/usr/bin/env python3")
-"        call setline(2, "\# -*- coding: utf-8 -*-")
-"    endif
-"
-"    normal G
-"    normal o
-"    normal o
-"endfunc
+autocmd BufNewFile *.sh,*.py,*.go exec ":call AutoSetFileHead()"
+function! AutoSetFileHead()
+    "如果文件类型为.sh文件
+    if &filetype == 'sh'
+        call setline(1, "\#!/bin/bash")
+    endif
+
+    "如果文件类型为python
+    if &filetype == 'python'
+        call setline(1, "\#!/usr/bin/env python3")
+        call setline(2, "\# -*- coding: utf-8 -*-")
+    endif
+
+    normal G
+    normal o
+    normal o
+endfunc

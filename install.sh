@@ -141,6 +141,11 @@ scons()
     python setup.py install --prefix=${HOME}/usr
 }
 
+gtest()
+{
+    update_module googletest https://github.com/google/googletest.git
+}
+
 demjson()
 {
     update_module demjson https://github.com/dmeranda/demjson.git
@@ -164,18 +169,18 @@ vimdev()
         mv ~/.vimrc ~/.vimrc.bak
         ln -s ${PWD}/vimrc ~/.vimrc
 
-	    mv ~/.vimrc.go ~/.vimrc.go.bak
-        ln -s ${PWD}/vimrc.go ~/.vimrc.go
+	    mv ~/.go.vimrc ~/.go.vimrc.bak
+        ln -s ${PWD}/go.vimrc ~/.go.vimrc
 
-	    mv ~/.vimrc.cpp ~/.vimrc.cpp.bak
-        ln -s ${PWD}/vimrc.cpp ~/.vimrc.cpp
+	    mv ~/.cpp.vimrc ~/.cpp.vimrc.bak
+        ln -s ${PWD}/cpp.vimrc ~/.cpp.vimrc
 
-        mv ~/.vimrc.bundle ~/.vimrc.bundle.bak
-        ln -s ${PWD}/vimrc.bundle ~/.vimrc.bundle
+        mv ~/.bundle.vimrc ~/.bundle.vimrc.bak
+        ln -s ${PWD}/bundle.vimrc ~/.bundle.vimrc
     fi
     vim +PluginInstall! +qall
-    vim -u $HOME/.vimrc.bundle +PluginInstall! +qall
-    vim -u $HOME/.vimrc.bundle +GoInstallBinaries! +qall
+    vim -u $HOME/.bundle.vimrc +PluginInstall! +qall
+    vim -u $HOME/.bundle.vimrc +GoInstallBinaries! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive

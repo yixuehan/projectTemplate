@@ -5,16 +5,12 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-
+Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'Manishearth/godef'
-Plugin 'fatih/vim-go'
-
 call vundle#end()
 
 filetype plugin indent on
@@ -60,37 +56,8 @@ nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntast
 "nnoremap <leader>lo :lopen<CR>    "open locationlist
 "nnoremap <leader>lc :lclose<CR>    "close locationlist
 let mapleader=","
-inoremap <leader><leader> <C-x><C-o>
 
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
-
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
 
 let g:syntastic_error_symbol='>>'
 let g:syntastic_warning_symbol='>*'
@@ -117,7 +84,6 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_auto_jump = 0
 let g:syntastic_loc_list_height = 5
-let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
 
 nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
 
@@ -216,5 +182,3 @@ let g:tagbar_autopreview = 1
 "关闭排序,即按标签本身在文件中的位置排序
 
 let g:tagbar_sort = 0
-
-autocmd BufWritePre *.go GoFmt
