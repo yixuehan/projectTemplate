@@ -1,17 +1,3 @@
-"set nocompatible
-"
-"filetype off 
-"
-"set rtp+=~/.vim/bundle/Vundle.vim
-"
-"call vundle#begin()
-"
-"Plugin 'tomasr/molokai'
-"
-"call vundle#end()
-"
-"filetype plugin indent on
-"
 "" 配置主题
 "set t_Co=256
 "
