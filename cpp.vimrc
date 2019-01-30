@@ -1,19 +1,19 @@
-set nocompatible
-
-filetype off 
-
-set rtp+=~/.vim/bundle/Vundle.vim
-
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'Raimondi/delimitMate'
-call vundle#end()
-
-filetype plugin indent on
+"set nocompatible
+"
+"filetype off 
+"
+"set rtp+=~/.vim/bundle/Vundle.vim
+"
+"call vundle#begin()
+"Plugin 'gmarik/Vundle.vim'
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'SirVer/ultisnips'
+"Plugin 'scrooloose/nerdtree'
+"Plugin 'majutsushi/tagbar'
+"Plugin 'Raimondi/delimitMate'
+"call vundle#end()
+"
+"filetype plugin indent on
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_error_symbol = '>>'
@@ -31,9 +31,9 @@ let g:ycm_collect_identifiers_from_tags_files = 1"
 let g:ycm_log_level='debug'
 
 " 自动补全配置
-set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif    "离开插入模式后自动关闭预览窗口
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+"set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif    "离开插入模式后自动关闭预览窗口
+"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"    "回车即选中当前项
 "上下左右键的行为 会显示其他信息
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
