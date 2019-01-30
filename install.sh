@@ -179,12 +179,13 @@ vimdev()
         ln -s ${PWD}/bundle.vimrc ~/.bundle.vimrc
     fi
     vim +PluginInstall! +qall
-    vim -u $HOME/.bundle.vimrc +PluginInstall! +qall
-    vim -u $HOME/.bundle.vimrc +GoInstallBinaries! +qall
+    vim +GoInstallBinaries! +qall
+    #vim -u $HOME/.bundle.vimrc +PluginInstall! +qall
+    #vim -u $HOME/.bundle.vimrc +GoInstallBinaries! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
-    python install.py --clang-completer --go-completer 
+    python3 install.py --clang-completer --go-completer 
     if [ ! -f ~/.ycm_extra_conf.py ]
     then
         cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
