@@ -29,14 +29,14 @@ software()
 }
 
 case $MKOSTYPE in
-    ubuntu) sudo apt install cmake ccache -y
-            sudo apt install git -y
-            sudo apt install wget -y
+    ubuntu) sudo apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ -y
             ;;
     centos) sudo yum install centos-release-scl -y
             sudo yum install devtoolset-7 -y
             sudo yum install rh-python36
             sudo yum install git -y
+            sudo yum install vim -y
+            sudo yum install docker.io -y
             #提示
             if [ 2 -eq $SHLVL ]
             then
@@ -63,17 +63,6 @@ then
 fi
 
 mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
-
-pull()
-{
-   #git submodule add https://github.com/yixuehan/makeTemplate.git
-   #git submodule add https://github.com/boostorg/boost.git
-   #git submodule add https://github.com/grpc/grpc.git
-   #cd ${shellpath}
-   #git pull
-   #git pull --recurse-submodules
-   null
-}
 
 update_module()
 {
@@ -107,9 +96,7 @@ grpc()
     update_module grpc https://github.com/grpc/grpc.git
     echo 编译grpc...
     case $MKOSTYPE in
-        ubuntu) sudo apt-get install build-essential autoconf libtool pkg-config -y
-                sudo apt-get install libgflags-dev libgtest-dev -y
-                sudo apt-get install clang libc++-dev -y;;
+        ubuntu) sudo apt install build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev -y;;
         centos) sudo yum install build-essential autoconf libtool pkg-config -y
                 sudo yum install libgflags-dev libgtest-dev -y
                 sudo yum install libc++-dev -y;;
@@ -154,9 +141,6 @@ demjson()
 
 vimdev()
 {
-    sudo apt install build-essential cmake python3-dev
-    sudo apt install ctags
-    sudo apt install golang
     go get -u github.com/jstemmer/gotags
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
@@ -169,10 +153,10 @@ vimdev()
         mv ~/.vimrc ~/.vimrc.bak
         ln -s ${PWD}/vimrc ~/.vimrc
 
-	    mv ~/.go.vimrc ~/.go.vimrc.bak
+	mv ~/.go.vimrc ~/.go.vimrc.bak
         ln -s ${PWD}/go.vimrc ~/.go.vimrc
 
-	    mv ~/.cpp.vimrc ~/.cpp.vimrc.bak
+	mv ~/.cpp.vimrc ~/.cpp.vimrc.bak
         ln -s ${PWD}/cpp.vimrc ~/.cpp.vimrc
 
         mv ~/.bundle.vimrc ~/.bundle.vimrc.bak
