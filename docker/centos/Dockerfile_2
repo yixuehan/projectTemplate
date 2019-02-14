@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM w505703394/centos_boost:v1
 
 RUN  yum clean all \
   && yum update -y \
