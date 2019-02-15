@@ -1,6 +1,5 @@
-FROM centos:latest
+FROM centos
 
-RUN  yum clean all \
-  && yum update -y \
-  && yum install -y gcc-c++ make \
+RUN  yum update -y \
+  && yum install -y gcc-c++ make mysql-devel wget python-devel \
   && yum clean all

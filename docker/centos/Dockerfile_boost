@@ -1,6 +1,3 @@
-FROM w505703394/centos_boost:v1
+FROM w505703394/centos_boost:base
 
-RUN  yum clean all \
-  && yum update -y \
-  && yum install -y gcc-c++ make \
-  && yum clean all
+COPY boost /opt/boost
