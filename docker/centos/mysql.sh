@@ -1,5 +1,4 @@
 #!/bin/bash
-yum install mysql-devel -y
 version=3.2.4
 if [ ! -f mysql++-${version}.tar.gz ]
 then
@@ -7,7 +6,7 @@ then
     tar -xf mysql++-${version}.tar.gz
 fi
 cd mysql++-${version}
-./configure --prefix=${HOME}/usr --enable-shared=no --enable-static=yes
+./configure --prefix=/install/mysql --enable-shared=no --enable-static=yes
 make install
 if [ 0 -eq $? ]
 then

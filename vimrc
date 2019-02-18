@@ -37,6 +37,7 @@ au BufReadPre,BufNewFile *.go setfiletype go
 au BufReadPre,BufNewFile *.py setfiletype python
 
 "" 定义函数AutoSetFileHead，自动插入文件头
+source ~/.cpp.vimrc
 autocmd BufNewFile *.sh,*.py,*.go,*.cpp,*.php,*.h,*,hpp,*,ipp,*.c exec ":call AutoSetFileHead()"
 function! AutoSetFileHead()
     "如果文件类型为.sh文件
@@ -47,7 +48,8 @@ function! AutoSetFileHead()
         call setline(1, "\#!/usr/bin/env python3")
         call setline(2, "\# -*- coding: utf-8 -*-")
     elseif &filetype == 'cpp'
-        source ~/.cpp.vimrc
+        :
+        "source ~/.cpp.vimrc
     elseif &filetype == 'go'
         source ~/.go.vimrc
     endif
@@ -60,7 +62,8 @@ endfunc
 au BufReadPre *.cpp,*.h,*.hpp,*.c,*.ipp,*.go exec ":call SourceFile()"
 function! SourceFile()
     if &filetype == 'cpp'
-        source ~/.cpp.vimrc
+        :
+        "source ~/.cpp.vimrc
     elseif &filetype == 'go'
         source ~/.go.vimrc
     endif

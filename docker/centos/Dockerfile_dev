@@ -1,0 +1,9 @@
+FROM w505703394/centos:base
+
+COPY boost_install /opt/boost
+
+COPY mysql_install /opt/mysql
+
+COPY scons_install /opt/scons
+
+

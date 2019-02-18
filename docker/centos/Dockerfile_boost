@@ -1,3 +1,0 @@
-FROM w505703394/centos_boost:base
-
-COPY boost /opt/boost

@@ -13,6 +13,8 @@ else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
 
+PYTHON=`which python3`
+
 software()
 {
     which $1 1>/dev/null
@@ -71,6 +73,7 @@ update_module()
     if [ -d $1 ]
     then
         cd $1
+        sudo chown -R ${USER}.${USER} .
         git pull
         git submodule update --init --recursive
     else
@@ -86,6 +89,7 @@ boost()
 {
     echo 编译boost...
     update_module boost https://github.com/boostorg/boost.git
+    rm -f project-config.jam*
     ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
     ./bjam cxxflags="-std=c++1z" variant=release install
 }
@@ -122,10 +126,10 @@ scons()
 {
     update_module scons https://github.com/SCons/scons.git
     export setenv MYSCONS=`pwd`/src
-    python $MYSCONS/script/scons.py
-    python bootstrap.py build/scons
+    ${PYTHON} $MYSCONS/script/scons.py
+    ${PYTHON} bootstrap.py build/scons
     cd build/scons
-    python setup.py install --prefix=${HOME}/usr
+    ${PYTHON} setup.py install --prefix=${HOME}/usr
 }
 
 gtest()
@@ -136,7 +140,7 @@ gtest()
 demjson()
 {
     update_module demjson https://github.com/dmeranda/demjson.git
-    python3 setup.py install --prefix ${HOME}/usr
+    ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 
 vimdev()
@@ -146,22 +150,21 @@ vimdev()
     then
         git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
     fi
-    if [ ! -f ~/.vimrc ]
-    then
-        ln -s ${PWD}/vimrc ~/.vimrc
-    else
+    if [ -f ~/.vimrc ]
+    then 
         mv ~/.vimrc ~/.vimrc.bak
-        ln -s ${PWD}/vimrc ~/.vimrc
 
-	mv ~/.go.vimrc ~/.go.vimrc.bak
-        ln -s ${PWD}/go.vimrc ~/.go.vimrc
+	    mv ~/.go.vimrc ~/.go.vimrc.bak
 
-	mv ~/.cpp.vimrc ~/.cpp.vimrc.bak
-        ln -s ${PWD}/cpp.vimrc ~/.cpp.vimrc
+	    mv ~/.cpp.vimrc ~/.cpp.vimrc.bak
 
         mv ~/.bundle.vimrc ~/.bundle.vimrc.bak
-        ln -s ${PWD}/bundle.vimrc ~/.bundle.vimrc
     fi
+    ln -s ${PWD}/vimrc ~/.vimrc
+    ln -s ${PWD}/go.vimrc ~/.go.vimrc
+    ln -s ${PWD}/cpp.vimrc ~/.cpp.vimrc
+    ln -s ${PWD}/bundle.vimrc ~/.bundle.vimrc
+
     vim +PluginInstall! +qall
     vim +GoInstallBinaries! +qall
     #vim -u $HOME/.bundle.vimrc +PluginInstall! +qall
@@ -169,7 +172,7 @@ vimdev()
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
-    python3 install.py --clang-completer --go-completer 
+    ${PYTHON} install.py --clang-completer --go-completer 
     if [ ! -f ~/.ycm_extra_conf.py ]
     then
         cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
