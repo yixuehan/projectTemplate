@@ -2,3 +2,4 @@
 /json
 /grpc
 /demjson
+**/*_install

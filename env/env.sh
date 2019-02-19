@@ -49,7 +49,6 @@ alias rm='rm -i'
 function cleandocker()
 {
     images=$(docker images | grep "<none>" | awk '{print $3}')
-    echo $images
     docker rmi ${images}
 }
 

@@ -1,0 +1,6 @@
+FROM w505703394/centos:release_base
+
+COPY boost_install /opt/boost
+
+COPY mysql_install /opt/mysql
+

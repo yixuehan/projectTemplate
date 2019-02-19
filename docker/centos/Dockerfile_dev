@@ -6,4 +6,6 @@ COPY mysql_install /opt/mysql
 
 COPY scons_install /opt/scons
 
+COPY json_install /opt/json
+
 
