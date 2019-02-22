@@ -1,4 +1,8 @@
-FROM w505703394/centos:release_base
+FROM centos
+
+RUN  yum update -y \                                  
+  && yum install -y gcc-c++ mysql-devel \
+  && yum clean all                                    
 
 COPY boost_install /opt/boost
 
