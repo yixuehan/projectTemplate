@@ -74,13 +74,44 @@ update_module()
     then
         cd $1
         sudo chown -R ${USER}.${USER} .
+        git checkout master
         git pull
         git submodule update --init --recursive
+        dirs=`ls libs`
+        p=${PWD}
+        for d in ${dirs}
+        do
+            cd ${p}
+            if [ -d libs/${d} ]
+            then
+                cd libs/${d}
+                git reset HEAD .
+                git checkout .
+                git checkout master
+                git pull
+            fi
+        done
+
+        cd ${p}
+        dirs=`ls tools`
+        for d in ${dirs}
+        do
+            cd ${p}
+            if [ -d tools/${d} ]
+            then
+                cd tools/${d}
+                git reset HEAD .
+                git checkout .
+                git checkout master
+                git pull
+            fi
+        done
     else
         git clone $2 $1
         cd $1
         git submodule update --init --recursive
     fi
+    cd ${download_path}/${1}
     git checkout master
 }
 
