@@ -1,9 +1,6 @@
 FROM centos
 
 RUN  yum update -y \
-  && yum install -y gcc-c++ mysql-devel python-devel \
+  && yum install -y mysql-devel python-devel \
   && yum clean all
 
-COPY env.sh /root
-
-RUN echo '. ~/env.sh' >> ~/.bashrc

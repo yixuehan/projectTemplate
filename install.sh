@@ -66,6 +66,26 @@ fi
 
 mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
 
+
+recursive_boost()
+{
+    dirs=`ls ${1}`
+    p=${PWD}
+    for d in ${dirs}
+    do
+        cd ${p}
+        if [ -d ${1}/${d} ]
+        then
+            cd ${1}/${d}
+            git reset HEAD .
+            git checkout .
+            git checkout develop
+            git pull
+        fi
+    done
+    cd ${p}
+}
+
 update_module()
 {
     echo "update_module $1 $2"
@@ -77,42 +97,17 @@ update_module()
         git checkout master
         git pull
         git submodule update --init --recursive
-        dirs=`ls libs`
-        p=${PWD}
-        for d in ${dirs}
-        do
-            cd ${p}
-            if [ -d libs/${d} ]
-            then
-                cd libs/${d}
-                git reset HEAD .
-                git checkout .
-                git checkout master
-                git pull
-            fi
-        done
 
-        cd ${p}
-        dirs=`ls tools`
-        for d in ${dirs}
-        do
-            cd ${p}
-            if [ -d tools/${d} ]
-            then
-                cd tools/${d}
-                git reset HEAD .
-                git checkout .
-                git checkout master
-                git pull
-            fi
-        done
+        recursive_boost libs
+        recursive_boost libs/numeric
+        recursive_boost tools
+
     else
         git clone $2 $1
         cd $1
         git submodule update --init --recursive
     fi
     cd ${download_path}/${1}
-    git checkout master
 }
 
 # 编译boost

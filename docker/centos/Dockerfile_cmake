@@ -1,3 +1,5 @@
 FROM w505703394/centos:base
 
 COPY cmake_install /opt/cmake
+
+ENV PATH=$PATH:/opt/cmake/bin

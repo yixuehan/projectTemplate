@@ -8,4 +8,9 @@ COPY scons_install /opt/scons
 
 COPY json_install /opt/json
 
+ENV PATH=/opt/rh/devtoolset-7/root/bin:/opt/scons/bin:$PATH \
+    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:/opt/boost/include:/opt/mysql/include:/opt/json/include \
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/boost/lib:/opt/mysql/lib \
+    LIBRARY_PATH=$LD_LIBRARY_PATH
+
 

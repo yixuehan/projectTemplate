@@ -9,11 +9,11 @@ tag_release_base=release_base
 all:
 	echo ${scons_create}
 
-base:
+build_base:
 	docker build -t ${registry}/${image}:${tag_base} .
 	docker push ${registry}/${image}:${tag_base}
 
-release_base:
+build_release_base:
 	docker build -t ${registry}/${image}:${tag_release_base} -f Dockerfile_release_base .
 	docker push ${registry}/${image}:${tag_release_base}
 
