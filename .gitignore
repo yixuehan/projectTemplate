@@ -3,3 +3,5 @@
 /grpc
 /demjson
 **/*_install
+**/a.out
+**/*tar.gz

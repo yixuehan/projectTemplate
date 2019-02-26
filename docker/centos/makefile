@@ -28,6 +28,7 @@ boost:
 					-w /src/boost \
 		    		${registry}/${image}:${tag_base} \
 					./boost_install.sh
+	rm -f boost_install.sh
 
 mysql:
 	docker run --rm -v ${PWD}:/src/mysql \
@@ -36,6 +37,7 @@ mysql:
 					-w /src/mysql \
 					${registry}/${image}:${tag_base} \
 					./mysql_install.sh
+	rm -f mysql_install.sh
 
 scons:
 	docker run --rm -v ${PWD}:/src/scons \
@@ -44,6 +46,7 @@ scons:
 					-w /src/scons \
 					${registry}/${image}:${tag_base} \
 					./scons_install.sh
+	rm -f scons_install.sh
 
 cmake:
 	docker run --rm -v ${PWD}:/src/cmake \
@@ -52,6 +55,7 @@ cmake:
 					-w /src/cmake \
 					${registry}/${image}:${tag_base} \
 					./cmake_install.sh
+	rm -f cmake_install.sh
 
 build_cmake:
 	docker build -t ${registry}/${image}:${tag_cmake} -f Dockerfile_cmake .
@@ -72,5 +76,6 @@ json:
 					-w /src/json \
 		    		${registry}/${image}:${tag_cmake} \
 					./json_install.sh
+	rm -f json_install.sh
 
 

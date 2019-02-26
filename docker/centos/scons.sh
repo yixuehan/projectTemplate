@@ -10,6 +10,7 @@ cd ${src}
 $PYTHON setup.py install --prefix=/install/scons
 if [ $? -eq 0 ]
 then
+    cd ..
     rm -rf ${src}
     rm -rf ${src}.tar.gz
 fi
