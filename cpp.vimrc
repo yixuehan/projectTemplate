@@ -1,19 +1,26 @@
-"set nocompatible
-"
-"filetype off 
-"
-"set rtp+=~/.vim/bundle/Vundle.vim
-"
-"call vundle#begin()
-"Plugin 'gmarik/Vundle.vim'
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'SirVer/ultisnips'
-"Plugin 'scrooloose/nerdtree'
-"Plugin 'majutsushi/tagbar'
-"Plugin 'Raimondi/delimitMate'
-"call vundle#end()
-"
-"filetype plugin indent on
+source ${HOME}/projectTemplate/base.vimrc
+set nocompatible
+
+filetype off 
+
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+Plugin 'Raimondi/delimitMate'
+Plugin 'dgryski/vim-godef'
+Plugin 'Blackrush/vim-gocode'
+Plugin 'fatih/vim-go'
+Plugin 'kisielk/errcheck'
+Plugin 'bradfitz/goimports'
+Plugin 'jstemmer/gotags'
+call vundle#end()
+
+filetype plugin indent on
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_error_symbol = '>>'
@@ -30,10 +37,26 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符�
 let g:ycm_collect_identifiers_from_tags_files = 1"
 let g:ycm_log_level='debug'
 
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+let g:ycm_key_invoke_completion = '<c-z>'
+"set completeopt=menu,menuone
+
+noremap <c-z> <NOP>
+
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+
 " 自动补全配置
-"set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-"autocmd InsertLeave * if pumvisible() == 0|pclose|endif    "离开插入模式后自动关闭预览窗口
-"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif    "离开插入模式后自动关闭预览窗口
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"    "回车即选中当前项
 "上下左右键的行为 会显示其他信息
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -93,8 +116,6 @@ nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到�
 au BufEnter /usr/include/c++/7/*     setf cpp
 au BufEnter /usr/include/*     setf cpp
 
-
-
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
 let OmniCpp_ShowAccess = 1
@@ -103,7 +124,7 @@ let OmniCpp_MayCompleteDot = 1 " autocomplete after .
 let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
 let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-" automatically open and close the popup menu / preview window
+"automatically open and close the popup menu / preview window
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
@@ -136,13 +157,13 @@ let NERDTreeQuitOnOpen = 1
 
 "-------------------------------------------------------------
 "Flake8
-"let g:flake8_quickfix_height = 7
-"highlight link Flake8_Error      Error
-"highlight link Flake8_Warning    WarningMsg
-"highlight link Flake8_Complexity WarningMsg
-"highlight link Flake8_Naming     WarningMsg
-"highlight link Flake8_PyFlake    WarningMsg
-"autocmd BufWritePost *.py call Flake8()
+let g:flake8_quickfix_height = 7
+highlight link Flake8_Error      Error
+highlight link Flake8_Warning    WarningMsg
+highlight link Flake8_Complexity WarningMsg
+highlight link Flake8_Naming     WarningMsg
+highlight link Flake8_PyFlake    WarningMsg
+autocmd BufWritePost *.py call Flake8()
 
 
 

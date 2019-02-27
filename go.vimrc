@@ -18,7 +18,7 @@ Plugin 'dgryski/vim-godef'
 Plugin 'Blackrush/vim-gocode'
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 
 filetype plugin indent on

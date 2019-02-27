@@ -57,6 +57,39 @@ function cd()
     builtin cd $@ && ls
 }
 
+function vimcpp()
+{
+    ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+}
+
+function vimgo()
+{
+    ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+}
+
+function vi()
+{
+    f=$1
+    _vi=`which vi`
+    case ${f##*.} in
+        go) ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+            ;;
+        h|hpp|cpp|c|ipp) 
+            ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+            ;;
+        *)
+            echo ${f##*.}
+            return 1
+            ;;
+    esac
+    ${_vi} $1
+}
+
+function vim()
+{
+    vi $@
+}
+
 ulimit -c unlimited
 
 # devtoolset-7
