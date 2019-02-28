@@ -72,17 +72,21 @@ function vi()
     f=$1
     _vi=`which vi`
     case ${f##*.} in
-        go) ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+        go) 
+            ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+            #fvim=${HOME}/projectTemplate/go.vimrc
             ;;
         h|hpp|cpp|c|ipp) 
             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+            #fvim=${HOME}/projectTemplate/cpp.vimrc
             ;;
         *)
-            echo ${f##*.}
-            return 1
+            #echo ${f##*.}
+            #fvim=${HOME}/projectTemplate/base.vimrc
             ;;
     esac
-    ${_vi} $1
+    #echo ${fvim}
+    ${_vi} $@
 }
 
 function vim()

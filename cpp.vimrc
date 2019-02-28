@@ -12,12 +12,6 @@ Plugin 'SirVer/ultisnips'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
-Plugin 'dgryski/vim-godef'
-Plugin 'Blackrush/vim-gocode'
-Plugin 'fatih/vim-go'
-Plugin 'kisielk/errcheck'
-Plugin 'bradfitz/goimports'
-Plugin 'jstemmer/gotags'
 call vundle#end()
 
 filetype plugin indent on

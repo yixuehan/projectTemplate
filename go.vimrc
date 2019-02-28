@@ -7,7 +7,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'fatih/vim-go'
+Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
 Plugin 'Shougo/neocomplete'
 Plugin 'zchee/deoplete-go'
 Plugin 'scrooloose/nerdtree'
@@ -16,7 +16,7 @@ Plugin 'Raimondi/delimitMate'
 
 Plugin 'dgryski/vim-godef'
 Plugin 'Blackrush/vim-gocode'
-Plugin 'honza/vim-snippets'
+"Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
 "Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
@@ -86,8 +86,8 @@ let g:ycm_key_list_previous_completion = ['']
 let g:ycm_key_invoke_completion = '<C-Space>'
 
 " UltiSnips setting
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 imap <F6> <C-x><C-o>
