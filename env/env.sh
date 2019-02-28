@@ -81,6 +81,7 @@ function vi()
             #fvim=${HOME}/projectTemplate/cpp.vimrc
             ;;
         *)
+            ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
             #echo ${f##*.}
             #fvim=${HOME}/projectTemplate/base.vimrc
             ;;
