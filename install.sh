@@ -34,12 +34,18 @@ case $MKOSTYPE in
     ubuntu) sudo apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ -y
             #sudo apt install vim-nox vim-gnome vim-athena vim-gtk -y
             ;;
-    centos) sudo yum install centos-release-scl -y
-            sudo yum install devtoolset-7 -y
+    centos) sudo yum install -y centos-release-scl devtoolset-7
+            sudo yum install -y centos-release-scl devtoolset-7
+            sudo yum install -y epel-release
+            sudo yum update -y
+            sudo yum install -y make mysql-devel wget python-devel which ccache
             sudo yum install rh-python36
             sudo yum install git -y
             sudo yum install vim -y
-            sudo yum install docker.io -y
+            sudo curl -fsSL https://get.docker.com/ | sh
+            sudo systemctl enable docker
+            sudo systemctl start docker
+            sudo yum clean all
             #提示
             if [ 2 -eq $SHLVL ]
             then
