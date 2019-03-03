@@ -77,7 +77,8 @@ function vi()
     echo $MKOSTYPE
     if [ $MKOSTYPE = 'centos' ]
     then
-        return ${_vi} $@
+        ${_vi} $@
+        return $?
     fi
     case ${f##*.} in
         go) 
