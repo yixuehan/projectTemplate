@@ -67,8 +67,8 @@ function vimgo()
     ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
 }
 
-unalias vi
-unalias vim
+unalias vi 2>/dev/null
+unalias vim 2>/dev/null
 
 function vi()
 {
