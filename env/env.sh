@@ -71,6 +71,10 @@ function vi()
 {
     f=$1
     _vi=`which vi`
+    if [ $MKOSTYPE = 'centos' ]
+    then
+        return ${_vi} $@
+    fi
     case ${f##*.} in
         go) 
             ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
