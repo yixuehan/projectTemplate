@@ -67,6 +67,9 @@ function vimgo()
     ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
 }
 
+unalias vi
+unalias vim
+
 function vi()
 {
     f=$1
