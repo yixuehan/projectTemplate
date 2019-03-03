@@ -71,6 +71,7 @@ function vi()
 {
     f=$1
     _vi=`which vi`
+    echo $MKOSTYPE
     if [ $MKOSTYPE = 'centos' ]
     then
         return ${_vi} $@
