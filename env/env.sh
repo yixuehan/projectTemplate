@@ -45,6 +45,8 @@ alias cdp='cd $PRONAME'
 alias cdlib='cd $PRONAME/lib'
 alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
+alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++1z -Wall'
+alias g++='g++ -std=c++1z -Wall'
 
 function cleandocker()
 {
