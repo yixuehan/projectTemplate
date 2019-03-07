@@ -86,7 +86,7 @@ recursive_boost()
             cd ${1}/${d}
             git reset HEAD .
             git checkout .
-            git checkout develop
+            git checkout master
             git pull
         fi
     done

@@ -8,14 +8,22 @@ function! AutoSetFileHead()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
         call setline(1, "\#!/bin/bash")
+        normal G
     "如果文件类型为python
     elseif &filetype == 'python'
         call setline(1, "\#!/usr/bin/env python3")
         call setline(2, "\# -*- coding: utf-8 -*-")
+        normal G
+    elseif &filetype == 'cpp'
+        call setline(1, '#include <iostream>')
+        call setline(2, 'using namespace std;')
+        call setline(3, '')
+        call setline(4, 'int main()')
+        call setline(5, '{')
+        call setline(6, '}')
+        normal Gk
     endif
 
-    normal G
-    normal o
 
 endfunc
 
