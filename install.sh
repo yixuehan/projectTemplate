@@ -13,8 +13,6 @@ else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
 
-PYTHON=`which python3`
-
 software()
 {
     which $1 1>/dev/null
@@ -60,6 +58,8 @@ case $MKOSTYPE in
 esac
 
 git config --global credential.helper store
+PYTHON=`which python3`
+
 
 #设置mak、shell路径`
 download_path=${HOME}/git_download
