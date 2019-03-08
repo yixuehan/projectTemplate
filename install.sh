@@ -115,7 +115,7 @@ update_module()
 boost()
 {
     echo 编译boost...
-    # return ${PYTHON} boost.py
+    ${PYTHON} boost.py
     # update_module boost https://github.com/boostorg/boost.git
     # rm -f project-config.jam*
     # ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
