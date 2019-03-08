@@ -4,5 +4,5 @@ COPY boost_install /opt/boost
 
 COPY mysql_install /opt/mysql
 
-ENV=
+#ENV=
 
