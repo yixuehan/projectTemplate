@@ -35,9 +35,10 @@ case $MKOSTYPE in
     centos) sudo yum install -y centos-release-scl devtoolset-7
             sudo yum install -y centos-release-scl devtoolset-7
             sudo yum install -y epel-release
+            sudo yum install gcc -y
             sudo yum update -y
             sudo yum install -y make mysql-devel wget python-devel which ccache
-            sudo yum install rh-python36
+            sudo yum install rh-python36 rh-python36-python-devel -y
             sudo yum install git -y
             sudo yum install vim -y
             sudo curl -fsSL https://get.docker.com/ | sh
@@ -49,11 +50,12 @@ case $MKOSTYPE in
             then
                 echo 在.bashrc中增加:
                 echo '. ${HOME}/projectTemplate/env/env.sh'
-                exit 1
+                source ${HOME}/projectTemplate/env/env.sh
+                #exit 1
             fi
             sudo yum install wget
             software cmake
-            software ccache
+            #software ccache
             ;;
 esac
 
