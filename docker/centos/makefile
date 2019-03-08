@@ -22,13 +22,10 @@ dev:
 	docker run --rm -v ${PWD}:/opt/dev -w /opt/dev ${registry}/${image}:${tag_base} g++ main.cpp -std=c++1y
 
 boost:
-	docker run --rm -v ${HOME}/git_download/boost:/src/boost \
-		            -v ${PWD}/boost.sh:/src/boost/boost_install.sh \
-					-v ${PWD}/boost_install:/install/boost \
+	docker run --rm -v ${HOME}/projectTemplate:/src/boost \
 					-w /src/boost \
 		    		${registry}/${image}:${tag_base} \
-					./boost_install.sh
-	rm -f boost_install.sh
+					python ./boost.py
 
 mysql:
 	docker run --rm -v ${PWD}:/src/mysql \

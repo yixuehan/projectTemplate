@@ -76,8 +76,9 @@ def compile_install_boost(filename):
     # dec = bz2.BZ2Decompressor()
     dirname = filename.split('.')[0]
     if 'Linux' == platform.system():
-        cmd = 'tar -jxf ' + filename
-        os.system(cmd)
+        if not os.path.exists(dirname):
+            cmd = 'tar -jxf ' + filename
+            os.system(cmd)
 
         os.chdir(dirname)
 
