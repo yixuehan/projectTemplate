@@ -46,16 +46,17 @@ def get_download_table_node(tree, downloadpath):
 def download_file(tree, filename):
     downloadpath = tree.xpath(downloadfilefind)
     downloadhash = tree.xpath(downloadhashfind)
+
     if len(downloadpath) != 1:
         print("获取下载路径失败！")
         assert False
     downloadpath = downloadpath[0]
+
     if len(downloadhash) != 1:
-        print("获取文件hash！")
+        print("获取文件hash失败！")
         assert False
     downloadhash = downloadhash[0]
-    print(downloadpath, downloadhash, filename)
-    # downloadpath = downloadpath.encode("utf8")
+
     if os.path.exists(filename):
         hashcode = hashlib.sha256(open(filename, "rb").read()).hexdigest()
         print("hash:", hashcode)
@@ -90,13 +91,7 @@ def compile_install_boost(filename):
         return os.system(cmd)
 
 
-def compare_hash(url, filename):
-    pass
-
-
 if __name__ == '__main__':
-    # print(hashlib.sha256("abc".encode("utf8")).hexdigest())
-    # os.sys.exit(1)
     resp = requests.get(url)
     tree = html.fromstring(resp.text)
     filepath = get_filepath(tree)
@@ -105,9 +100,6 @@ if __name__ == '__main__':
     # download
     downloadweb = url + filepath
     resp = requests.get(downloadweb)
-    # print(resp.text)
     tree = html.fromstring(resp.text)
-    # downloadpath = downloadpath % filename
-    # get_download_table_node(tree, downloadfilefind)
     download_file(tree, filename)
     compile_install_boost(filename)

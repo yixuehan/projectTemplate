@@ -5,3 +5,5 @@
 **/*_install
 **/a.out
 **/*tar.gz
+**/*tar.bz2
+**/boost_*
