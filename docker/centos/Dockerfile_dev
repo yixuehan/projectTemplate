@@ -8,12 +8,8 @@ COPY scons_install /opt/scons
 
 COPY json_install /opt/json
 
-#RUN ccache --max-size=10G >/dev/null && \
-#    source /opt/rh/devtoolset-7/enable \
-#    source /opt/rh/rh-python36/enable
-
 ENV PATH=/opt/scons/bin:$PATH \
-    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:/opt/boost/include:/opt/mysql/include:/opt/json/include \
-    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/boost/lib:/opt/mysql/lib \
+    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${HOME}/include:/opt/mysql/include:/opt/json/include \
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HOME}/usr/lib:/opt/mysql/lib \
     LIBRARY_PATH=$LD_LIBRARY_PATH
 

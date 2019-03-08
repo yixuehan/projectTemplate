@@ -23,9 +23,10 @@ dev:
 
 boost:
 	docker run --rm -v ${HOME}/projectTemplate:/src/boost \
+		            -v ${PWD}/boost_install:/root/usr \
 					-w /src/boost \
 		    		${registry}/${image}:${tag_base} \
-					python ./boost.py
+					python3 ./boost.py
 
 mysql:
 	docker run --rm -v ${PWD}:/src/mysql \

@@ -8,14 +8,16 @@ ENV CCACHE_DIR=/tmp/ccache \
     LD_LIBRARY_PATH=/opt/rh/devtoolset-7/root/lib/gcc/x86_64-redhat-linux/7:/opt/rh/devtoolset-7/root/lib64:${LD_LIBRARY_PATH} \
     LD_LIBRARY_PATH=/opt/rh/rh-python36/root/usr/lib64:${LD_LIBRARY_PATH} \
     PKG_CONFIG_PATH=/opt/rh/rh-python36/root/usr/lib64/pkgconfig:${PKG_CONFIG_PATH} \
+    LANG="en_US.UTF-8"
 
-#RUN  yum install -y centos-release-scl \
-#  && yum install -y devtoolset-7 \
-#  && yum install -y epel-release \
-#  && yum update -y \
-#  && yum install -y make mysql-devel wget rh-python36 python36-devel python36-requests which ccache \
-#  && yum clean all \
-#  && pip3 install wget \
-#  && pip3 install lxml \
-#  && ccache --max-size=10G >/dev/null
+RUN  yum install -y centos-release-scl \
+  && yum install -y devtoolset-7 \
+  && yum install -y epel-release \
+  && yum update -y \
+  && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache \
+  && yum clean all \
+  && pip3 install wget \
+  && pip3 install lxml \
+  && pip3 install requests \
+  && ccache --max-size=10G >/dev/null
 
