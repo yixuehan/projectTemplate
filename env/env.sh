@@ -45,6 +45,8 @@ alias cdp='cd $PRONAME'
 alias cdlib='cd $PRONAME/lib'
 alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
+alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++1z -Wall'
+alias g++='g++ -std=c++1z -Wall'
 
 function cleandocker()
 {
@@ -107,10 +109,11 @@ function vim()
 ulimit -c unlimited
 
 # devtoolset-7
-if [ 1 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
+if [ $MKOSTYPE = "centos" ]
 then
-    export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
-    export PATH=/opt/rh/rh-python36/root/bin:$PATH
+    #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
+    #export PATH=/opt/rh/rh-python36/root/bin:$PATH
+    source /opt/rh/devtoolset-7/enable
     # scl enable devtoolset-7 bash
 fi
 

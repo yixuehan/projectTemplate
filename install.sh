@@ -74,24 +74,24 @@ fi
 mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
 
 
-recursive_boost()
-{
-    dirs=`ls ${1}`
-    p=${PWD}
-    for d in ${dirs}
-    do
-        cd ${p}
-        if [ -d ${1}/${d} ]
-        then
-            cd ${1}/${d}
-            git reset HEAD .
-            git checkout .
-            git checkout develop
-            git pull
-        fi
-    done
-    cd ${p}
-}
+#recursive_boost()
+#{
+#    dirs=`ls ${1}`
+#    p=${PWD}
+#    for d in ${dirs}
+#    do
+#        cd ${p}
+#        if [ -d ${1}/${d} ]
+#        then
+#            cd ${1}/${d}
+#            git reset HEAD .
+#            git checkout .
+#            git checkout master
+#            git pull
+#        fi
+#    done
+#    cd ${p}
+#}
 
 update_module()
 {
@@ -105,9 +105,9 @@ update_module()
         git pull
         git submodule update --init --recursive
 
-        recursive_boost libs
-        recursive_boost libs/numeric
-        recursive_boost tools
+        #recursive_boost libs
+        #recursive_boost libs/numeric
+        #recursive_boost tools
 
     else
         git clone $2 $1
@@ -121,10 +121,11 @@ update_module()
 boost()
 {
     echo 编译boost...
-    update_module boost https://github.com/boostorg/boost.git
-    rm -f project-config.jam*
-    ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
-    ./bjam cxxflags="-std=c++1z" variant=release install
+    ${PYTHON} boost.py
+    # update_module boost https://github.com/boostorg/boost.git
+    # rm -f project-config.jam*
+    # ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
+    # ./bjam cxxflags="-std=c++1z" variant=release install
 }
 
 # 编译grpc
