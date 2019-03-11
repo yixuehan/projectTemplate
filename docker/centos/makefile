@@ -38,13 +38,12 @@ mysql:
 	rm -f mysql_install.sh
 
 scons:
-	docker run --rm -v ${PWD}:/src/scons \
-		            -v ${PWD}/scons.sh:/src/scons/scons_install.sh \
-		            -v ${PWD}/scons_install:/install/scons \
+	docker run --rm -v ${HOME}/projectTemplate/scons.sh:/install/scons.sh \
+		            -v ${HOME}/git_download/scons:/src/scons \
+		            -v ${PWD}/scons_install:/root/usr \
 					-w /src/scons \
 					${registry}/${image}:${tag_base} \
-					./scons_install.sh
-	rm -f scons_install.sh
+					/install/scons.sh
 
 cmake:
 	docker run --rm -v ${PWD}:/src/cmake \

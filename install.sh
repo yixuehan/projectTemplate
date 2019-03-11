@@ -165,12 +165,9 @@ json()
 
 scons()
 {
+    oldpath=${PWD}
     update_module scons https://github.com/SCons/scons.git
-    export setenv MYSCONS=`pwd`/src
-    ${PYTHON} $MYSCONS/script/scons.py
-    ${PYTHON} bootstrap.py build/scons
-    cd build/scons
-    ${PYTHON} setup.py install --prefix=${HOME}/usr
+    ${oldpath}/scons.sh
 }
 
 gtest()

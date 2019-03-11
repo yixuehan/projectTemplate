@@ -2,7 +2,7 @@
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
-    PYTHON=python36
+    PYTHON=python3
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi

@@ -75,17 +75,26 @@ def compile_install_boost(filename):
     # 解压
     # dec = bz2.BZ2Decompressor()
     dirname = filename.split('.')[0]
-    if 'Linux' == platform.system():
-        if not os.path.exists(dirname):
-            cmd = 'tar -jxf ' + filename
+    os_type = platform.system()
+    linux_type = os.environ['MKOSTYPE']
+    linux_dirname = dirname + "_" + linux_type
+    if 'Linux' == os_type:
+        if not os.path.exists(linux_dirname):
+            if not os.path.exists(dirname):
+                print("解压...", filename)
+                cmd = 'tar -jxf ' + filename
+                os.system(cmd)
+            cmd = 'mv %s %s' % (dirname, linux_dirname)
+            print("改名：", cmd)
             os.system(cmd)
 
-        os.chdir(dirname)
+        os.chdir(linux_dirname)
 
         cmd = 'rm -f project-config.jam*'
         os.system(cmd)
 
-        cmd = './bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include'
+        cmd = './bootstrap.sh --libdir=%(HOME)s/usr/lib --includedir=%(HOME)s/usr/include'
+        cmd = cmd % {'HOME': os.environ['HOME']}
         os.system(cmd)
 
         cmd = './bjam cxxflags="-std=c++1z" variant=release install'
