@@ -76,7 +76,6 @@ function vi()
 {
     f=$1
     _vi=`which vi`
-    echo $MKOSTYPE
     if [ $MKOSTYPE = 'centos' ]
     then
         ${_vi} $@
@@ -85,19 +84,14 @@ function vi()
     case ${f##*.} in
         go) 
             ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
-            #fvim=${HOME}/projectTemplate/go.vimrc
             ;;
         h|hpp|cpp|c|ipp) 
             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-            #fvim=${HOME}/projectTemplate/cpp.vimrc
             ;;
         *)
             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-            #echo ${f##*.}
-            #fvim=${HOME}/projectTemplate/base.vimrc
             ;;
     esac
-    #echo ${fvim}
     ${_vi} $@
 }
 
