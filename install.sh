@@ -15,7 +15,7 @@ fi
 
 software()
 {
-    which $1 1>/dev/null
+    which $1 &>/dev/null
     if [ $? != 0 ]
     then
     	. ${1}.sh
@@ -38,21 +38,22 @@ case $MKOSTYPE in
             sudo yum update -y
             sudo yum install -y make mysql-devel wget which ccache
             sudo yum install rh-python36 rh-python36-python-devel -y
-            sudo yum install git -y
-            sudo yum install vim -y
-            sudo curl -fsSL https://get.docker.com/ | sh
-            sudo systemctl enable docker
-            sudo systemctl start docker
+            sudo yum install git vim bzip2 -y
+            which docker 2>/dev/null
+            if [ $? != 0 ]
+            then
+                sudo curl -fsSL https://get.docker.com/ | sh
+            	sudo systemctl enable docker
+            	sudo systemctl start docker
+            fi
             sudo yum clean all
             #提示
-            if [ 2 -eq $SHLVL ]
-            then
-                echo 在.bashrc中增加:
-                echo '. ${HOME}/projectTemplate/env/env.sh'
-                source ${HOME}/projectTemplate/env/env.sh
-                #exit 1
-            fi
+            echo 在.bashrc中增加:
+            echo '. ${HOME}/projectTemplate/env/env.sh'
+            source ${HOME}/projectTemplate/env/env.sh
             sudo yum install wget
+	    sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+            sudo pip3 install requests lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
             software cmake
             #software ccache
             ;;

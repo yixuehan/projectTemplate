@@ -19,7 +19,8 @@ installdir = '${HOME}/usr'
 
 def get_filepath(tree):
     filepath = tree.xpath(findpath)
-    if len(filepath) != 1:
+    print(filepath)
+    if len(filepath) == 0:
         print("未找到文件链接")
         assert False
     filepath = filepath[0]
@@ -103,6 +104,7 @@ def compile_install_boost(filename):
 
 if __name__ == '__main__':
     resp = requests.get(url)
+    # print(resp.text)
     tree = html.fromstring(resp.text)
     filepath = get_filepath(tree)
     version = get_version(filepath)
