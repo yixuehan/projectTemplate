@@ -52,8 +52,8 @@ case $MKOSTYPE in
             echo '. ${HOME}/projectTemplate/env/env.sh'
             source ${HOME}/projectTemplate/env/env.sh
             sudo yum install wget
-	    sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-            sudo pip3 install requests lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
+	        sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+            sudo pip3 install GitPython requests lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
             software cmake
             #software ccache
             ;;
