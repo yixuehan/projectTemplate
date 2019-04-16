@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [ ${PRONAME}x == ""x ]
-then
-    echo 请先设置[PRONAME]
-    exit 1
-fi
+#if [ ${PRONAME}x == ""x ]
+#then
+#    echo 请先设置[PRONAME]
+#    exit 1
+#fi
 
 if [ -e '/etc/centos-release' ]
 then
@@ -52,25 +52,20 @@ case $MKOSTYPE in
             echo '. ${HOME}/projectTemplate/env/env.sh'
             source ${HOME}/projectTemplate/env/env.sh
             sudo yum install wget
-	        sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-            sudo pip3 install GitPython requests lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
             software cmake
             #software ccache
             ;;
 esac
 
 git config --global credential.helper store
-if [ $OSTYPE == 'centos' ]
-then
-    PYTHON=`which python3`
-else
-    PYTHON=`which python3`
-fi
 
+sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+sudo pip3 install GitPython requests scons lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+PYTHON=`which python3`
 
 #设置mak、shell路径`
-download_path=${HOME}/git_download
+download_path=${HOME}/.git_download
 shellpath=$PWD
 
 if [ ! -d $download_path ]
@@ -78,28 +73,6 @@ then
     echo mkdir $download_path
     mkdir $download_path
 fi
-
-mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
-
-
-#recursive_boost()
-#{
-#    dirs=`ls ${1}`
-#    p=${PWD}
-#    for d in ${dirs}
-#    do
-#        cd ${p}
-#        if [ -d ${1}/${d} ]
-#        then
-#            cd ${1}/${d}
-#            git reset HEAD .
-#            git checkout .
-#            git checkout master
-#            git pull
-#        fi
-#    done
-#    cd ${p}
-#}
 
 update_module()
 {
@@ -112,10 +85,6 @@ update_module()
         git checkout master
         git pull
         git submodule update --init --recursive
-
-        #recursive_boost libs
-        #recursive_boost libs/numeric
-        #recursive_boost tools
 
     else
         git clone $2 $1
@@ -130,10 +99,6 @@ boost()
 {
     echo 编译boost...
     ${PYTHON} boost.py
-    # update_module boost https://github.com/boostorg/boost.git
-    # rm -f project-config.jam*
-    # ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
-    # ./bjam cxxflags="-std=c++1z" variant=release install
 }
 
 # 编译grpc
@@ -166,9 +131,9 @@ json()
 
 scons()
 {
-    oldpath=${PWD}
-    update_module scons https://github.com/SCons/scons.git
-    ${oldpath}/scons.sh
+    #oldpath=${PWD}
+    #update_module scons https://github.com/SCons/scons.git
+    #${oldpath}/scons.sh
 }
 
 gtest()
