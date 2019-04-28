@@ -48,9 +48,7 @@ case $MKOSTYPE in
             fi
             sudo yum clean all
             #提示
-            echo 在.bashrc中增加:
-            echo '. ${HOME}/projectTemplate/env/env.sh'
-            source ${HOME}/projectTemplate/env/env.sh
+            source ${PWD}/env/env.sh
             sudo yum install wget
             software cmake
             #software ccache
@@ -181,3 +179,5 @@ for library in $* ; do
     eval "${library}"
 done
 
+echo 在.bashrc中增加:
+echo '. ${HOME}/projectTemplate/env/env.sh'
