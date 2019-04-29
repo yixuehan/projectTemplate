@@ -13,6 +13,8 @@ else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
 
+shellpath=${PWD}
+
 software()
 {
     which $1 &>/dev/null
@@ -36,7 +38,7 @@ case $MKOSTYPE in
             sudo yum install -y devtoolset-7
             sudo yum install -y epel-release
             sudo yum update -y
-            sudo yum install -y make mysql-devel wget which ccache
+            sudo yum install -y make mysql-devel wget which ccache autoconf
             sudo yum install rh-python36 rh-python36-python-devel -y
             sudo yum install git vim bzip2 -y
             which docker 2>/dev/null
@@ -126,13 +128,6 @@ json()
     make install
 }
 
-scons()
-{
-    #oldpath=${PWD}
-    #update_module scons https://github.com/SCons/scons.git
-    #${oldpath}/scons.sh
-}
-
 gtest()
 {
     update_module googletest https://github.com/google/googletest.git
@@ -175,8 +170,9 @@ vimdev()
 echo $*
 for library in $* ; do
     echo $library
+    cd ${shellpath}
     eval "${library}"
 done
 
 echo 在.bashrc中增加:
-echo ". ${PWD}/env/env.sh"
+echo ". ${shellpath}/env/env.sh"
