@@ -64,7 +64,6 @@ PYTHON=`which python3`
 
 #设置mak、shell路径`
 download_path=${HOME}/.git_download
-shellpath=$PWD
 
 if [ ! -d $download_path ]
 then
@@ -111,7 +110,7 @@ grpc()
                 sudo yum install libc++-dev -y;;
     esac
     make && make install prefix=${HOME}/usr
-    cd $shellpath/grpc/third_party/protobuf
+    cd $download_path/grpc/third_party/protobuf
     make && make install prefix=${HOME}/usr
 }
 
@@ -180,4 +179,4 @@ for library in $* ; do
 done
 
 echo 在.bashrc中增加:
-echo '. ${HOME}/projectTemplate/env/env.sh'
+echo ". ${PWD}/env/env.sh"
