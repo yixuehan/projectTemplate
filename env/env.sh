@@ -125,3 +125,4 @@ then
     export CCACHE_SIZE=10G # redundant; set anyway
     export CCACHE_UMASK=0 # shared to world
 fi
+export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
