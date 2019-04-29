@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [ ${PRONAME}x == ""x ]
-then
-    echo 请先设置[PRONAME]
-    exit 1
-fi
+#if [ ${PRONAME}x == ""x ]
+#then
+#    echo 请先设置[PRONAME]
+#    exit 1
+#fi
 
 if [ -e '/etc/centos-release' ]
 then
@@ -48,58 +48,28 @@ case $MKOSTYPE in
             fi
             sudo yum clean all
             #提示
-            echo 在.bashrc中增加:
-            echo '. ${HOME}/projectTemplate/env/env.sh'
-            source ${HOME}/projectTemplate/env/env.sh
+            source ${PWD}/env/env.sh
             sudo yum install wget
-	    sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-            sudo pip3 install requests lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
             software cmake
             #software ccache
             ;;
 esac
 
 git config --global credential.helper store
-if [ $OSTYPE == 'centos' ]
-then
-    PYTHON=`which python3`
-else
-    PYTHON=`which python3`
-fi
 
+sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+sudo pip3 install GitPython requests scons lxml mako numpy wget -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+PYTHON=`which python3`
 
 #设置mak、shell路径`
-download_path=${HOME}/git_download
-shellpath=$PWD
+download_path=${HOME}/.git_download
 
 if [ ! -d $download_path ]
 then
     echo mkdir $download_path
     mkdir $download_path
 fi
-
-mkdir -p ${PRONAME}/bin ${PRONAME}/log ${PRONAME}/lib ${PRONAME}/include ${PRONAME}/src ${PRONAME}/etc
-
-
-#recursive_boost()
-#{
-#    dirs=`ls ${1}`
-#    p=${PWD}
-#    for d in ${dirs}
-#    do
-#        cd ${p}
-#        if [ -d ${1}/${d} ]
-#        then
-#            cd ${1}/${d}
-#            git reset HEAD .
-#            git checkout .
-#            git checkout master
-#            git pull
-#        fi
-#    done
-#    cd ${p}
-#}
 
 update_module()
 {
@@ -112,10 +82,6 @@ update_module()
         git checkout master
         git pull
         git submodule update --init --recursive
-
-        #recursive_boost libs
-        #recursive_boost libs/numeric
-        #recursive_boost tools
 
     else
         git clone $2 $1
@@ -130,10 +96,6 @@ boost()
 {
     echo 编译boost...
     ${PYTHON} boost.py
-    # update_module boost https://github.com/boostorg/boost.git
-    # rm -f project-config.jam*
-    # ./bootstrap.sh --libdir=${HOME}/usr/lib --includedir=${HOME}/usr/include
-    # ./bjam cxxflags="-std=c++1z" variant=release install
 }
 
 # 编译grpc
@@ -148,7 +110,7 @@ grpc()
                 sudo yum install libc++-dev -y;;
     esac
     make && make install prefix=${HOME}/usr
-    cd $shellpath/grpc/third_party/protobuf
+    cd $download_path/grpc/third_party/protobuf
     make && make install prefix=${HOME}/usr
 }
 
@@ -166,9 +128,9 @@ json()
 
 scons()
 {
-    oldpath=${PWD}
-    update_module scons https://github.com/SCons/scons.git
-    ${oldpath}/scons.sh
+    #oldpath=${PWD}
+    #update_module scons https://github.com/SCons/scons.git
+    #${oldpath}/scons.sh
 }
 
 gtest()
@@ -202,8 +164,8 @@ vimdev()
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
-    #${PYTHON} install.py --clang-completer --go-completer --gocode-completer
-    ${PYTHON} install.py --clang-completer
+    ${PYTHON} install.py --clang-completer --go-completer
+    #${PYTHON} install.py --clang-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
     then
         cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
@@ -216,3 +178,5 @@ for library in $* ; do
     eval "${library}"
 done
 
+echo 在.bashrc中增加:
+echo ". ${PWD}/env/env.sh"
