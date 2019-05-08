@@ -151,7 +151,7 @@ vimdev()
     ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
 
     vim -u ${PWD}/cpp.vimrc +PluginInstall! +qall
-    vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
+    # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
