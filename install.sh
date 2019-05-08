@@ -31,7 +31,7 @@ software()
 }
 
 case $MKOSTYPE in
-    ubuntu) sudo apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev -y
+    ubuntu) sudo apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
             #sudo apt install vim-nox vim-gnome vim-athena vim-gtk -y
             ;;
     centos) sudo yum install -y centos-release-scl 
