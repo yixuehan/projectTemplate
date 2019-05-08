@@ -59,46 +59,46 @@ function cd()
     builtin cd $@ && ls
 }
 
-function vimcpp()
-{
-    ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-}
-
-function vimgo()
-{
-    ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
-}
-
-unalias vi 2>/dev/null
-unalias vim 2>/dev/null
-
-function vi()
-{
-    f=$1
-    _vi=`which vi`
-    if [ $MKOSTYPE = 'centos' ]
-    then
-        ${_vi} $@
-        return $?
-    fi
-    case ${f##*.} in
-        go) 
-            ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
-            ;;
-        h|hpp|cpp|c|ipp) 
-            ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-            ;;
-        *)
-            ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-            ;;
-    esac
-    ${_vi} $@
-}
-
-function vim()
-{
-    vi $@
-}
+# function vimcpp()
+# {
+#     ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+# }
+# 
+# function vimgo()
+# {
+#     ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+# }
+# 
+# unalias vi 2>/dev/null
+# unalias vim 2>/dev/null
+# 
+# function vi()
+# {
+#     f=$1
+#     _vi=`which vi`
+#     if [ $MKOSTYPE = 'centos' ]
+#     then
+#         ${_vi} $@
+#         return $?
+#     fi
+#     case ${f##*.} in
+#         go) 
+#             ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+#             ;;
+#         h|hpp|cpp|c|ipp) 
+#             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#             ;;
+#         *)
+#             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#             ;;
+#     esac
+#     ${_vi} $@
+# }
+# 
+# function vim()
+# {
+#     vi $@
+# }
 
 ulimit -c unlimited
 

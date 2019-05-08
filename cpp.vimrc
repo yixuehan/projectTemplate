@@ -13,6 +13,14 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
 Plugin 'nvie/vim-flake8'
+
+Plugin 'dgryski/vim-godef'                       
+"Plugin 'Blackrush/vim-gocode'                   
+Plugin 'nsf/gocode', {'rtp': 'vim/'}             
+Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
+Plugin 'scrooloose/syntastic'                    
+
+
 call vundle#end()
 
 filetype plugin indent on
@@ -199,3 +207,96 @@ let g:tagbar_autopreview = 1
 "关闭排序,即按标签本身在文件中的位置排序
 
 let g:tagbar_sort = 0
+
+"go.vim
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_autosave = 0
+let g:go_play_open_browser = 0
+let g:go_get_update = 0
+
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+"
+let g:neocomplete#enable_at_startup = 1
+
+autocmd BufWritePre *.go GoFmt
+"autocmd BufWritePre *.go GoLint
+"autocmd BufWritePre *.go GoErrCheck
+
+
+" YCM settings
+
+imap <F6> <C-x><C-o>
+
+" dependence
+" 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
+
+let g:syntastic_error_symbol='>>'
+let g:syntastic_warning_symbol='>'
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_enable_highlighting=1
+
+" checkers
+" python
+" pip install flake8
+let g:syntastic_python_checkers=['flake8', ] " 使用pyflakes,速度比pylint快
+let g:syntastic_python_flake8_options='--ignore=E501,E225,E124,E712,E116,E131'
+
+" javascript
+" let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+" let g:syntastic_html_checkers=['tidy', 'jshint']
+" npm install -g eslint eslint-plugin-standard eslint-plugin-promise eslint-config-standard
+" npm install -g eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
+let g:syntastic_javascript_checkers = ['eslint']
+
+" to see error location list
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_enable_signs = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_auto_jump = 0
+let g:syntastic_loc_list_height = 5
+
+function! ToggleErrors()
+    let old_last_winnr = winnr('$')
+    lclose
+    if old_last_winnr == winnr('$')
+        " Nothing was closed, open syntastic_error location panel
+        Errors
+    endif
+endfunction
+nnoremap <Leader>s :call ToggleErrors()<cr>
+
+" ,en ,ep to jump between errors
+function! <SID>LocationPrevious()
+try
+    lprev
+catch /^Vim\%((\a\+)\)\=:E553/
+    llast
+endtry
+endfunction
+
+function! <SID>LocationNext()
+try
+    lnext
+catch /^Vim\%((\a\+)\)\=:E553/
+    lfirst
+endtry
+endfunction
+
+
+" 修改高亮的背景色, 适应主题
+highlight SyntasticErrorSign guifg=white guibg=black
+
+" 禁止插件æ£查java
+" thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
+let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
