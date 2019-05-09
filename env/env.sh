@@ -14,7 +14,7 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/include
 
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib:~/usr/lib/boost
 
 LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
@@ -47,6 +47,7 @@ alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++17 -Wall'
 alias g++='g++ -std=c++17 -Wall'
+alias scons='python3 $(which scons)'
 
 function cleandocker()
 {

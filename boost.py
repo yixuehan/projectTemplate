@@ -94,12 +94,27 @@ def compile_install_boost(filename):
         cmd = 'rm -f project-config.jam*'
         os.system(cmd)
 
-        cmd = './bootstrap.sh --libdir=%(HOME)s/usr/lib --includedir=%(HOME)s/usr/include'
-        cmd = cmd % {'HOME': os.environ['HOME']}
+        home = os.environ['HOME']
+
+        cmd = './bootstrap.sh --libdir=%(HOME)s/usr/%(boost)s/lib --includedir=%(HOME)s/usr/%(boost)s/include'
+        cmd = cmd % {'HOME': home,
+                     'boost': dirname}
         os.system(cmd)
 
         cmd = './bjam cxxflags="-std=c++1z" variant=release install'
-        return os.system(cmd)
+        os.system(cmd)
+
+        # 建立软链接
+        link_include = '%s/usr/include/boost' % (home)
+        if os.path.exists(link_include):
+            os.remove(link_include)
+
+        link_lib = '%s/usr/lib/boost' % (home)
+        if os.path.exists(link_lib):
+            os.remove(link_lib)
+
+        os.symlink("%s/usr/%s/include/boost" % (home, dirname), link_include)
+        os.symlink("%s/usr/%s/lib" % (home, dirname), link_lib)
 
 
 if __name__ == '__main__':
