@@ -18,7 +18,6 @@ Plugin 'nvie/vim-flake8'
 Plugin 'dgryski/vim-godef'   
 "Plugin 'Blackrush/vim-gocode'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
 Plugin 'scrooloose/syntastic'
 
 call vundle#end()
