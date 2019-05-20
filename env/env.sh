@@ -47,7 +47,7 @@ alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++17 -Wall'
 alias g++='g++ -std=c++17 -Wall'
-alias scons='python3 $(which scons)'
+# alias scons='python3 $(which scons)'
 
 function cleandocker()
 {
