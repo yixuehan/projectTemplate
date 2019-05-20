@@ -14,7 +14,7 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/include
 
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib:~/usr/lib/boost
 
 LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
@@ -47,6 +47,7 @@ alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++17 -Wall'
 alias g++='g++ -std=c++17 -Wall'
+# alias scons='python3 $(which scons)'
 
 function cleandocker()
 {
@@ -59,46 +60,46 @@ function cd()
     builtin cd $@ && ls
 }
 
-function vimcpp()
-{
-    ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-}
-
-function vimgo()
-{
-    ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
-}
-
-unalias vi 2>/dev/null
-unalias vim 2>/dev/null
-
-function vi()
-{
-    f=$1
-    _vi=`which vi`
-    if [ $MKOSTYPE = 'centos' ]
-    then
-        ${_vi} $@
-        return $?
-    fi
-    case ${f##*.} in
-        go) 
-            ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
-            ;;
-        h|hpp|cpp|c|ipp) 
-            ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-            ;;
-        *)
-            ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
-            ;;
-    esac
-    ${_vi} $@
-}
-
-function vim()
-{
-    vi $@
-}
+# function vimcpp()
+# {
+#     ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+# }
+# 
+# function vimgo()
+# {
+#     ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+# }
+# 
+# unalias vi 2>/dev/null
+# unalias vim 2>/dev/null
+# 
+# function vi()
+# {
+#     f=$1
+#     _vi=`which vi`
+#     if [ $MKOSTYPE = 'centos' ]
+#     then
+#         ${_vi} $@
+#         return $?
+#     fi
+#     case ${f##*.} in
+#         go) 
+#             ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+#             ;;
+#         h|hpp|cpp|c|ipp) 
+#             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#             ;;
+#         *)
+#             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#             ;;
+#     esac
+#     ${_vi} $@
+# }
+# 
+# function vim()
+# {
+#     vi $@
+# }
 
 ulimit -c unlimited
 
@@ -125,3 +126,4 @@ then
     export CCACHE_SIZE=10G # redundant; set anyway
     export CCACHE_UMASK=0 # shared to world
 fi
+export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
