@@ -168,7 +168,7 @@ vimdev()
     fi
     ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
 
-    vim -u ${PWD}/cpp.vimrc +PluginInstall! +qall
+    vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
