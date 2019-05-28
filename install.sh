@@ -39,7 +39,8 @@ case $MKOSTYPE in
             sudo yum install -y epel-release
             sudo yum update -y
             sudo yum install -y make mysql-devel wget which ccache autoconf \
-            rh-python36 rh-python36-python-devel git vim bzip2 openssl-devel
+            rh-python36 rh-python36-python-devel git vim bzip2 openssl-devel ncurses-devel
+
             which docker 2>/dev/null
             if [ $? != 0 ]
             then
@@ -47,6 +48,7 @@ case $MKOSTYPE in
             	sudo systemctl enable docker
             	sudo systemctl start docker
             fi
+
             # sudo yum clean all
             #提示
             source ${PWD}/env/env.sh
@@ -139,6 +141,22 @@ demjson()
 
 vimdev()
 {
+    if [ 'centos' == ${MKOSTYPE} ]
+    then
+	    rm -rf vim-master master.zip
+	    wget https://github.com/vim/vim/archive/master.zip
+	    unzip master.zip
+	    cd vim-master
+	    cd src/
+	    ./configure --with-features=huge -enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/site-packages/firewall/config
+	    sudo make install
+        if [ $? != 0 ]
+        then
+            exit $?
+        fi
+	hash -r
+    fi
+    cd ${shellpath}
     go get -u github.com/jstemmer/gotags
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
@@ -150,7 +168,7 @@ vimdev()
     fi
     ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
 
-    vim -u ${PWD}/cpp.vimrc +PluginInstall! +qall
+    vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
