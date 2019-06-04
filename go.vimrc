@@ -7,6 +7,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
+Plugin 'tomasr/molokai'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'scrooloose/nerdtree'
@@ -16,11 +18,8 @@ Plugin 'nvie/vim-flake8'
 Plugin 'dgryski/vim-godef'   
 "Plugin 'Blackrush/vim-gocode'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
 Plugin 'scrooloose/syntastic'
 
-"Plugin 'Shougo/neocomplete'  
-"Plugin 'zchee/deoplete-go'   
 call vundle#end()
 
 filetype plugin indent on
