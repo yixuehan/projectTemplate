@@ -76,35 +76,38 @@ fi
 
 update_module()
 {
-    echo "update_module $1 $2"
+    repo=$1
+    dir=$2
+    echo "update_module $repo $dir"
     cd $download_path
-    if [ -d $1 ]
+    if [ -d $dir ]
     then
-        cd $1
+        cd $dir
         sudo chown -R ${USER}.${USER} .
-        git checkout master
+        # git checkout master
         git pull
-        git submodule update --init --recursive
+        git submodule update --init --recursive --depth 1
 
     else
-        git clone $2 $1
-        cd $1
-        git submodule update --init --recursive
+        git clone $repo $dir --depth 1
+        cd $dir
+        git submodule update --init --recursive --depth 1
     fi
-    cd ${download_path}/${1}
+    cd ${download_path}/${dir}
 }
 
 # 编译boost
 boost()
 {
     echo 编译boost...
-    ${PYTHON} boost.py
+    update_module https://github.com/boostorg/boost.git boost
+    # ${PYTHON} boost.py
 }
 
 # 编译grpc
 grpc()
 {
-    update_module grpc https://github.com/grpc/grpc.git
+    update_module https://github.com/grpc/grpc.git grpc
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) sudo apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
@@ -120,7 +123,7 @@ grpc()
 json()
 {
     echo 编译json...
-    update_module json https://github.com/nlohmann/json.git
+    update_module https://github.com/nlohmann/json.git json
     rm -rf build
     mkdir build
     cd build
@@ -130,12 +133,12 @@ json()
 
 gtest()
 {
-    update_module googletest https://github.com/google/googletest.git
+    update_module https://github.com/google/googletest.git googletest 
 }
 
 demjson()
 {
-    update_module demjson https://github.com/dmeranda/demjson.git
+    update_module https://github.com/dmeranda/demjson.git demjson
     ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 
@@ -160,7 +163,7 @@ vimdev()
     go get -u github.com/jstemmer/gotags
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim --depth 1
     fi
     if [ -f ~/.vimrc ]
     then 
