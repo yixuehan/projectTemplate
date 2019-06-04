@@ -60,8 +60,8 @@ esac
 
 git config --global credential.helper store
 
-sudo pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-sudo pip3 install -U GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
+sudo -H pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+sudo -H pip3 install -U GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 PYTHON=`which python3`
 
