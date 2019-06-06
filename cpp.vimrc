@@ -14,9 +14,9 @@ Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
 Plugin 'nvie/vim-flake8'
 
-Plugin 'dgryski/vim-godef'                       
+"Plugin 'dgryski/vim-godef'                       
 "Plugin 'Blackrush/vim-gocode'                   
-Plugin 'nsf/gocode', {'rtp': 'vim/'}             
+"Plugin 'nsf/gocode', {'rtp': 'vim/'}             
 Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
 Plugin 'scrooloose/syntastic'                    
 
@@ -155,8 +155,8 @@ let NERDTreeDirArrowCollapsible = '-'
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeQuitOnOpen = 1
 
-"autocmd BufWritePre *.go GoFmt
-"autocmd BufWritePre *.go GoErrCheck
+autocmd BufWritePre *.go GoFmt
+autocmd BufWritePre *.go GoErrCheck
 
 "-------------------------------------------------------------
 "Flake8
@@ -217,6 +217,7 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+let g:go_def_mode = 'gopls'
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_autosave = 0
