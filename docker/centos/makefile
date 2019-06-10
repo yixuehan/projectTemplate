@@ -5,6 +5,7 @@ tag_dev=dev
 tag_cmake=cmake
 tag_release=release
 tag_release_base=release_base
+tag_go=go
 
 all:
 	echo ${scons_create}
@@ -17,6 +18,9 @@ build_release_base:
 	docker build -t ${registry}/${image}:${tag_release_base} -f Dockerfile_release_base .
 	docker push ${registry}/${image}:${tag_release_base}
 
+build_go:
+	docker build -t ${registry}/${image}:${tag_go} -f Dockerfile_go .
+	docker push ${registry}/${image}:${tag_go}
 
 dev:
 	docker run --rm -v ${PWD}:/opt/dev -w /opt/dev ${registry}/${image}:${tag_base} g++ main.cpp -std=c++1y

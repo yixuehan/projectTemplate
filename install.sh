@@ -144,21 +144,22 @@ demjson()
 
 vimdev()
 {
-    if [ 'centos' == ${MKOSTYPE} ]
-    then
+    #if [ 'centos' == ${MKOSTYPE} ]
+    #then
 	    rm -rf vim-master master.zip
 	    wget https://github.com/vim/vim/archive/master.zip
 	    unzip master.zip
 	    cd vim-master
 	    cd src/
 	    ./configure --with-features=huge -enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/site-packages/firewall/config
-	    sudo make install
+	    make
+        sudo make install
         if [ $? != 0 ]
         then
             exit $?
         fi
-	hash -r
-    fi
+	    hash -r
+    #fi
     cd ${shellpath}
     go get -u github.com/jstemmer/gotags
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
