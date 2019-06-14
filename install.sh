@@ -12,7 +12,7 @@ then
     SUDO=sudo
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
-    SUDO=sudo -H
+    SUDO='sudo -H'
 fi
 
 shellpath=${PWD}
@@ -63,7 +63,7 @@ esac
 git config --global credential.helper store
 
 ${SUDO} pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-${SUDO} -H pip3 install -U GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
+${SUDO} pip3 install -U GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 PYTHON=`which python3`
 
