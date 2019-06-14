@@ -1,0 +1,8 @@
+FROM golang
+
+ENV GOPATH=/go_path
+    
+RUN  apt update \
+  && apt upgrade -y \
+  && apt clean all
+

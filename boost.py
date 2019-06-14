@@ -115,6 +115,9 @@ def compile_install_boost(filename):
 
         os.symlink("%s/usr/%s/include/boost" % (home, dirname), link_include)
         os.symlink("%s/usr/%s/lib" % (home, dirname), link_lib)
+    else:
+        print("不支持的系统...", os_type)
+        assert False
 
 
 if __name__ == '__main__':

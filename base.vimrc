@@ -1,5 +1,5 @@
 au BufReadPre,BufNewFile *.cpp,*.h,*.hpp,*.c,*.ipp setfiletype cpp
-au BufReadPre,BufNewFile *.go setfiletype go
+"au BufReadPre,BufNewFile *.go setfiletype go
 au BufReadPre,BufNewFile *.py setfiletype python
 
 "" 定义函数AutoSetFileHead，自动插入文件头
@@ -18,9 +18,12 @@ function! AutoSetFileHead()
         call setline(1, '#include <iostream>')
         call setline(2, 'using namespace std;')
         call setline(3, '')
-        call setline(4, 'int main()')
-        call setline(5, '{')
-        call setline(6, '}')
+        call setline(4, '#include <boost/timer/timer.hpp>')
+        call setline(5, 'using namespace boost;')
+        call setline(6, '')
+        call setline(7, 'int main()')
+        call setline(8, '{')
+        call setline(9, '}')
         normal Gk
     endif
 

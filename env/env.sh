@@ -12,21 +12,17 @@ export OPENCL_INCLUDE_PATH=/opt/intel/opencl/include
 export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 
 CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
-CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/include
+export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/include
 
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib:~/usr/lib/boost
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
-LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib:~/usr/lib/boost
 
-PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface
+export LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
-PS1='[\u@\h \W]\$ '
+export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface
 
-export CPLUS_INCLUDE_PATH
-export LD_LIBRARY_PATH
-export LIBRARY_PATH
-export PATH
-export PS1
+export PS1='[\u@\h \W]\$ '
 
 export MKHOME=${HOME}/projectTemplate/mak
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
@@ -47,9 +43,9 @@ alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++17 -Wall'
 alias g++='g++ -std=c++17 -Wall'
-if [ $OSTYPE == 'ubuntu' ]
+if [ 'ubuntu' == $MKOSTYPE ]
 then
-	alias scons='python3 $(which scons)'
+    alias scons='python3 $(which scons)'
 fi
 
 function cleandocker()

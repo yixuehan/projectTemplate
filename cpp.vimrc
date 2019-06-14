@@ -14,10 +14,10 @@ Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
 Plugin 'nvie/vim-flake8'
 
-Plugin 'dgryski/vim-godef'                       
+"Plugin 'dgryski/vim-godef'                       
 "Plugin 'Blackrush/vim-gocode'                   
-Plugin 'nsf/gocode', {'rtp': 'vim/'}             
-Plugin 'fatih/vim-go',{'do':':GoInstallBinaries'}
+"Plugin 'nsf/gocode', {'rtp': 'vim/'}             
+Plugin 'fatih/vim-go',{ 'do': ':GoUpdateBinaries' }
 Plugin 'scrooloose/syntastic'                    
 
 
@@ -155,9 +155,6 @@ let NERDTreeDirArrowCollapsible = '-'
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeQuitOnOpen = 1
 
-"autocmd BufWritePre *.go GoFmt
-"autocmd BufWritePre *.go GoErrCheck
-
 "-------------------------------------------------------------
 "Flake8
 let g:flake8_quickfix_height = 7
@@ -217,6 +214,8 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_autosave = 0
@@ -239,12 +238,6 @@ imap <F6> <C-x><C-o>
 
 " dependence
 " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
-
-let g:syntastic_error_symbol='>>'
-let g:syntastic_warning_symbol='>'
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_enable_highlighting=1
 
 " checkers
 " python
