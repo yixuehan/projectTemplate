@@ -49,6 +49,7 @@ case $MKOSTYPE in
                 ${SUDO} curl -fsSL https://get.docker.com/ | sh
             	${SUDO} systemctl enable docker
             	${SUDO} systemctl start docker
+		${SUDO} usermod -a -G docker ${USER}
             fi
 
             # ${SUDO} yum clean all

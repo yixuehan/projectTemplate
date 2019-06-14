@@ -1,5 +1,5 @@
 au BufReadPre,BufNewFile *.cpp,*.h,*.hpp,*.c,*.ipp setfiletype cpp
-au BufReadPre,BufNewFile *.go setfiletype go
+"au BufReadPre,BufNewFile *.go setfiletype go
 au BufReadPre,BufNewFile *.py setfiletype python
 
 "" 定义函数AutoSetFileHead，自动插入文件头
