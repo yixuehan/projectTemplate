@@ -137,6 +137,13 @@ json()
 gtest()
 {
     update_module https://github.com/google/googletest.git googletest 
+    rm -rf build
+    mkdir build
+    cd build
+    cmake ..
+    make
+    cp lib/* ${HOME}/usr/lib
+    cp -R ../googletest/include/gtest ${HOME}/usr/include
 }
 
 demjson()
