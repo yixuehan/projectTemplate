@@ -10,5 +10,5 @@ cd cmake-${version}
 if [ $? -eq 0 ]
 then
     cd ../
-    rm -rf cmake-${version}.tar.gz cmake-${version}
+    # rm -rf cmake-${version}.tar.gz cmake-${version}
 fi
