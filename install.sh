@@ -6,13 +6,14 @@
 #    exit 1
 #fi
 
+source syncgit.sh
+
+SUDO='sudo -H'
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
-    SUDO=sudo
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
-    SUDO='sudo -H'
 fi
 
 shellpath=${PWD}
@@ -69,7 +70,7 @@ ${SUDO} pip3 install -U GitPython apio requests scons lxml mako numpy wget sqlpa
 PYTHON=`which python3`
 
 #设置mak、shell路径`
-download_path=${HOME}/.git_download
+download_path=${shellpath}/.git_download
 
 if [ ! -d $download_path ]
 then
@@ -77,40 +78,40 @@ then
     mkdir $download_path
 fi
 
-update_module()
-{
-    repo=$1
-    dir=$2
-    echo "update_module $repo $dir"
-    cd $download_path
-    if [ -d $dir ]
-    then
-        cd $dir
-        ${SUDO} chown -R ${USER}.${USER} .
-        # git checkout master
-        git pull
-        git submodule update --init --recursive --depth 1
-
-    else
-        git clone $repo $dir --depth 1
-        cd $dir
-        git submodule update --init --recursive --depth 1
-    fi
-    cd ${download_path}/${dir}
-}
+# update_module()
+# {
+#     repo=$1
+#     dir=$2
+#     echo "update_module $repo $dir"
+#     cd $download_path
+#     if [ -d $dir ]
+#     then
+#         cd $dir
+#         ${SUDO} chown -R ${USER}.${USER} .
+#         # git checkout master
+#         git pull
+#         git submodule update --init --recursive --depth 1
+# 
+#     else
+#         git clone $repo $dir --depth 1
+#         cd $dir
+#         git submodule update --init --recursive --depth 1
+#     fi
+#     cd ${download_path}/${dir}
+# }
 
 # 编译boost
 boost()
 {
     echo 编译boost...
-    update_module https://github.com/boostorg/boost.git boost
-    # ${PYTHON} boost.py
+    # update_module https://github.com/boostorg/boost.git boost
+    ${PYTHON} boost.py
 }
 
 # 编译grpc
 grpc()
 {
-    update_module https://github.com/grpc/grpc.git grpc
+    update_module https://github.com/grpc/grpc.git grpc ${download_path}
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
@@ -126,7 +127,7 @@ grpc()
 json()
 {
     echo 编译json...
-    update_module https://github.com/nlohmann/json.git json
+    update_module https://github.com/nlohmann/json.git json ${download_path}
     rm -rf build
     mkdir build
     cd build
@@ -136,7 +137,7 @@ json()
 
 gtest()
 {
-    update_module https://github.com/google/googletest.git googletest 
+    update_module https://github.com/google/googletest.git googletest ${download_path}
     rm -rf build
     mkdir build
     cd build
@@ -148,7 +149,7 @@ gtest()
 
 demjson()
 {
-    update_module https://github.com/dmeranda/demjson.git demjson
+    update_module https://github.com/dmeranda/demjson.git demjson ${download_path}
     ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 

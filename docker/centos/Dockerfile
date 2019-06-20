@@ -4,7 +4,7 @@ FROM centos
 ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \
     CCACHE_UMASK=0 \
-    PATH=/opt/rh/devtoolset-7/root/usr/bin:/opt/rh/rh-python36/root/usr/bin:${PATH}} \
+    PATH=/opt/rh/devtoolset-7/root/usr/bin:/opt/rh/rh-python36/root/usr/bin:${PATH} \
     LD_LIBRARY_PATH=/opt/rh/devtoolset-7/root/lib/gcc/x86_64-redhat-linux/7:/opt/rh/devtoolset-7/root/lib64:${LD_LIBRARY_PATH} \
     LD_LIBRARY_PATH=/opt/rh/rh-python36/root/usr/lib64:${LD_LIBRARY_PATH} \
     PKG_CONFIG_PATH=/opt/rh/rh-python36/root/usr/lib64/pkgconfig:${PKG_CONFIG_PATH} \
@@ -17,9 +17,7 @@ RUN  yum install -y centos-release-scl \
   && yum update -y \
   && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache git bzip2 \
   && yum clean all \
-  && pip3 install --upgrade pip \
-  && pip3 install wget \
-  && pip3 install lxml \
-  && pip3 install requests \
+  && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+  && pip3 install wget lxml requests scons -i https://pypi.tuna.tsinghua.edu.cn/simple \
   && ccache --max-size=10G >/dev/null
 

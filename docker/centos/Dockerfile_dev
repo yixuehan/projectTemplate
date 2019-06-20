@@ -4,8 +4,6 @@ COPY boost_install /opt/boost
 
 COPY mysql_install /opt/mysql
 
-COPY scons_install /opt/scons
-
 COPY json_install /opt/json
 
 ENV PATH=/opt/scons/bin:$PATH \
