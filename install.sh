@@ -125,6 +125,7 @@ grpc()
         unzip v${version}.zip
     fi
     cd grpc-${version}
+    git submodule update --init --recursive
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
