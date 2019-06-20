@@ -191,7 +191,8 @@ vimdev()
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
-    ${PYTHON} install.py --clang-completer --go-completer
+    # ${PYTHON} install.py --clang-completer --go-completer
+    ${PYTHON} install.py --clang-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
     then
         cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
