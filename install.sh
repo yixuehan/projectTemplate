@@ -111,7 +111,20 @@ boost()
 # 编译grpc
 grpc()
 {
-    update_module https://github.com/grpc/grpc.git grpc ${download_path}
+    # update_module https://github.com/grpc/grpc.git grpc ${download_path}
+    cd ${download_path}
+    version=1.21.4
+    if [ ! -f v${version}.zip ]
+    then
+        wget https://github.com/grpc/grpc/archive/v${version}.zip
+        if [ ! 0 -eq $? ]
+        then
+            rm -rf v${version}.zip
+            exit 1
+        fi
+        unzip v${version}.zip
+    fi
+    cd grpc-${version}
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
