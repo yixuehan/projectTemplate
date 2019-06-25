@@ -74,7 +74,7 @@ build_release:Dockerfile_release Dockerfile_release_base
 	docker push ${registry}/${image}:${tag_release}
 	build_release
 
-json:${cwd}/json_install build_cmake
+json:${cwd}/json.sh build_cmake
 	docker run --rm -v ${download_path}/json:/src/json \
 		            -v ${cwd}/json.sh:/src/json/json_install.sh \
 					-v ${cwd}/json_install:/install/json \
