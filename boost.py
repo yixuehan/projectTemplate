@@ -113,6 +113,11 @@ def compile_install_boost(filename):
         if os.path.exists(link_lib):
             os.remove(link_lib)
 
+        for dst in [link_include, link_lib]:
+            dir_name = os.path.dirname(dst)
+            if not os.path.exists(dir_name):
+                os.makedirs(dir_name)
+
         os.symlink("%s/usr/%s/include/boost" % (home, dirname), link_include)
         os.symlink("%s/usr/%s/lib" % (home, dirname), link_lib)
     else:

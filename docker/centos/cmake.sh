@@ -8,8 +8,8 @@ then
         rm -rf cmake-${version}.tar.gz
         exit 1
     fi
-    tar -xf cmake-${version}.tar.gz
 fi
+tar -xf cmake-${version}.tar.gz
 cd cmake-${version}
 ./configure --prefix=/install/cmake && gmake && make install
 if [ $? -eq 0 ]

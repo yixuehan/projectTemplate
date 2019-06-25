@@ -7,3 +7,10 @@
 **/*tar.gz
 **/*tar.bz2
 **/boost_*
+/.git_download
+/docker/centos/build_base
+/docker/centos/build_cmake
+/docker/centos/build_dev
+/docker/centos/json
+/docker/centos/mysql
+/docker/centos/boost

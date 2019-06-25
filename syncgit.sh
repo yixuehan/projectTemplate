@@ -1,4 +1,5 @@
 #!/bin/bash
+SUDO='sudo -H'
 
 update_module()
 {
@@ -16,15 +17,17 @@ update_module()
     if [ -d $dir ]
     then
         cd $dir
-        ${SUDO} chown -R ${USER}.${USER} .
+        #${SUDO} chown -R ${USER}.${USER} .
         # git checkout master
         git pull --depth 1
         git submodule update --init --recursive --depth 1
-
+        # rm -rf $dir
     else
         git clone $repo $dir --depth 1
         cd $dir
         git submodule update --init --recursive --depth 1
-    fi  
+    fi
+
+
     cd ${download_path}/${dir}
 }
