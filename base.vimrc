@@ -14,6 +14,9 @@ function! AutoSetFileHead()
         call setline(1, "\#!/usr/bin/env python3")
         call setline(2, "\# -*- coding: utf-8 -*-")
         normal G
+    elseif expand("%:e") == "h"
+        call setline(1, "#pragma once")
+        normal Gk
     elseif &filetype == 'cpp'
         call setline(1, '#include <iostream>')
         call setline(2, 'using namespace std;')
