@@ -10,9 +10,9 @@ tag_release_base=release_base
 tag_go=go
 
 # set -o errexit
-cwd=/home/ubuntu/projectTemplate/docker/centos
-git_dir=/home/ubuntu/projectTemplate
-download_path=/home/ubuntu/projectTemplate/.git_download
+# cwd=/home/ubuntu/projectTemplate/docker/centos
+# git_dir=/home/ubuntu/projectTemplate
+# download_path=/home/ubuntu/projectTemplate/.git_download
 
 
 build_base:Dockerfile
