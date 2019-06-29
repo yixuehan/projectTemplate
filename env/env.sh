@@ -121,7 +121,7 @@ fi
 which ccache &> /dev/null
 if [ 0 -eq $? ]
 then
-    export CCACHE_DIR=/tmp/ccache
+    export CCACHE_DIR=/tmp/${USER}/ccache
     ccache --max-size=10G > /dev/null
     export CCACHE_SIZE=10G # redundant; set anyway
     export CCACHE_UMASK=0 # shared to world

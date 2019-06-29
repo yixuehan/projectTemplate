@@ -15,8 +15,8 @@ JAVAC:=javac
 #各类型文件存放路径
 INCLUDEPATH:= $(SINCLUDEPATH) -I$(HOME)/usr/include
 LIBOUTPATH:=$(PRONAME)/lib
-BINPATH:=$(PRONAME)/bin
-#BINPATH:=.
+#BINPATH:=$(PRONAME)/bin
+BINPATH:=.
 DEPENDPATH:=depend
 OBJPATH:=obj
 OBJS:=$(addprefix $(OBJPATH)/, $(SOBJS))
