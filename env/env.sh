@@ -52,6 +52,11 @@ fi
 function cleandocker()
 {
     images=$(docker images | grep "<none>" | awk '{print $3}')
+    if [ ${images}x == "x" ]
+    then
+        echo "nothing to do"
+        return 0
+    fi
     docker rmi ${images}
 }
 

@@ -65,7 +65,7 @@ esac
 git config --global credential.helper store
 
 ${SUDO} pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-${SUDO} pip3 install -U GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
+${SUDO} pip3 install -U docker-compose GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 PYTHON=`which python3`
 
