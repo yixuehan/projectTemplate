@@ -220,6 +220,8 @@ vimdev()
     fi
     ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
     ln -s ${PWD}/base.vimrc ~/.base.vimrc -f
+    # go get
+    goget
 
     vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
