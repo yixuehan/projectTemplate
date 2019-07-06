@@ -1,3 +1,4 @@
+source ${HOME}/.base.vimrc
 set nocompatible
 
 filetype off 
@@ -5,19 +6,25 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-
+Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'Manishearth/godef'
-Plugin 'fatih/vim-go'
+Plugin 'nvie/vim-flake8'
+
+"Plugin 'dgryski/vim-godef'                       
+"Plugin 'Blackrush/vim-gocode'                   
+"Plugin 'nsf/gocode', {'rtp': 'vim/'}             
+Plugin 'fatih/vim-go',{ 'do': ':GoUpdateBinaries' }
+Plugin 'scrooloose/syntastic'                    
+
 
 call vundle#end()
 
 filetype plugin indent on
+
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_error_symbol = '>>'
 let g:ycm_warning_symbol = '>*'
@@ -32,6 +39,23 @@ let g:ycm_use_ultisnips_completer = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
 let g:ycm_collect_identifiers_from_tags_files = 1"
 let g:ycm_log_level='debug'
+
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+let g:ycm_key_invoke_completion = '<c-z>'
+"set completeopt=menu,menuone
+
+noremap <c-z> <NOP>
+
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
 
 " 自动补全配置
 set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
@@ -52,45 +76,15 @@ let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
 
 let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 基于标签引擎
-let g:ycm_min_num_of_chars_for_completion=1    " 从第2个键入字符就开始罗列匹配项
 "let g:ycm_cache_omnifunc=0    " 禁止缓存匹配项,每次都重新生成匹配项
 let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
-let g:max_diagnostics_to_display=100
+let g:max_diagnostics_to_display=1000
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
 "nnoremap <leader>lo :lopen<CR>    "open locationlist
 "nnoremap <leader>lc :lclose<CR>    "close locationlist
 let mapleader=","
-inoremap <leader><leader> <C-x><C-o>
 
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
-
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
 
 let g:syntastic_error_symbol='>>'
 let g:syntastic_warning_symbol='>*'
@@ -117,7 +111,6 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_auto_jump = 0
 let g:syntastic_loc_list_height = 5
-let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
 
 nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
 
@@ -125,8 +118,6 @@ nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到�
 
 au BufEnter /usr/include/c++/7/*     setf cpp
 au BufEnter /usr/include/*     setf cpp
-
-
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -136,7 +127,7 @@ let OmniCpp_MayCompleteDot = 1 " autocomplete after .
 let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
 let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-" automatically open and close the popup menu / preview window
+"automatically open and close the popup menu / preview window
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
@@ -163,9 +154,6 @@ let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '-'
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeQuitOnOpen = 1
-
-"autocmd BufWritePre *.go GoFmt
-"autocmd BufWritePre *.go GoErrCheck
 
 "-------------------------------------------------------------
 "Flake8
@@ -217,4 +205,91 @@ let g:tagbar_autopreview = 1
 
 let g:tagbar_sort = 0
 
+"go.vim
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_autosave = 0
+let g:go_play_open_browser = 0
+let g:go_get_update = 0
+
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+"
+let g:neocomplete#enable_at_startup = 1
+
 autocmd BufWritePre *.go GoFmt
+"autocmd BufWritePre *.go GoLint
+"autocmd BufWritePre *.go GoErrCheck
+
+
+" YCM settings
+
+imap <F6> <C-x><C-o>
+
+" dependence
+" 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
+
+" checkers
+" python
+" pip install flake8
+let g:syntastic_python_checkers=['flake8', ] " 使用pyflakes,速度比pylint快
+let g:syntastic_python_flake8_options='--ignore=E501,E225,E124,E712,E116,E131'
+
+" javascript
+" let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+" let g:syntastic_html_checkers=['tidy', 'jshint']
+" npm install -g eslint eslint-plugin-standard eslint-plugin-promise eslint-config-standard
+" npm install -g eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
+let g:syntastic_javascript_checkers = ['eslint']
+
+" to see error location list
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_enable_signs = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_auto_jump = 0
+let g:syntastic_loc_list_height = 5
+
+function! ToggleErrors()
+    let old_last_winnr = winnr('$')
+    lclose
+    if old_last_winnr == winnr('$')
+        " Nothing was closed, open syntastic_error location panel
+        Errors
+    endif
+endfunction
+nnoremap <Leader>s :call ToggleErrors()<cr>
+
+" ,en ,ep to jump between errors
+function! <SID>LocationPrevious()
+try
+    lprev
+catch /^Vim\%((\a\+)\)\=:E553/
+    llast
+endtry
+endfunction
+
+function! <SID>LocationNext()
+try
+    lnext
+catch /^Vim\%((\a\+)\)\=:E553/
+    lfirst
+endtry
+endfunction
+
+
+" 修改高亮的背景色, 适应主题
+highlight SyntasticErrorSign guifg=white guibg=black
+
+" 禁止插件æ£查java
+" thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
+let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }

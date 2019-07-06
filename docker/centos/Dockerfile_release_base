@@ -1,0 +1,6 @@
+FROM centos
+
+RUN  yum update -y \
+  && yum install -y mysql-devel python-devel \
+  && yum clean all
+

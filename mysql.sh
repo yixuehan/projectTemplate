@@ -10,6 +10,10 @@ then
        exit 1
     fi
 fi
+if [ ! 0 -eq $? ]
+then
+    exit 1
+fi
 version=3.2.4
 if [ ! -f mysql++-${version}.tar.gz ]
 then
