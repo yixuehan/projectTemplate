@@ -173,6 +173,20 @@ demjson()
     ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 
+goget()
+{
+    go get -v golang.org/x/tools/cmd/guru \
+        github.com/kisielk/errcheck \
+        github.com/mdempsky/gocode \
+        github.com/josharian/impl \
+        golang.org/x/tools/cmd/gorename \
+        golang.org/x/tools/cmd/goimports \
+        github.com/stamblerre/gocode \
+        honnef.co/go/tools/cmd/keyify \
+        golang.org/x/lint/golint
+
+}
+
 updatevim()
 {
 	rm -rf vim-master master.zip
