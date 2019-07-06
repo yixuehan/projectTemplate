@@ -8,8 +8,9 @@
 
 source syncgit.sh
 
-# SUDO='sudo -H'
-SUDO='sudo'
+SUDO='/bin/sudo -H'
+PIP3=$(which pip3)
+RHSUDO='sudo'
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
@@ -50,14 +51,14 @@ case $MKOSTYPE in
             then
                 bash go.sh
             fi
-            which docker 2>/dev/null
-            if [ $? != 0 ]
-            then
+            # which docker 2>/dev/null
+            # if [ $? != 0 ]
+            # then
                 ${SUDO} curl -fsSL https://get.docker.com/ | sh
             	${SUDO} systemctl enable docker
             	${SUDO} systemctl start docker
 		        ${SUDO} usermod -a -G docker ${USER}
-            fi
+            # fi
 
             # ${SUDO} yum clean all
             #提示
@@ -70,8 +71,8 @@ esac
 
 git config --global credential.helper store
 
-${SUDO} pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-${SUDO} pip3 install -U docker-compose GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
+${RHSUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+${RHSUDO} ${PIP3} install -U docker-compose GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 PYTHON=`which python3`
 
