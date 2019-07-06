@@ -8,7 +8,8 @@
 
 source syncgit.sh
 
-SUDO='sudo -H'
+# SUDO='sudo -H'
+SUDO='sudo'
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
@@ -43,14 +44,19 @@ case $MKOSTYPE in
             ${SUDO} yum update -y
             ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
             rh-python36 rh-python36-python-devel git vim bzip2 openssl-devel ncurses-devel
-
+            # golang
+            which go 2>/dev/null
+            if [ $? != 0 ]
+            then
+                bash go.sh
+            fi
             which docker 2>/dev/null
             if [ $? != 0 ]
             then
                 ${SUDO} curl -fsSL https://get.docker.com/ | sh
             	${SUDO} systemctl enable docker
             	${SUDO} systemctl start docker
-		${SUDO} usermod -a -G docker ${USER}
+		        ${SUDO} usermod -a -G docker ${USER}
             fi
 
             # ${SUDO} yum clean all
@@ -199,6 +205,7 @@ vimdev()
         mv ~/.vimrc ~/.vimrc.bak
     fi
     ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
+    ln -s ${PWD}/base.vimrc ~/.base.vimrc -f
 
     vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
