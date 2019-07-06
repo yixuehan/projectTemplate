@@ -8,9 +8,6 @@
 
 source syncgit.sh
 
-SUDO='/bin/sudo -H'
-PIP3=$(which pip3)
-RHSUDO='sudo'
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
@@ -36,10 +33,18 @@ software()
 }
 
 case $MKOSTYPE in
-    ubuntu) ${SUDO} apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
+    ubuntu) 
+	    SUDO="$(which sudo) -H"
+	    PIP3=$(which pip3)
+	    RHSUDO=${SUDO}
+	    ${SUDO} apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
             #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
             ;;
-    centos) ${SUDO} yum install -y centos-release-scl 
+    centos) 
+	    SUDO=$(/bin/sudo)
+	    PIP3=$(which pip3)
+	    RHSUDO=sudo
+	    ${SUDO} yum install -y centos-release-scl 
             ${SUDO} yum install -y devtoolset-7
             ${SUDO} yum install -y epel-release
             ${SUDO} yum update -y
