@@ -8,7 +8,6 @@
 
 source syncgit.sh
 
-SUDO='sudo -H'
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
@@ -34,24 +33,37 @@ software()
 }
 
 case $MKOSTYPE in
-    ubuntu) ${SUDO} apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
+    ubuntu) 
+	    SUDO="$(which sudo) -H"
+	    PIP3=$(which pip3)
+	    RHSUDO=${SUDO}
+	    ${SUDO} apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
             #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
             ;;
-    centos) ${SUDO} yum install -y centos-release-scl 
+    centos) 
+	    SUDO=$(/bin/sudo)
+	    PIP3=$(which pip3)
+	    RHSUDO=sudo
+	    ${SUDO} yum install -y centos-release-scl 
             ${SUDO} yum install -y devtoolset-7
             ${SUDO} yum install -y epel-release
             ${SUDO} yum update -y
             ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
             rh-python36 rh-python36-python-devel git vim bzip2 openssl-devel ncurses-devel
-
-            which docker 2>/dev/null
+            # golang
+            which go 2>/dev/null
             if [ $? != 0 ]
             then
+                bash go.sh
+            fi
+            # which docker 2>/dev/null
+            # if [ $? != 0 ]
+            # then
                 ${SUDO} curl -fsSL https://get.docker.com/ | sh
             	${SUDO} systemctl enable docker
             	${SUDO} systemctl start docker
-		${SUDO} usermod -a -G docker ${USER}
-            fi
+		        ${SUDO} usermod -a -G docker ${USER}
+            # fi
 
             # ${SUDO} yum clean all
             #提示
@@ -64,8 +76,8 @@ esac
 
 git config --global credential.helper store
 
-${SUDO} pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-${SUDO} pip3 install -U docker-compose GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
+${RHSUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+${RHSUDO} ${PIP3} install -U docker-compose GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 PYTHON=`which python3`
 
@@ -167,6 +179,20 @@ demjson()
     ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 
+goget()
+{
+    go get -v golang.org/x/tools/cmd/guru \
+        github.com/kisielk/errcheck \
+        github.com/mdempsky/gocode \
+        github.com/josharian/impl \
+        golang.org/x/tools/cmd/gorename \
+        golang.org/x/tools/cmd/goimports \
+        github.com/stamblerre/gocode \
+        honnef.co/go/tools/cmd/keyify \
+        golang.org/x/lint/golint
+
+}
+
 updatevim()
 {
 	rm -rf vim-master master.zip
@@ -199,6 +225,9 @@ vimdev()
         mv ~/.vimrc ~/.vimrc.bak
     fi
     ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
+    ln -s ${PWD}/base.vimrc ~/.base.vimrc -f
+    # go get
+    goget
 
     vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall

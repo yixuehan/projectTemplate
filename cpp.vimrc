@@ -1,4 +1,4 @@
-source ${HOME}/projectTemplate/base.vimrc
+source ${HOME}/.base.vimrc
 set nocompatible
 
 filetype off 

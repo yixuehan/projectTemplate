@@ -5,6 +5,10 @@ then
 elif [ $MKOSTYPE == 'ubuntu' ]
 then
     sudo apt install libmysqlclient-dev
+    if [ ! 0 -eq $? ]
+    then
+       exit 1
+    fi
 fi
 if [ ! 0 -eq $? ]
 then
