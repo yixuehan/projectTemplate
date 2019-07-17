@@ -1,6 +1,12 @@
 #!/bin/bash
 
-version=1.12.6
+if [ ${MKOSTYPE}x == 'x' ]
+then
+    echo unknown OSTYPE
+    return 1
+fi
+
+version=1.12.7
 
 cd download_tmp
 # https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz
@@ -15,5 +21,16 @@ then
     tar -xf go${version}.linux-amd64.tar.gz
 fi
 
-sudo mv /usr/lib/golang /usr/lib/golang.bak
-sudo mv go /usr/lib/golang
+if [ $MKOSTYPE == 'centos' ]
+then
+    sudo mv /usr/lib/golang /usr/lib/golang.bak
+    sudo mv go /usr/lib/golang
+elif [ $MKOSTYPE == 'ubuntu' ]
+then
+    target=/usr/lib/go-${version}
+    sudo rm -rf ${target}
+    sudo mv go ${target}
+    sudo ln -s ${target} /usr/lib/go -f
+    sudo ln -s ${target}/bin/go /usr/bin/go -f
+
+fi
