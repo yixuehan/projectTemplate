@@ -115,6 +115,7 @@ then
     #export PATH=/opt/rh/rh-python36/root/bin:$PATH
     source /opt/rh/devtoolset-7/enable
     source /opt/rh/rh-python36/enable
+    source /opt/rh/rh-mysql80/enable
     # scl enable devtoolset-7 bash
 fi
 

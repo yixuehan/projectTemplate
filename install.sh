@@ -34,16 +34,17 @@ software()
 
 case $MKOSTYPE in
     ubuntu) 
-	    SUDO="$(which sudo) -H"
+	    SUDO="$(which sudo)"
+        SUDO="${SUDO} -H"
 	    PIP3=$(which pip3)
 	    RHSUDO=${SUDO}
 	    ${SUDO} apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
             #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
             ;;
     centos) 
-	    SUDO=$(/bin/sudo)
+	    SUDO="/bin/sudo"
 	    PIP3=$(which pip3)
-	    RHSUDO=sudo
+	    RHSUDO="sudo"
 	    ${SUDO} yum install -y centos-release-scl 
             ${SUDO} yum install -y devtoolset-7
             ${SUDO} yum install -y epel-release
