@@ -51,13 +51,24 @@ fi
 
 function cleandocker()
 {
-    images=$(docker images | grep "<none>" | awk '{print $3}')
-    if [ ${images}x == "x" ]
-    then
-        echo "nothing to do"
-        return 0
-    fi
-    docker rmi ${images}
+    case $# in
+    0)
+        images=$(docker images | grep "<none>" | awk '{print $3}')
+        if [ ${images}x == "x" ]
+        then
+            echo "nothing to do"
+            return 0
+        fi
+        docker rmi ${images}
+        ;;
+    *)
+        # shift
+        for arg in $*
+        do
+            docker rmi $(docker images|grep ${arg}|awk '{printf "%s:%s\n", $1,$2}')
+        done
+        ;;
+    esac
 }
 
 function cd()
