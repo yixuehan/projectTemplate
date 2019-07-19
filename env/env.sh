@@ -29,6 +29,8 @@ export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 
 export NUM_CPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
 
+export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
+
 #export MANPATH=/home/wangkai/project/thirdLib/${MKOSTYPE}/google_coredumper/man
 
 alias cds='cd $PRONAME/src'

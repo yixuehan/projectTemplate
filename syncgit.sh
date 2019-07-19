@@ -19,11 +19,11 @@ update_module()
         cd $dir
         #${SUDO} chown -R ${USER}.${USER} .
         # git checkout master
-        git pull --depth 1
+        git pull
         git submodule update --init --recursive
         # rm -rf $dir
     else
-        git clone $repo $dir --depth 1
+        git clone $repo $dir
         cd $dir
         git submodule update --init --recursive
     fi

@@ -6,7 +6,19 @@ then
     tar -xf cmake-${version}.tar.gz
 fi
 cd cmake-${version}
-./configure --prefix=${HOME}/usr && gmake && make install
+
+case $MKOSTYPE in
+    ubuntu)
+        ./configure --prefix=${HOME}/usr && make install
+        ;;
+    centos)
+        ./configure --prefix=${HOME}/usr && gmake && make install
+        ;;
+    *)
+        echo unknown sys
+        ;;
+esac
+
 if [ $? -eq 0 ]
 then
     cd ../

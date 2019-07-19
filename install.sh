@@ -40,6 +40,7 @@ case $MKOSTYPE in
 	    RHSUDO=${SUDO}
 	    ${SUDO} apt install cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip -y
             #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
+        bash go.sh
             ;;
     centos) 
 	    SUDO="/bin/sudo"
@@ -124,29 +125,33 @@ boost()
 # 编译grpc
 grpc()
 {
-    # update_module https://github.com/grpc/grpc.git grpc ${download_path}
-    cd ${download_path}
-    version=1.21.4
-    if [ ! -f v${version}.zip ]
-    then
-        wget https://github.com/grpc/grpc/archive/v${version}.zip
-        if [ ! 0 -eq $? ]
-        then
-            rm -rf v${version}.zip
-            exit 1
-        fi
-        unzip v${version}.zip
-    fi
-    cd grpc-${version}
-    git submodule update --init --recursive
+    update_module https://github.com/grpc/grpc.git grpc ${download_path}
+    # cd ${download_path}
+    # version=1.21.4
+    # if [ ! -f v${version}.zip ]
+    # then
+    #     wget https://github.com/grpc/grpc/archive/v${version}.zip
+    #     if [ ! 0 -eq $? ]
+    #     then
+    #         rm -rf v${version}.zip
+    #         exit 1
+    #     fi
+    #     unzip v${version}.zip
+    # fi
+    # cd grpc-${version}
+    # git submodule update --init --recursive
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
         centos) ${SUDO} yum install -y build-essential autoconf libtool pkg-config \
                 libgflags-dev libgtest-dev libc++-dev ;;
     esac
-    make && make install prefix=${HOME}/usr
+    oldpath=$(pwd)
     cd $download_path/grpc/third_party/protobuf
+    ./autogen.sh
+    ./configure --prefix=${HOME}/usr
+    make && make install
+    cd $oldpath
     make && make install prefix=${HOME}/usr
 }
 

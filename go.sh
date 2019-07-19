@@ -8,6 +8,13 @@ fi
 
 version=1.12.7
 
+go version | grep ${version}
+if [ $? -eq 0 ]
+then
+    exit 0
+fi
+
+mkdir download_tmp
 cd download_tmp
 # https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz
 if [ ! -f go${version}.linux-amd64.tar.gz ]
@@ -18,6 +25,10 @@ then
         rm -f go${version}.linux-amd64.tar.gz
         exit 1
     fi
+fi
+
+if [ ! -d go ]
+then
     tar -xf go${version}.linux-amd64.tar.gz
 fi
 
