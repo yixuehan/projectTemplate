@@ -187,7 +187,7 @@ demjson()
 
 goget()
 {
-    go get -v golang.org/x/tools/cmd/guru \
+    go get -v -u golang.org/x/tools/cmd/guru \
         github.com/kisielk/errcheck \
         github.com/mdempsky/gocode \
         github.com/josharian/impl \
@@ -195,6 +195,7 @@ goget()
         golang.org/x/tools/cmd/goimports \
         github.com/stamblerre/gocode \
         honnef.co/go/tools/cmd/keyify \
+        github.com/jstemmer/gotags \
         golang.org/x/lint/golint
 
 }
@@ -221,7 +222,6 @@ updatevim()
 vimdev()
 {
     cd ${shellpath}
-    go get -u github.com/jstemmer/gotags
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
         git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim --depth 1
