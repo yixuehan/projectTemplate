@@ -18,7 +18,7 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib:~/usr/lib/boost
 
-export LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
+export LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib:/usr/lib64/mysql
 
 export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface
 
@@ -46,10 +46,12 @@ alias rm='rm -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++17 -Wall'
 alias g++='g++ -std=c++17 -Wall'
 alias screen='screen -U'
-if [ 'ubuntu' == $MKOSTYPE ]
-then
-    alias scons='python3 $(which scons)'
-fi
+# alias sconss='python3 $(which scons)'
+
+function scons()
+{
+    python3 $(which scons)
+}
 
 function cleandocker()
 {
