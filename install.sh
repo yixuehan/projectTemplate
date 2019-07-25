@@ -39,22 +39,23 @@ case $MKOSTYPE in
 	    PIP3=$(which pip3)
 	    RHSUDO=${SUDO}
 	    ${SUDO} apt install -y cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip \
-                            python3-tk
+                               python3-tk
 
             #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
         bash go.sh
             ;;
     centos) 
-	    SUDO="/bin/sudo"
+	    SUDO="/bin/sudo -H"
 	    PIP3=$(which pip3)
 	    RHSUDO="sudo"
+        PYTHON=python36
 	    ${SUDO} yum install -y centos-release-scl 
-            ${SUDO} yum install -y devtoolset-7
+            ${SUDO} yum install -y devtoolset-8
             ${SUDO} yum install -y epel-release
             ${SUDO} yum update -y
             ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
-            rh-python36 rh-python36-python-devel git vim bzip2 openssl-devel ncurses-devel \
-            rh-python36-python-tkinter
+            ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
+            git bzip2 openssl-devel ncurses-devel \
             # golang
             which go 2>/dev/null
             if [ $? != 0 ]
@@ -81,8 +82,10 @@ esac
 
 git config --global credential.helper store
 
-${RHSUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-${RHSUDO} ${PIP3} install -U docker-compose \
+echo ${SUDO}
+
+${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+${SUDO} ${PIP3} install -U docker-compose \
             GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 PYTHON=`which python3`
