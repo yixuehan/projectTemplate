@@ -84,23 +84,22 @@ def compile_install_boost(filename):
     linux_dirname = dirname + "_" + linux_type
     if 'Linux' == os_type:
         print("dirname:", dirname)
-        if os.path.exists(dirname):
-            shutil.rmtree(dirname)
         print("linux_dirname:", linux_dirname)
-        if os.path.exists(linux_dirname):
-            shutil.rmtree(linux_dirname)
+        if not os.path.exists(linux_dirname):
+            if os.path.exists(dirname):
+                shutil.rmtree(dirname)
 
-        print("解压...", filename)
-        cmd = 'tar -jxf ' + filename
-        assert 0 == os.system(cmd)
-        cmd = 'mv %s %s' % (dirname, linux_dirname)
-        print("改名：", cmd)
-        assert 0 == os.system(cmd)
+            print("解压...", filename)
+            cmd = 'tar -jxf ' + filename
+            assert 0 == os.system(cmd)
+            cmd = 'mv %s %s' % (dirname, linux_dirname)
+            print("改名：", cmd)
+            assert 0 == os.system(cmd)
 
         os.chdir(linux_dirname)
 
-        # cmd = 'rm -f project-config.jam*'
-        # os.system(cmd)
+        cmd = 'rm -f project-config.jam*'
+        os.system(cmd)
 
         home = os.environ['HOME']
 
@@ -114,7 +113,7 @@ def compile_install_boost(filename):
         assert os.system(cmd) == 0
 
         cmd = './bjam cxxflags="-std=c++2a" variant=release install'
-        assert os.system(cmd) == 0
+        os.system(cmd)
 
         # 建立软链接
         link_include = '%s/usr/include/boost' % (home)
