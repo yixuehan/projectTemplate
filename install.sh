@@ -76,7 +76,6 @@ case $MKOSTYPE in
             source ${PWD}/env/env.sh
             ${SUDO} yum install wget
             software cmake
-            #software ccache
             ;;
 esac
 
@@ -209,6 +208,7 @@ goget()
 
 updatevim()
 {
+    cd download_tmp
 	rm -rf vim-master master.zip
 	wget https://github.com/vim/vim/archive/master.zip
 	unzip master.zip

@@ -1,5 +1,6 @@
 #!/bin/bash
 version=3.13.4
+cd download_tmp
 if [ ! -f "cmake-${version}.tar.gz" ]
 then
     wget https://github.com/Kitware/CMake/releases/download/v${version}/cmake-${version}.tar.gz
@@ -18,9 +19,3 @@ case $MKOSTYPE in
         echo unknown sys
         ;;
 esac
-
-if [ $? -eq 0 ]
-then
-    cd ../
-    # rm -rf cmake-${version}.tar.gz cmake-${version}
-fi

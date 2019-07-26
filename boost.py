@@ -15,6 +15,7 @@ findpath = '//div[@id="downloads"]/ul/li/div[@class="news-title"]/a/@href'
 downloadfilefind = '//table[@class="download-table"]//tr[2]/td/a/@href'
 downloadhashfind = '//table[@class="download-table"]//tr[2]/td[2]/text()'
 installdir = '${HOME}/usr'
+downloaddir = 'download_tmp'
 
 
 def get_filepath(tree):
@@ -58,6 +59,8 @@ def download_file(tree, filename):
         assert False
     downloadhash = downloadhash[0]
 
+    # filename = os.path.join(downloaddir, filename)
+
     if os.path.exists(filename):
         hashcode = hashlib.sha256(open(filename, "rb").read()).hexdigest()
         print("hash:", hashcode)
@@ -80,29 +83,38 @@ def compile_install_boost(filename):
     linux_type = os.environ['MKOSTYPE']
     linux_dirname = dirname + "_" + linux_type
     if 'Linux' == os_type:
-        if not os.path.exists(linux_dirname):
-            if not os.path.exists(dirname):
-                print("解压...", filename)
-                cmd = 'tar -jxf ' + filename
-                os.system(cmd)
-            cmd = 'mv %s %s' % (dirname, linux_dirname)
-            print("改名：", cmd)
-            os.system(cmd)
+        print("dirname:", dirname)
+        if os.path.exists(dirname):
+            shutil.rmtree(dirname)
+        print("linux_dirname:", linux_dirname)
+        if os.path.exists(linux_dirname):
+            shutil.rmtree(linux_dirname)
+
+        print("解压...", filename)
+        cmd = 'tar -jxf ' + filename
+        assert 0 == os.system(cmd)
+        cmd = 'mv %s %s' % (dirname, linux_dirname)
+        print("改名：", cmd)
+        assert 0 == os.system(cmd)
 
         os.chdir(linux_dirname)
 
-        cmd = 'rm -f project-config.jam*'
-        os.system(cmd)
+        # cmd = 'rm -f project-config.jam*'
+        # os.system(cmd)
 
         home = os.environ['HOME']
+
+        print("home:[%s] dirname:[%s]" % (home, dirname))
+        assert home
+        assert dirname
 
         cmd = './bootstrap.sh --libdir=%(HOME)s/usr/%(boost)s/lib --includedir=%(HOME)s/usr/%(boost)s/include'
         cmd = cmd % {'HOME': home,
                      'boost': dirname}
-        os.system(cmd)
+        assert os.system(cmd) == 0
 
-        cmd = './bjam cxxflags="-std=c++1z" variant=release install'
-        os.system(cmd)
+        cmd = './bjam cxxflags="-std=c++2a" variant=release install'
+        assert os.system(cmd) == 0
 
         # 建立软链接
         link_include = '%s/usr/include/boost' % (home)
@@ -126,6 +138,7 @@ def compile_install_boost(filename):
 
 
 if __name__ == '__main__':
+    os.chdir(downloaddir)
     resp = requests.get(url)
     # print(resp.text)
     tree = html.fromstring(resp.text)

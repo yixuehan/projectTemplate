@@ -1,4 +1,7 @@
 #!/bin/bash
+
+repo=~/projectTemplate
+
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
@@ -20,11 +23,11 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}:~/usr/lib:~/usr/l
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib:/usr/lib64/mysql
 
-export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface
+export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface:${repo}/util
 
 export PS1='[\u@\h \W]\$ '
 
-export MKHOME=${HOME}/projectTemplate/mak
+export MKHOME=${HOME}/${repo}/mak
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 
 export NUM_CPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
@@ -35,13 +38,13 @@ export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
 
 alias cds='cd $PRONAME/src'
 alias cdi='cd $PRONAME/include'
-alias cdm='cd ${HOME}/projectTemplate/mak'
-alias cde='cd ${HOME}/projectTemplate/env'
+alias cdm='cd ${HOME}/${repo}/mak'
+alias cde='cd ${HOME}/${repo}/env'
 alias cdl='cd $PRONAME/log'
 alias cdb='cd $PRONAME/bin'
 alias cdp='cd $PRONAME'
 alias cdlib='cd $PRONAME/lib'
-alias cpmake='cp ${HOME}/projectTemplate/mak/build.sh . && chmod +x build.sh'
+alias cpmake='cp ${HOME}/${repo}/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++17 -Wall'
 alias g++='g++ -std=c++17 -Wall'
@@ -82,12 +85,12 @@ function cd()
 
 # function vimcpp()
 # {
-#     ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#     ln -s ${HOME}/${repo}/cpp.vimrc ~/.vimrc -f
 # }
 # 
 # function vimgo()
 # {
-#     ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+#     ln -s ${HOME}/${repo}/go.vimrc ~/.vimrc -f
 # }
 # 
 # unalias vi 2>/dev/null
@@ -104,13 +107,13 @@ function cd()
 #     fi
 #     case ${f##*.} in
 #         go) 
-#             ln -s ${HOME}/projectTemplate/go.vimrc ~/.vimrc -f
+#             ln -s ${HOME}/${repo}/go.vimrc ~/.vimrc -f
 #             ;;
 #         h|hpp|cpp|c|ipp) 
-#             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#             ln -s ${HOME}/${repo}/cpp.vimrc ~/.vimrc -f
 #             ;;
 #         *)
-#             ln -s ${HOME}/projectTemplate/cpp.vimrc ~/.vimrc -f
+#             ln -s ${HOME}/${repo}/cpp.vimrc ~/.vimrc -f
 #             ;;
 #     esac
 #     ${_vi} $@
