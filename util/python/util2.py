@@ -136,25 +136,6 @@ def package_name(dirname):
     return dirname
 
 
-def abs_path(path):
-    if path[0] == '~':
-        path = os.environ['HOME'] + path[1:]
-    return os.path.abspath(path)
-
-
-def check_file(filename):
-    if not os.path.exists(filename):
-        print("文件[%s]不存在" % (filename))
-        assert False
-
-
-def readjson(filename):
-    # print("json file:", filename)
-    json_str = open(filename).read()
-    j = json.loads(json_str, object_pairs_hook=OrderedDict)
-    return j
-
-
 def add_interface(all_interface, interfaces):
     if type(interfaces) != list:
         interfaces = [interfaces]
@@ -180,19 +161,6 @@ def add_enum(all_enum, e):
         print("枚举[%s]已存在!" % (e.get_name))
         assert False
     all_enum.append(e)
-
-
-# 生成驼峰类型的类型名
-def gen_title_name(name):
-    # print("name:", name)
-    if -1 == name.find('_'):
-        name = name[0].upper() + name[1:]
-        return name
-    names = name.split('_')
-    name = ""
-    for n in names:
-        name += n.title()
-    return name
 
 
 def stable_unique(l1):
