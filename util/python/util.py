@@ -2,9 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import os
+import json
+
+
+def readjson(filename):
+    json_str = open(filename).read()
+    j = json.loads(json_str)
+    return j
 
 
 def assert_unique(l, value):
+    assert isinstance(l, list)
     if value in l:
         print("value [%s] exist" % value)
         assert False
@@ -46,3 +54,9 @@ def gen_underline_name(name):
         else:
             res = res + c
     return res
+
+
+def get_base_type(value):
+    if isinstance(value, list):
+        return get_base_type(value[0])
+    return type(value)
