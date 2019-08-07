@@ -131,7 +131,7 @@ if [ $MKOSTYPE = "centos" ]
 then
     #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
     #export PATH=/opt/rh/rh-python36/root/bin:$PATH
-    source /opt/rh/devtoolset-8/enable
+    #source /opt/rh/devtoolset-8/enable
     # source /opt/rh/rh-python36/enable
     source /opt/rh/rh-mysql80/enable
     # scl enable devtoolset-7 bash

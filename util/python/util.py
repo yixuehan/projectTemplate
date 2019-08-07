@@ -47,8 +47,8 @@ def gen_lower_camel(name):
 
 
 def gen_underline_name(name):
-    res = ''
-    for c in name:
+    res = name[0].lower()
+    for c in name[1:]:
         if c.upper() == c:
             res = res + '_' + c.lower()
         else:
