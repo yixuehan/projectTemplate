@@ -3,6 +3,7 @@ SUDO='sudo -H'
 
 update_module()
 {
+    old_path=$(pwd)
     repo=$1
     dir=$2
     download_path=$3
@@ -16,18 +17,11 @@ update_module()
     cd $download_path
     if [ -d $dir ]
     then
+        rm -rf $dir
+        git clone $repo $dir --depth=1
         cd $dir
-        #${SUDO} chown -R ${USER}.${USER} .
-        # git checkout master
-        git pull
-        git submodule update --init --recursive
-        # rm -rf $dir
-    else
-        git clone $repo $dir
-        cd $dir
-        git submodule update --init --recursive
+        git submodule update --init --recursive --depth=1
     fi
 
-
-    cd ${download_path}/${dir}
+    cd ${old_path}
 }

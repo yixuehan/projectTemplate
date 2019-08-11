@@ -48,6 +48,7 @@ let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_complete_in_strings=1
 let g:ycm_key_invoke_completion = '<c-z>'
+let g:ycm_server_python_interpreter='/usr/bin/python3'
 "set completeopt=menu,menuone
 
 noremap <c-z> <NOP>

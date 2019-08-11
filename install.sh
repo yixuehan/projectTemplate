@@ -32,60 +32,64 @@ software()
     fi
 }
 
-case $MKOSTYPE in
-    ubuntu) 
-	    SUDO="$(which sudo)"
-        SUDO="${SUDO} -H"
-	    PIP3=$(which pip3)
-	    RHSUDO=${SUDO}
-	    ${SUDO} apt install -y cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip \
-                               python3-tk
+env_install()
+{
+    case $MKOSTYPE in
+        ubuntu) 
+    	    SUDO="$(which sudo)"
+            SUDO="${SUDO} -H"
+    	    PIP3=$(which pip3)
+    	    RHSUDO=${SUDO}
+    	    ${SUDO} apt install -y cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip \
+                                   python3-tk
+    
+                #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
+            bash go.sh
+                ;;
+        centos) 
+    	    SUDO="/bin/sudo -H"
+    	    PIP3=$(which pip3)
+    	    RHSUDO="sudo"
+            PYTHON=python36
+    	    ${SUDO} yum install -y centos-release-scl 
+                ${SUDO} yum install -y devtoolset-8
+                ${SUDO} yum install -y epel-release
+                ${SUDO} yum update -y
+                ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
+                ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
+                git bzip2 openssl-devel ncurses-devel \
+                # golang
+                which go 2>/dev/null
+                if [ $? != 0 ]
+                then
+                    bash go.sh
+                fi
+                # which docker 2>/dev/null
+                # if [ $? != 0 ]
+                # then
+                    ${SUDO} curl -fsSL https://get.docker.com/ | bash
+                	${SUDO} systemctl enable docker
+                	${SUDO} systemctl start docker
+    		        ${SUDO} usermod -a -G docker ${USER}
+                # fi
+    
+                # ${SUDO} yum clean all
+                #提示
+                source ${PWD}/env/env.sh
+                ${SUDO} yum install wget
+                software cmake
+                ;;
+    esac
+    
+    git config --global credential.helper store
+    
+    echo ${SUDO}
+    
+    ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+    ${SUDO} ${PIP3} install -U docker-compose openpyxl \
+                GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-            #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
-        bash go.sh
-            ;;
-    centos) 
-	    SUDO="/bin/sudo -H"
-	    PIP3=$(which pip3)
-	    RHSUDO="sudo"
-        PYTHON=python36
-	    ${SUDO} yum install -y centos-release-scl 
-            ${SUDO} yum install -y devtoolset-8
-            ${SUDO} yum install -y epel-release
-            ${SUDO} yum update -y
-            ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
-            ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
-            git bzip2 openssl-devel ncurses-devel \
-            # golang
-            which go 2>/dev/null
-            if [ $? != 0 ]
-            then
-                bash go.sh
-            fi
-            # which docker 2>/dev/null
-            # if [ $? != 0 ]
-            # then
-                ${SUDO} curl -fsSL https://get.docker.com/ | bash
-            	${SUDO} systemctl enable docker
-            	${SUDO} systemctl start docker
-		        ${SUDO} usermod -a -G docker ${USER}
-            # fi
-
-            # ${SUDO} yum clean all
-            #提示
-            source ${PWD}/env/env.sh
-            ${SUDO} yum install wget
-            software cmake
-            ;;
-esac
-
-git config --global credential.helper store
-
-echo ${SUDO}
-
-${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-${SUDO} ${PIP3} install -U docker-compose openpyxl \
-            GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter -i https://pypi.tuna.tsinghua.edu.cn/simple
+}
 
 PYTHON=`which python3`
 
@@ -98,33 +102,10 @@ then
     mkdir $download_path
 fi
 
-# update_module()
-# {
-#     repo=$1
-#     dir=$2
-#     echo "update_module $repo $dir"
-#     cd $download_path
-#     if [ -d $dir ]
-#     then
-#         cd $dir
-#         ${SUDO} chown -R ${USER}.${USER} .
-#         # git checkout master
-#         git pull
-#         git submodule update --init --recursive --depth 1
-# 
-#     else
-#         git clone $repo $dir --depth 1
-#         cd $dir
-#         git submodule update --init --recursive --depth 1
-#     fi
-#     cd ${download_path}/${dir}
-# }
-
 # 编译boost
 boost()
 {
     echo 编译boost...
-    # update_module https://github.com/boostorg/boost.git boost
     ${PYTHON} boost.py
 }
 
@@ -132,20 +113,8 @@ boost()
 grpc()
 {
     update_module https://github.com/grpc/grpc.git grpc ${download_path}
-    # cd ${download_path}
-    # version=1.21.4
-    # if [ ! -f v${version}.zip ]
-    # then
-    #     wget https://github.com/grpc/grpc/archive/v${version}.zip
-    #     if [ ! 0 -eq $? ]
-    #     then
-    #         rm -rf v${version}.zip
-    #         exit 1
-    #     fi
-    #     unzip v${version}.zip
-    # fi
-    # cd grpc-${version}
-    # git submodule update --init --recursive
+    cd ${download_path}/grpc
+
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
@@ -166,6 +135,7 @@ json()
 {
     echo 编译json...
     update_module https://github.com/nlohmann/json.git json ${download_path}
+    cd ${download_path}/json
     rm -rf build
     mkdir build
     cd build
@@ -176,6 +146,7 @@ json()
 gtest()
 {
     update_module https://github.com/google/googletest.git googletest ${download_path}
+    cd ${download_path}/googletest
     rm -rf build
     mkdir build
     cd build
@@ -188,6 +159,7 @@ gtest()
 demjson()
 {
     update_module https://github.com/dmeranda/demjson.git demjson ${download_path}
+    cd ${download_path}/demjson
     ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 
@@ -243,11 +215,10 @@ vimdev()
     goget
 
     vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
-    # vim -u ${PWD}/go.vimrc +GoInstallBinaries! +qall
+    # vim -u ${PWD}/cpp.vimrc +PluginInstall! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
-    # ${PYTHON} install.py --clang-completer --go-completer
     ${PYTHON} install.py --clang-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
     then

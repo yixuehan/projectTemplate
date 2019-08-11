@@ -73,12 +73,12 @@ set backspace=indent,eol,start
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
-cmap <C-h> vertical resize -5<CR>
-cmap <C-l> vertical resize +5<CR>
-cmap <C-k> resize -5<CR>
-cmap <C-j> resize +5<CR>
-
-map <C-h> :vertical resize -5<CR>
-map <C-l> :vertical resize +5<CR>
-map <C-k> :resize -5<CR>
-map <C-j> :resize +5<CR>
+" cmap <C-h> vertical resize -5<CR>
+" cmap <C-l> vertical resize +5<CR>
+" cmap <C-k> resize -5<CR>
+" cmap <C-j> resize +5<CR>
+" 
+" map <C-h> :vertical resize -5<CR>
+" map <C-l> :vertical resize +5<CR>
+" map <C-k> :resize -5<CR>
+" map <C-j> :resize +5<CR>
