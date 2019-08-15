@@ -40,6 +40,7 @@ env_install()
             SUDO="${SUDO} -H"
     	    PIP3=$(which pip3)
     	    RHSUDO=${SUDO}
+            ${SUDO} apt update && ${SUDO} apt upgrade -y
     	    ${SUDO} apt install -y cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip \
                                    python3-tk
     
