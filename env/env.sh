@@ -15,7 +15,7 @@ export OPENCL_INCLUDE_PATH=/opt/intel/opencl/include
 export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 
 CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
-export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/include
+export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/include:~/projectTemplate/util/cpp
 
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
@@ -48,7 +48,7 @@ alias cpmake='cp ${repo}/mak/build.sh . && chmod +x build.sh'
 alias rm='rm -i'
 alias cp='cp -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++2a -Wall'
-alias g++='g++ -std=c++2a -Wall'
+alias g++='g++ -std=c++1z -Wall'
 alias screen='screen -U'
 # alias sconss='python3 $(which scons)'
 
