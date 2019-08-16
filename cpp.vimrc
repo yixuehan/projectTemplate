@@ -120,6 +120,8 @@ nnoremap <leader>] :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到�
 au BufEnter /usr/include/c++/7/*     setf cpp
 au BufEnter /usr/include/*     setf cpp
 
+au BufEnter /opt/rh/devtoolset-8/root/usr/include/c++/8/* setf cpp
+
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
 let OmniCpp_ShowAccess = 1
