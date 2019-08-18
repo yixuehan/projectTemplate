@@ -32,14 +32,31 @@ software()
     fi
 }
 
+case $MKOSTYPE in
+	ubuntu)
+            SUDO="sudo -H"
+    	    RHSUDO=${SUDO}
+    	    PIP3=pip3
+	    PYTHON=python3
+	    ;;
+        centos) 
+    	    SUDO="/bin/sudo -H"
+    	    PIP3=$(which pip3)
+    	    RHSUDO="sudo"
+            PYTHON=python36
+	    ;;
+	*)
+	    echo unknown os type [$MKOSTYPE]
+	    exit 1
+	    ;;
+esac
+
+
+
 env_install()
 {
     case $MKOSTYPE in
         ubuntu) 
-    	    SUDO="$(which sudo)"
-            SUDO="${SUDO} -H"
-    	    PIP3=$(which pip3)
-    	    RHSUDO=${SUDO}
             ${SUDO} apt update && ${SUDO} apt upgrade -y
     	    ${SUDO} apt install -y cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip \
                                    python3-tk
@@ -48,10 +65,6 @@ env_install()
             bash go.sh
                 ;;
         centos) 
-    	    SUDO="/bin/sudo -H"
-    	    PIP3=$(which pip3)
-    	    RHSUDO="sudo"
-            PYTHON=python36
     	    ${SUDO} yum install -y centos-release-scl 
                 ${SUDO} yum install -y devtoolset-8
                 ${SUDO} yum install -y epel-release
@@ -78,7 +91,6 @@ env_install()
                 #提示
                 source ${PWD}/env/env.sh
                 ${SUDO} yum install wget
-                software cmake
                 ;;
     esac
     
@@ -87,12 +99,18 @@ env_install()
     echo ${SUDO}
     
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-    ${SUDO} ${PIP3} install -U docker-compose openpyxl \
-                GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter -i https://pypi.tuna.tsinghua.edu.cn/simple
+    ${SUDO} ${PIP3} install -U openpyxl \
+                GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
+		docker-compose  \
+    		-i https://pypi.tuna.tsinghua.edu.cn/simple
 
 }
 
-PYTHON=`which python3`
+cmake()
+{
+	software cmake
+}
+
 
 #设置mak、shell路径`
 download_path=${shellpath}/.git_download
@@ -107,7 +125,7 @@ fi
 boost()
 {
     echo 编译boost...
-    ${PYTHON} boost.py
+    ./boost.py
 }
 
 # 编译grpc

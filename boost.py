@@ -110,9 +110,12 @@ def compile_install_boost(filename):
         cmd = './bootstrap.sh --libdir=%(HOME)s/usr/%(boost)s/lib --includedir=%(HOME)s/usr/%(boost)s/include'
         cmd = cmd % {'HOME': home,
                      'boost': dirname}
+
+        print(cmd)
         assert os.system(cmd) == 0
 
-        cmd = './bjam cxxflags="-std=c++2a" variant=release install'
+        cmd = './bjam cxxflags="-std=c++1z" variant=release install'
+        print(cmd)
         os.system(cmd)
 
         # 建立软链接
