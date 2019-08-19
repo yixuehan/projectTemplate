@@ -168,18 +168,18 @@ gtest()
     rm -rf build
     mkdir build
     cd build
-    cmake ..
-    make
-    cp lib/* ${HOME}/usr/lib
-    cp -R ../googletest/include/gtest ${HOME}/usr/include
+    cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
+    make install
+    # cp lib/* ${HOME}/usr/lib
+    # cp -R ../googletest/include/gtest ${HOME}/usr/include
 }
 
-demjson()
-{
-    update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_path}
-    cd ${git_path}/demjson
-    ${PYTHON} setup.py install --prefix ${HOME}/usr
-}
+# demjson()
+# {
+#     update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_path}
+#     cd ${git_path}/demjson
+#     ${PYTHON} setup.py install --prefix ${HOME}/usr
+# }
 
 goget()
 {
