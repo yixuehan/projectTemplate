@@ -6,7 +6,7 @@
 #    exit 1
 #fi
 
-source syncgit.sh
+source sync_git.sh
 
 if [ -e '/etc/centos-release' ]
 then
@@ -113,12 +113,13 @@ cmake()
 
 
 #设置mak、shell路径`
-download_path=${shellpath}/.git_download
+git_path=${shellpath}/.git_download
+download_path=${shellpath}/download_tmp
 
-if [ ! -d $download_path ]
+if [ ! -d $git_path ]
 then
-    echo mkdir $download_path
-    mkdir $download_path
+    echo mkdir $git_path
+    mkdir $git_path
 fi
 
 # 编译boost
@@ -131,8 +132,8 @@ boost()
 # 编译grpc
 grpc()
 {
-    update_module https://github.com/grpc/grpc.git grpc ${download_path}
-    cd ${download_path}/grpc
+    old_path=$(pwd)
+    update_module v1.23.0 https://github.com/grpc/grpc.git grpc ${git_path}
 
     echo 编译grpc...
     case $MKOSTYPE in
@@ -140,21 +141,21 @@ grpc()
         centos) ${SUDO} yum install -y build-essential autoconf libtool pkg-config \
                 libgflags-dev libgtest-dev libc++-dev ;;
     esac
-    oldpath=$(pwd)
-    cd $download_path/grpc/third_party/protobuf
+    cd ${git_path}/grpc/third_party/protobuf
     ./autogen.sh
     ./configure --prefix=${HOME}/usr
     make && make install
-    cd $oldpath
+    cd ${git_path}/grpc
     make && make install prefix=${HOME}/usr
+    cd ${old_path}
 }
 
 # 编译json
 json()
 {
     echo 编译json...
-    update_module https://github.com/nlohmann/json.git json ${download_path}
-    cd ${download_path}/json
+    update_module v3.7.0 https://github.com/nlohmann/json.git json ${git_path}
+    cd ${git_path}/json
     rm -rf build
     mkdir build
     cd build
@@ -164,8 +165,8 @@ json()
 
 gtest()
 {
-    update_module https://github.com/google/googletest.git googletest ${download_path}
-    cd ${download_path}/googletest
+    update_module release-1.8.1 https://github.com/google/googletest.git googletest ${git_path}
+    cd ${git_path}/googletest
     rm -rf build
     mkdir build
     cd build
@@ -177,8 +178,8 @@ gtest()
 
 demjson()
 {
-    update_module https://github.com/dmeranda/demjson.git demjson ${download_path}
-    cd ${download_path}/demjson
+    update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_path}
+    cd ${git_path}/demjson
     ${PYTHON} setup.py install --prefix ${HOME}/usr
 }
 
