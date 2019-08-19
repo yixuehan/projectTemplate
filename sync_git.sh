@@ -1,7 +1,7 @@
 #!/bin/bash
 exec()
 {
-    echo ${cmd}
+    echo ${1}
     $1
 }
 update_module()
@@ -21,7 +21,8 @@ update_module()
 
     if [ -d $dir ]
     then
-        exec "git pull"
+        cd ${dir}
+        # exec "git pull"
         exec "git submodule update --init --recursive"
     else
         exec "git clone -b ${tag} ${repo} ${dir}"

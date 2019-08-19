@@ -52,13 +52,14 @@ case $MKOSTYPE in
 esac
 
 
+software cmake
 
 env_install()
 {
     case $MKOSTYPE in
         ubuntu) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
-    	    ${SUDO} apt install -y cmake ccache git wget vim docker.io python3-dev cmake build-essential ctags golang g++ libssl-dev python3-pip \
+    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags golang g++ libssl-dev python3-pip \
                                    python3-tk
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
@@ -106,10 +107,6 @@ env_install()
 
 }
 
-cmake()
-{
-	software cmake
-}
 
 
 #设置mak、shell路径`
@@ -159,6 +156,7 @@ json()
     rm -rf build
     mkdir build
     cd build
+    echo $(pwd)
     cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
     make install
 }
