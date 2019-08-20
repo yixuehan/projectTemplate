@@ -59,11 +59,10 @@ env_install()
     case $MKOSTYPE in
         ubuntu) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
-    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags golang g++ libssl-dev python3-pip \
+    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip \
                                    python3-tk
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
-            bash go.sh
                 ;;
         centos) 
     	    ${SUDO} yum install -y centos-release-scl 
@@ -73,12 +72,6 @@ env_install()
                 ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
                 ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
                 git bzip2 openssl-devel ncurses-devel \
-                # golang
-                which go 2>/dev/null
-                if [ $? != 0 ]
-                then
-                    bash go.sh
-                fi
                 # which docker 2>/dev/null
                 # if [ $? != 0 ]
                 # then
@@ -95,6 +88,7 @@ env_install()
                 ;;
     esac
     
+    bash go.sh
     git config --global credential.helper store
     
     echo ${SUDO}
@@ -102,9 +96,8 @@ env_install()
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		docker-compose  \
-    		-i https://pypi.tuna.tsinghua.edu.cn/simple
-
+		        docker-compose  \
+    		    -i https://pypi.tuna.tsinghua.edu.cn/simple
 }
 
 
@@ -145,6 +138,7 @@ grpc()
     cd ${git_path}/grpc
     make && make install prefix=${HOME}/usr
     cd ${old_path}
+    go get github.com/golang/protobuf/protoc-gen-go
 }
 
 # 编译json

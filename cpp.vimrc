@@ -15,7 +15,7 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'nvie/vim-flake8'
 
 Plugin 'dgryski/vim-godef'                       
-"Plugin 'Blackrush/vim-gocode'                   
+Plugin 'Blackrush/vim-gocode'                   
 Plugin 'nsf/gocode', {'rtp': 'vim/'}             
 Plugin 'fatih/vim-go',{ 'do': ':GoUpdateBinaries' }
 Plugin 'scrooloose/syntastic'                    
