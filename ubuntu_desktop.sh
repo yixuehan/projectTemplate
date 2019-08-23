@@ -8,3 +8,6 @@ sudo apt install google-chrome-stable
 
 # gnome
 sudo apt install gnome
+
+sudo apt install openvpn network-manager-openvpn network-manager-openvpn-gnome
+
