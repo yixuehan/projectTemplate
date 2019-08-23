@@ -52,8 +52,6 @@ case $MKOSTYPE in
 esac
 
 
-software cmake
-
 env_install()
 {
     case $MKOSTYPE in
@@ -244,6 +242,8 @@ for library in $* ; do
     cd ${shellpath}
     eval "${library}"
 done
+
+software cmake
 
 echo 在.bashrc中增加:
 echo ". ${shellpath}/env/env.sh"
