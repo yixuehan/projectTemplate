@@ -24,11 +24,12 @@ then
         rm -f go${version}.linux-amd64.tar.gz
         exit 1
     fi
-fi
-
-if [ ! -d go ]
-then
+    if [ -d go ]
+    then
+        rm -rf go
+    fi
     tar -xf go${version}.linux-amd64.tar.gz
+
 fi
 
 if [ $MKOSTYPE == 'centos' ]

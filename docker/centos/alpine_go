@@ -1,0 +1,16 @@
+FROM alpine
+
+# COPY download_tmp/go /usr/lib/golang
+# CMD ln -s /usr/lib/golang/bin/go /bin/go
+
+# ENV PATH=${PATH}:/golang/bin
+ENV GOPATH=/go
+
+# RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && apk --update add --no-cache git
+# COPY download_tmp/go /golang
+#
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+    && apk --update add --no-cache go git

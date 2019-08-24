@@ -14,7 +14,7 @@
 /docker/centos/json
 /docker/centos/mysql
 /docker/centos/boost
-/download_tmp
+**/download_tmp
 **/__pycache__
 **/go.mod
 **/go.sum
