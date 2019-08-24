@@ -7,7 +7,7 @@
 **/*tar.gz
 **/*tar.bz2
 **/boost_*
-/.git_download
+/git_tmp
 /docker/centos/build_base
 /docker/centos/build_cmake
 /docker/centos/build_dev
@@ -15,3 +15,6 @@
 /docker/centos/mysql
 /docker/centos/boost
 /download_tmp
+**/__pycache__
+**/go.mod
+**/go.sum

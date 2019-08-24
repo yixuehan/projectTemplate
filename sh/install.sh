@@ -6,6 +6,26 @@
 #    exit 1
 #fi
 
+shellpath=$(dirname $(realpath $0))
+rootpath=$(realpath ${shellpath}/..)
+#设置mak、shell路径`
+git_path=${rootpath}/git_tmp
+download_path=${rootpath}/download_tmp
+
+if [ ! -d $git_path ]
+then
+    echo mkdir $git_path
+    mkdir $git_path
+fi
+
+if [ ! -d $download_path ]
+then
+    echo mkdir $download_path
+    mkdir $download_path
+fi
+
+cd $shellpath
+
 source sync_git.sh
 
 if [ -e '/etc/centos-release' ]
@@ -15,7 +35,6 @@ else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
 
-shellpath=${PWD}
 
 software()
 {
@@ -34,21 +53,21 @@ software()
 
 case $MKOSTYPE in
 	ubuntu)
-            SUDO="sudo -H"
-    	    RHSUDO=${SUDO}
-    	    PIP3=pip3
-	    PYTHON=python3
-	    ;;
-        centos) 
-    	    SUDO="/bin/sudo -H"
-    	    PIP3=$(which pip3)
-    	    RHSUDO="sudo"
-            PYTHON=python36
-	    ;;
-	*)
-	    echo unknown os type [$MKOSTYPE]
-	    exit 1
-	    ;;
+        SUDO="sudo -H"
+	    RHSUDO=${SUDO}
+	    PIP3=pip3
+        PYTHON=python3
+    ;;
+    centos) 
+	    SUDO="/bin/sudo -H"
+	    PIP3=$(which pip3)
+	    RHSUDO="sudo"
+        PYTHON=python36
+    ;;
+    *)
+        echo unknown os type [$MKOSTYPE]
+        exit 1
+    ;;
 esac
 
 
@@ -99,16 +118,6 @@ env_install()
 }
 
 
-
-#设置mak、shell路径`
-git_path=${shellpath}/.git_download
-download_path=${shellpath}/download_tmp
-
-if [ ! -d $git_path ]
-then
-    echo mkdir $git_path
-    mkdir $git_path
-fi
 
 # 编译boost
 boost()
@@ -162,8 +171,6 @@ gtest()
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
     make install
-    # cp lib/* ${HOME}/usr/lib
-    # cp -R ../googletest/include/gtest ${HOME}/usr/include
 }
 
 # demjson()
@@ -238,7 +245,6 @@ vimdev()
 
 echo $*
 for library in $* ; do
-    echo $library
     cd ${shellpath}
     eval "${library}"
 done
@@ -246,4 +252,4 @@ done
 software cmake
 
 echo 在.bashrc中增加:
-echo ". ${shellpath}/env/env.sh"
+echo ". ${rootpath}/env/env.sh"

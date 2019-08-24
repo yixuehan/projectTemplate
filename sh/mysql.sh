@@ -16,6 +16,7 @@ then
     exit 1
 fi
 version=3.2.4
+cd ../download_tmp
 if [ ! -f mysql++-${version}.tar.gz ]
 then
     wget https://tangentsoft.com/mysqlpp/releases/mysql++-${version}.tar.gz
