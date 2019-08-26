@@ -58,12 +58,32 @@ function scons()
     python3 $(which scons)
 }
 
+
+function stopdocker()
+{
+    containers=$(docker ps -a | awk "NR > 1")
+    if [ "${containers}x" != "x" ]
+    then
+        docker ps -a | cut -d' ' -f1 | xargs docker stop
+    fi
+}
+
+function rmdocker()
+{
+    containers=$(docker ps -a | awk "NR > 1")
+    if [ "${containers}x" != "x" ]
+    then
+        docker ps -a | cut -d' ' -f1 | xargs docker rm
+    fi
+}
+
 function cleandocker()
 {
     case $# in
     0)
         images=$(docker images | grep "<none>" | awk '{print $3}')
-        if [ ${images}x == "x" ]
+        echo $images
+        if [ "${images}x" == "x" ]
         then
             echo "nothing to do"
             return 0
@@ -72,6 +92,7 @@ function cleandocker()
         ;;
     *)
         # shift
+        echo case *
         for arg in $*
         do
             docker rmi $(docker images|grep ${arg}|awk '{printf "%s:%s\n", $1,$2}')
