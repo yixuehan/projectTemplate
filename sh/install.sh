@@ -197,11 +197,12 @@ goget()
 
 updatevim()
 {
-    cd download_tmp
-	rm -rf vim-master master.zip
-	wget https://github.com/vim/vim/archive/master.zip
-	unzip master.zip
-	cd vim-master
+    cd ${download_tmp}
+    version=8.1.1931
+	rm -rf vim-v${version} vim.zip
+	wget https://github.com/vim/vim/archive/v${version}.zip -Ovim.zip
+	unzip vim.zip
+	cd vim-v${version}
 	cd src/
 	./configure --with-features=huge \
     --enable-pythoninterp \
