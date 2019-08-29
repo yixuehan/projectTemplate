@@ -130,12 +130,14 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    # update_module v1.23.0 https://github.com/grpc/grpc.git grpc ${git_path}
-    version=1.23.0
-    grpc_root=grpc-${version}
-    download ${download_path} https://github.com/grpc/grpc/archive/v${version}.zip grpc.zip
-    cd ${download_path}/${grpc_root}
-    git submodule update --init --recursive
+    update_module v1.23.0 https://github.com/grpc/grpc.git grpc ${git_path}
+    # version=1.23.0
+    # grpc_root=grpc-${version}
+    # download ${download_path} https://github.com/grpc/grpc/archive/v${version}.zip grpc.zip
+    # cd ${download_path}/${grpc_root}
+    # git submodule update --init --recursive
+
+    grpc_root=${git_path}/grpc
 
     echo 编译grpc...
     case $MKOSTYPE in
