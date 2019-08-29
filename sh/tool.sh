@@ -32,3 +32,30 @@ update_module()
     # git clone -b v1.23.0 https://github.com/grpc/grpc.git grpc
     cd ${old_path}
 }
+
+download()
+{
+    old_path=$(pwd)
+    download_path=$1
+    cd ${download_path}
+    url=$2
+    if [ $# -eq 3 ]
+    then
+        target=$3
+    else
+        target=$(basename ${url})
+    fi
+
+    if [ ! -f ${target} ]
+    then
+        wget ${url} -O${target}
+        ret=$?
+        if [ ${ret} -eq 0 ]
+        then
+            unzip ${target}
+        else
+            exit ${ret}
+        fi
+    fi
+    cd ${old_path}
+}

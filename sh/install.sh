@@ -26,7 +26,7 @@ fi
 
 cd $shellpath
 
-source sync_git.sh
+source tool.sh
 
 if [ -e '/etc/centos-release' ]
 then
@@ -130,7 +130,12 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    update_module v1.23.0 https://github.com/grpc/grpc.git grpc ${git_path}
+    # update_module v1.23.0 https://github.com/grpc/grpc.git grpc ${git_path}
+    version=1.23.0
+    grpc_root=grpc-${version}
+    download ${download_path} https://github.com/grpc/grpc/archive/v${version}.zip grpc.zip
+    cd ${download_path}/${grpc_root}
+    git submodule update --init --recursive
 
     echo 编译grpc...
     case $MKOSTYPE in
@@ -138,14 +143,14 @@ grpc()
         centos) ${SUDO} yum install -y build-essential autoconf libtool pkg-config \
                 libgflags-dev libgtest-dev libc++-dev ;;
     esac
-    cd ${git_path}/grpc/third_party/protobuf
+    cd ${grpc_root}/third_party/protobuf
     ./autogen.sh
     ./configure --prefix=${HOME}/usr
     make && make install
-    cd ${git_path}/grpc
+    cd ${grpc_root}
     make && make install prefix=${HOME}/usr
-    cd ${old_path}
     go get github.com/golang/protobuf/protoc-gen-go
+    cd ${old_path}
 }
 
 # 编译json
@@ -197,16 +202,10 @@ goget()
 
 updatevim()
 {
-    cd ${download_tmp}
     version=8.1.1931
-	rm -rf vim-v${version} vim.zip
-	wget https://github.com/vim/vim/archive/v${version}.zip -Ovim.zip
-	unzip vim.zip
-	cd vim-v${version}
-	cd src/
-	./configure --with-features=huge \
-    --enable-pythoninterp \
-    --enable-python3interp
+    download ${download_path} https://github.com/vim/vim/archive/v${version}.zip vim.zip
+    cd ${download_path}/vim-${version}/src
+	./configure --with-features=huge --enable-pythoninterp --enable-python3interp
     make
 	${SUDO} make install
     if [ $? != 0 ]
