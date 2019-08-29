@@ -65,17 +65,17 @@ function stopdocker()
     # echo ${containers}
     if [ "${containers}x" != "x" ]
     then
-        echo ${containers} | xargs docker stop
+        echo ${containers} | docker stop
     fi
 }
 
 function rmdocker()
 {
     containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
-    echo ${containers}
+    # echo ${containers}
     if [ "${containers}x" != "x" ]
     then
-        echo ${containers} | xargs docker rm
+        echo ${containers} | docker rm
     fi
 }
 
@@ -84,7 +84,6 @@ function cleandockeri()
     case $# in
     0)
         images=$(docker images | grep "<none>" | awk '{print $3}')
-        echo $images
         if [ "${images}x" == "x" ]
         then
             echo "nothing to do"
@@ -94,7 +93,6 @@ function cleandockeri()
         ;;
     *)
         # shift
-        echo case *
         for arg in $*
         do
             docker rmi $(docker images|grep ${arg}|awk '{printf "%s:%s\n", $1,$2}')
