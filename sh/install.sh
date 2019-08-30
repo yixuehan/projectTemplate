@@ -219,22 +219,23 @@ updatevim()
 
 vimdev()
 {
+    vimdir=${rootpath}/vimrc
     cd ${shellpath}
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
         git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim --depth 1
     fi
     if [ -f ~/.vimrc ]
-    then 
+    then
         mv ~/.vimrc ~/.vimrc.bak
     fi
-    ln -s ${PWD}/cpp.vimrc ~/.vimrc -f
-    ln -s ${PWD}/base.vimrc ~/.base.vimrc -f
+    ln -s ${vimdir}/cpp.vimrc ~/.vimrc -f
+    ln -s ${vimdir}/base.vimrc ~/.base.vimrc -f
     # go get
     goget
 
-    vim -u ${PWD}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
-    # vim -u ${PWD}/cpp.vimrc +PluginInstall! +qall
+    vim -u ${vimdir}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
+    # vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
     git submodule update --init --recursive
