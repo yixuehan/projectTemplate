@@ -49,7 +49,7 @@ def gen_lower_camel(name):
 def gen_underline_name(name):
     res = name[0].lower()
     for c in name[1:]:
-        if c.upper() == c:
+        if c.upper() == c and c.isalpha():
             res = res + '_' + c.lower()
         else:
             res = res + c
