@@ -20,6 +20,6 @@ RUN  yum install -y centos-release-scl \
   && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache git bzip2 \
   && yum clean all \
   && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
-  && pip3 install wget lxml requests scons -i https://pypi.tuna.tsinghua.edu.cn/simple \
+  && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
   && ccache --max-size=10G >/dev/null
 

@@ -15,10 +15,10 @@ tag_go=go
 # download_path=/home/ubuntu/projectTemplate/.git_download
 
 
-build_base:Dockerfile
-	docker build -t ${registry}/${image}:${tag_base} .
+build_dev_base:Dockerfile_dev_base
+	docker build -t ${registry}/${image}:${tag_base} -f Dockerfile_dev_base .
 	docker push ${registry}/${image}:${tag_base}
-	touch build_base
+	touch build_dev_base
 
 build_release_base:Dockerfile_release_base
 	docker build -t ${registry}/${image}:${tag_release_base} -f Dockerfile_release_base .
@@ -30,18 +30,19 @@ build_go:Dockerfile_go
 	docker push ${registry}/${image}:${tag_go}
 	touch build_go
 
-dev:
+build_dev:main.cpp
 	docker run --rm -v ${cwd}:/opt/dev -w /opt/dev ${registry}/${image}:${tag_base} g++ main.cpp -std=c++1z
+	touch build_dev
 
-boost:${git_dir}/boost.py build_base
+build_boost:${git_dir}/boost.py build_base
 	docker run --rm -v ${git_dir}:/src/boost \
 		            -v ${cwd}/boost_install:/root/usr \
 					-w /src/boost \
 		    		${registry}/${image}:${tag_base} \
 					python3 ./boost.py
-	touch boost
+	touch build_boost
 
-mysql:${cwd}/mysql.sh build_base
+build_mysql:${cwd}/mysql.sh build_base
 	docker run --rm -v ${cwd}:/src/mysql \
 		            -v ${cwd}/mysql.sh:/src/mysql/mysql_install.sh \
 		         	-v ${cwd}/mysql_install:/install/mysql \
@@ -49,7 +50,7 @@ mysql:${cwd}/mysql.sh build_base
 					${registry}/${image}:${tag_base} \
 					./mysql_install.sh
 	rm -f mysql_install.sh
-	touch mysql
+	touch build_mysql
 
 
 build_cmake:Dockerfile_cmake build_base
@@ -72,9 +73,9 @@ build_dev:boost json mysql Dockerfile_dev
 build_release:Dockerfile_release Dockerfile_release_base
 	docker build -t ${registry}/${image}:${tag_release} -f Dockerfile_release .
 	docker push ${registry}/${image}:${tag_release}
-	build_release
+	touch build_release
 
-json:${cwd}/json.sh build_cmake
+build_json:${cwd}/json.sh build_cmake
 	docker run --rm -v ${download_path}/json:/src/json \
 		            -v ${cwd}/json.sh:/src/json/json_install.sh \
 					-v ${cwd}/json_install:/install/json \
@@ -82,4 +83,4 @@ json:${cwd}/json.sh build_cmake
 		    		${registry}/${image}:${tag_cmake} \
 					./json_install.sh
 	rm -f json_install.sh
-	touch json
+	touch build_json
