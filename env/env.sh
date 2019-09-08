@@ -59,27 +59,27 @@ function scons()
 }
 
 
-function stopdocker()
+function stop_docker()
 {
     containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
-    # echo ${containers}
+    echo ${containers}
     if [ "${containers}x" != "x" ]
     then
-        echo ${containers} | docker stop
+        echo ${containers} | xargs docker stop
     fi
 }
 
-function rmdocker()
+function rm_docker()
 {
     containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
-    # echo ${containers}
+    echo ${containers}
     if [ "${containers}x" != "x" ]
     then
-        echo ${containers} | docker rm
+        echo ${containers} | xargs docker rm
     fi
 }
 
-function cleandockeri()
+function clean_dockeri()
 {
     case $# in
     0)

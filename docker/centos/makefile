@@ -2,11 +2,11 @@
 #source ../../syncgit.sh
 registry=w505703394
 image=centos
-tag_base=base
+tag_dev_base=dev_base
 tag_dev=dev
 tag_cmake=cmake
-tag_release=release
 tag_release_base=release_base
+tag_release=release
 tag_go=go
 
 # set -o errexit
@@ -16,8 +16,8 @@ tag_go=go
 
 
 build_dev_base:Dockerfile_dev_base
-	docker build -t ${registry}/${image}:${tag_base} -f Dockerfile_dev_base .
-	docker push ${registry}/${image}:${tag_base}
+	docker build -t ${registry}/${image}:${tag_dev_base} -f Dockerfile_dev_base .
+	docker push ${registry}/${image}:${tag_dev_base}
 	touch build_dev_base
 
 build_release_base:Dockerfile_release_base
@@ -30,9 +30,9 @@ build_go:Dockerfile_go
 	docker push ${registry}/${image}:${tag_go}
 	touch build_go
 
-build_dev:main.cpp
+build_test:main.cpp
 	docker run --rm -v ${cwd}:/opt/dev -w /opt/dev ${registry}/${image}:${tag_base} g++ main.cpp -std=c++1z
-	touch build_dev
+	touch build_test
 
 build_boost:${git_dir}/boost.py build_base
 	docker run --rm -v ${git_dir}:/src/boost \

@@ -13,13 +13,14 @@ ENV CCACHE_DIR=/tmp/ccache \
     LANG="en_US.UTF-8" \
     MKOSTYPE=centos
 
-RUN  yum install -y centos-release-scl \
-  && yum install -y devtoolset-7 \
-  && yum install -y epel-release \
-  && yum update -y \
-  && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache git bzip2 \
-  && yum clean all \
-  && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
-  && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
-  && ccache --max-size=10G >/dev/null
+# RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo \
+RUN curl -o /etc/yum.repos.d/CentOS7-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo \
+    && yum clean all \
+    && yum install -y centos-release-scl devtoolset-7 epel-release \
+    && yum update -y \
+    && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache git bzip2 \
+    && yum clean all \
+    && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && ccache --max-size=10G >/dev/null
 

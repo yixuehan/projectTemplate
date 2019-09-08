@@ -238,6 +238,7 @@ vimdev()
     # vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
+    git submodule sync --recursive
     git submodule update --init --recursive
     ${PYTHON} install.py --clang-completer --go-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
