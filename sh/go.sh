@@ -6,7 +6,7 @@ then
     return 1
 fi
 
-version=1.12.7
+version=1.13
 
 go version | grep ${version}
 if [ $? -eq 0 ]
