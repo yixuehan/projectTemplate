@@ -9,7 +9,9 @@ fi
 version=1.13
 
 go version | grep ${version}
-if [ $? -eq 0 ]
+ret=$?
+echo ${ret}
+if [ ${ret} -eq 0 ]
 then
     exit 0
 fi
@@ -28,13 +30,13 @@ then
     then
         rm -rf go
     fi
-    tar -xf go${version}.linux-amd64.tar.gz
-
 fi
+
+tar -xf go${version}.linux-amd64.tar.gz
 
 if [ $MKOSTYPE == 'centos' ]
 then
-    sudo mv /usr/lib/golang /usr/lib/golang.bak
+    sudo rm /usr/lib/golang || true
     sudo mv go /usr/lib/golang
 elif [ $MKOSTYPE == 'ubuntu' ]
 then
