@@ -1,6 +1,17 @@
 FROM centos
 #FROM w505703394/centos:base
 
+RUN curl -o /etc/yum.repos.d/CentOS7-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo \
+    && yum clean all \
+    && yum install -y centos-release-scl devtoolset-7 epel-release \
+    && yum update -y \
+    && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache git bzip2 kde-l10n-Chinese reinstall glibc-common \
+    && yum clean all \
+    && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && ccache --max-size=10G >/dev/null \
+    && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+
 ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \
     CCACHE_UMASK=0 \
@@ -10,17 +21,8 @@ ENV CCACHE_DIR=/tmp/ccache \
     C_INCLUDE_PATH=/opt/rh/rh-python36/root/usr/include/python3.6m:${C_INCLUDE_PATH} \
     CPLUS_INCLUDE_PATH=/opt/rh/rh-python36/root/usr/include/python3.6m:${CPLUS_INCLUDE_PATH} \
     PKG_CONFIG_PATH=/opt/rh/rh-python36/root/usr/lib64/pkgconfig:${PKG_CONFIG_PATH} \
-    LANG="en_US.UTF-8" \
+    LANG=zh_CN.UTF-8 \
+    LANGUAGE=zh_CN:zh \
+    LC_ALL=zh_CN.UTF-8 \
     MKOSTYPE=centos
-
-# RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo \
-RUN curl -o /etc/yum.repos.d/CentOS7-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo \
-    && yum clean all \
-    && yum install -y centos-release-scl devtoolset-7 epel-release \
-    && yum update -y \
-    && yum install -y make mysql-devel wget rh-python36 python36-devel which ccache git bzip2 \
-    && yum clean all \
-    && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
-    && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
-    && ccache --max-size=10G >/dev/null
 
