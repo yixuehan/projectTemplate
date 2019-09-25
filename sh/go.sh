@@ -37,7 +37,7 @@ tar -xf go${version}.linux-amd64.tar.gz
 
 if [ $MKOSTYPE == 'centos' ]
 then
-    sudo rm /usr/lib/golang || true
+    sudo rm -rf /usr/lib/golang || true
     sudo mv go /usr/lib/golang
 elif [ $MKOSTYPE == 'ubuntu' ]
 then
