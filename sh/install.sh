@@ -11,6 +11,8 @@ rootpath=$(realpath ${shellpath}/..)
 #设置mak、shell路径`
 git_path=${rootpath}/git_tmp
 download_path=${rootpath}/download_tmp
+cd ${shellpath}
+source tool.sh
 
 if [ ! -d $git_path ]
 then
@@ -24,9 +26,6 @@ then
     mkdir $download_path
 fi
 
-cd $shellpath
-
-source tool.sh
 
 if [ -e '/etc/centos-release' ]
 then
@@ -158,15 +157,16 @@ grpc()
 # 编译json
 json()
 {
-    echo 编译json...
-    update_module v3.7.0 https://github.com/nlohmann/json.git json ${git_path}
-    cd ${git_path}/json
-    rm -rf build
-    mkdir build
-    cd build
-    echo $(pwd)
-    cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
-    make install
+    ./json.sh
+    # echo 编译json...
+    # update_module v3.7.0 https://github.com/nlohmann/json.git json ${git_path}
+    # cd ${git_path}/json
+    # rm -rf build
+    # mkdir build
+    # cd build
+    # echo $(pwd)
+    # cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
+    # make install
 }
 
 gtest()

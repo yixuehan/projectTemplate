@@ -14,8 +14,7 @@ url = 'https://www.boost.org/'
 findpath = '//div[@id="downloads"]/ul/li/div[@class="news-title"]/a/@href'
 downloadfilefind = '//table[@class="download-table"]//tr[2]/td/a/@href'
 downloadhashfind = '//table[@class="download-table"]//tr[2]/td[2]/text()'
-installdir = '${HOME}/usr'
-downloaddir = 'download_tmp'
+downloaddir = os.path.join("..", 'download_tmp')
 
 
 def get_filepath(tree):
@@ -91,39 +90,50 @@ def compile_install_boost(filename):
 
             print("解压...", filename)
             cmd = 'tar -jxf ' + filename
-            assert 0 == os.system(cmd)
+            r = os.popen(cmd)
+            print(r.read())
+            # assert 0 == os.system(cmd)
             cmd = 'mv %s %s' % (dirname, linux_dirname)
             print("改名：", cmd)
-            assert 0 == os.system(cmd)
+            r = os.popen(cmd)
+            print(r.read())
+            # assert 0 == os.system(cmd)
 
         os.chdir(linux_dirname)
 
         cmd = 'rm -f project-config.jam*'
-        os.system(cmd)
+        r = os.popen(cmd)
+        print(r.read())
+        # os.system(cmd)
 
         home = os.environ['HOME']
 
         print("home:[%s] dirname:[%s]" % (home, dirname))
         assert home
         assert dirname
+        boost_dir = os.path.join(os.environ['HOME'], 'usr', 'boost')
+        install_dir = os.path.join(boost_dir, dirname)
 
-        cmd = './bootstrap.sh --libdir=%(HOME)s/usr/%(boost)s/lib --includedir=%(HOME)s/usr/%(boost)s/include'
-        cmd = cmd % {'HOME': home,
-                     'boost': dirname}
+        cmd = './bootstrap.sh --libdir=%(install_dir)s/lib --includedir=%(install_dir)s/include'
+        cmd = cmd % {'install_dir': install_dir}
 
         print(cmd)
-        assert os.system(cmd) == 0
+        r = os.popen(cmd)
+        print(r.read())
+        # os.system(cmd)
 
-        cmd = './bjam cxxflags="-std=c++1z" variant=release install'
+        cmd = './b2 cxxflags="-std=c++1z" variant=release install'
         print(cmd)
-        os.system(cmd)
+        r = os.popen(cmd)
+        print(r.read())
+        # os.system(cmd)
 
         # 建立软链接
-        link_include = '%s/usr/include/boost' % (home)
+        link_include = '%s/include' % (boost_dir)
         if os.path.exists(link_include):
             os.remove(link_include)
 
-        link_lib = '%s/usr/lib/boost' % (home)
+        link_lib = '%s/lib' % (boost_dir)
         if os.path.exists(link_lib):
             os.remove(link_lib)
 
@@ -132,8 +142,8 @@ def compile_install_boost(filename):
             if not os.path.exists(dir_name):
                 os.makedirs(dir_name)
 
-        os.symlink("%s/usr/%s/include/boost" % (home, dirname), link_include)
-        os.symlink("%s/usr/%s/lib" % (home, dirname), link_lib)
+        os.symlink("%s/include" % (install_dir), link_include)
+        os.symlink("%s/lib" % (install_dir), link_lib)
     else:
         print("不支持的系统...", os_type)
         assert False

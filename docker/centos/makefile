@@ -8,11 +8,13 @@ tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
 tag_go=go
+docker_install_dir=/root/usr
+uid=$(shell id -u)
+# uid=0
 
 # set -o errexit
-# cwd=/home/ubuntu/projectTemplate/docker/centos
-# git_dir=/home/ubuntu/projectTemplate
-# download_path=/home/ubuntu/projectTemplate/.git_download
+cwd=/home/ubuntu/projectTemplate/docker/centos
+git_dir=${HOME}/projectTemplate
 
 
 build_dev_base:Dockerfile_dev_base
@@ -34,53 +36,58 @@ build_test:main.cpp
 	docker run --rm -v ${cwd}:/opt/dev -w /opt/dev ${registry}/${image}:${tag_base} g++ main.cpp -std=c++1z
 	touch build_test
 
-build_boost:${git_dir}/boost.py build_base
-	docker run --rm -v ${git_dir}:/src/boost \
-		            -v ${cwd}/boost_install:/root/usr \
-					-w /src/boost \
-		    		${registry}/${image}:${tag_base} \
+build_boost:${git_dir}/sh/boost.py build_dev_base
+	rm -rf boost_install
+	docker run --rm -u${uid}:${uid} \
+					-v ${git_dir}:/src \
+		            -v ${cwd}/boost_install:${docker_install_dir} \
+					-w /src/sh \
+		    		${registry}/${image}:${tag_dev_base} \
 					python3 ./boost.py
 	touch build_boost
 
-build_mysql:${cwd}/mysql.sh build_base
-	docker run --rm -v ${cwd}:/src/mysql \
-		            -v ${cwd}/mysql.sh:/src/mysql/mysql_install.sh \
-		         	-v ${cwd}/mysql_install:/install/mysql \
-					-w /src/mysql \
-					${registry}/${image}:${tag_base} \
-					./mysql_install.sh
-	rm -f mysql_install.sh
+build_mysql:${git_dir}/sh/mysql.sh build_dev_base
+	rm -rf mysql_install
+	mkdir mysql_install
+	docker run --rm -u${uid}:${uid} \
+					-v ${git_dir}:/src \
+		         	-v ${cwd}/mysql_install:${docker_install_dir} \
+					-w /src/sh \
+					${registry}/${image}:${tag_dev_base} \
+					./mysql.sh
 	touch build_mysql
 
 
-build_cmake:Dockerfile_cmake build_base
-	docker run --rm -v ${cwd}:/src/cmake \
-		            -v ${cwd}/cmake.sh:/src/cmake/cmake_install.sh \
-		            -v ${cwd}/cmake_install:/install/cmake \
-					-w /src/cmake \
-					${registry}/${image}:${tag_base} \
-					./cmake_install.sh
-	rm -f cmake_install.sh
+build_cmake:${git_dir}/sh/cmake.sh Dockerfile_cmake build_dev_base
+	rm -rf cmake_install
+	mkdir cmake_install
+	docker run --rm -u${uid}:${uid} \
+					-v ${git_dir}:/src \
+		            -v ${cwd}/cmake_install:${docker_install_dir} \
+					-w /src/sh \
+					${registry}/${image}:${tag_dev_base} \
+					./cmake.sh
 	docker build -t ${registry}/${image}:${tag_cmake} -f Dockerfile_cmake .
 	docker push ${registry}/${image}:${tag_cmake}
 	touch build_cmake
 
-build_dev:boost json mysql Dockerfile_dev
+build_dev:build_boost build_json build_mysql Dockerfile_dev
 	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
 	docker push ${registry}/${image}:${tag_dev}
 	touch build_dev
 
-build_release:Dockerfile_release Dockerfile_release_base
+build_release:build_release_base Dockerfile_release
 	docker build -t ${registry}/${image}:${tag_release} -f Dockerfile_release .
 	docker push ${registry}/${image}:${tag_release}
 	touch build_release
 
-build_json:${cwd}/json.sh build_cmake
-	docker run --rm -v ${download_path}/json:/src/json \
-		            -v ${cwd}/json.sh:/src/json/json_install.sh \
-					-v ${cwd}/json_install:/install/json \
-					-w /src/json \
+build_json:${git_dir}/sh/json.sh build_cmake
+	rm -rf json_install
+	mkdir json_install
+	docker run --rm -u${uid}:${uid} \
+					-v ${git_dir}:/src \
+					-w /src/sh \
+		            -v ${cwd}/json_install:${docker_install_dir} \
 		    		${registry}/${image}:${tag_cmake} \
-					./json_install.sh
-	rm -f json_install.sh
+					./json.sh
 	touch build_json

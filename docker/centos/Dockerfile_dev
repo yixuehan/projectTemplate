@@ -1,13 +1,12 @@
-FROM w505703394/centos:base
+FROM w505703394/centos:dev_base
 
-COPY boost_install /opt/boost
+COPY boost_install/* /root/usr/boost
 
-COPY mysql_install /opt/mysql
+COPY mysql_install/* /root/usr/mysql
 
-COPY json_install /opt/json
+COPY json_install/* /root/usr/json
 
-ENV PATH=/opt/scons/bin:$PATH \
-    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:/root/usr/include:/opt/boost/include:/opt/mysql/include:/opt/json/include \
-    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/usr/lib:/opt/mysql/lib:/opt/boost/lib \
+ENV CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:/root/usr/boost/include:/root/usr/mysql/include:/root/usr/json/include \
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/usr/boost/lib:/root/usr/mysql/lib \
     LIBRARY_PATH=$LD_LIBRARY_PATH
 

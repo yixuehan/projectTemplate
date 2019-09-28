@@ -1,4 +1,5 @@
 #!/bin/bash
+version=3.14.1
 version=3.13.4
 cd ../download_tmp
 if [ ! -f "cmake-${version}.tar.gz" ]
@@ -8,12 +9,14 @@ then
 fi
 cd cmake-${version}
 
+install_dir=${HOME}/usr/cmake
+
 case $MKOSTYPE in
     ubuntu)
-        ./configure --prefix=${HOME}/usr && make install
+        ./configure --prefix=${install_dir} && make install
         ;;
-    centos)
-        ./configure --prefix=${HOME}/usr && gmake && make install
+    centos|docker_centos)
+        ./configure --prefix=${install_dir} && gmake && make install
         ;;
     *)
         echo unknown sys
