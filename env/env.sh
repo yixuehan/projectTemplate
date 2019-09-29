@@ -33,9 +33,9 @@ export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface
 export PS1='[\u@\h \W]\$ '
 
 export MKHOME=${repo}/mak
-# export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages:${repo}/util/python:${HOME}/gencode
 # export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages:${HOME}/gencode
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
+export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
 
 export NUM_CPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
 

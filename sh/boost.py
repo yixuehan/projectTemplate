@@ -15,6 +15,7 @@ findpath = '//div[@id="downloads"]/ul/li/div[@class="news-title"]/a/@href'
 downloadfilefind = '//table[@class="download-table"]//tr[2]/td/a/@href'
 downloadhashfind = '//table[@class="download-table"]//tr[2]/td[2]/text()'
 downloaddir = os.path.join("..", 'download_tmp')
+boost_install_dir = ""
 
 
 def get_filepath(tree):
@@ -76,7 +77,6 @@ def download_file(tree, filename):
 
 def compile_install_boost(filename):
     # 解压
-    # dec = bz2.BZ2Decompressor()
     dirname = filename.split('.')[0]
     os_type = platform.system()
     linux_type = os.environ['MKOSTYPE']
@@ -111,7 +111,7 @@ def compile_install_boost(filename):
         print("home:[%s] dirname:[%s]" % (home, dirname))
         assert home
         assert dirname
-        boost_dir = os.path.join(os.environ['HOME'], 'usr', 'boost')
+        boost_dir = boost_install_dir
         install_dir = os.path.join(boost_dir, dirname)
 
         cmd = './bootstrap.sh --libdir=%(install_dir)s/lib --includedir=%(install_dir)s/include'
@@ -150,6 +150,11 @@ def compile_install_boost(filename):
 
 
 if __name__ == '__main__':
+    if len(os.sys.argv) < 2:
+        print("useage: %s boost_install_dir", os.sys.argv[0])
+        assert False
+    # global boost_install_dir
+    boost_install_dir = os.path.abspath(os.sys.argv[1])
     os.chdir(downloaddir)
     resp = requests.get(url)
     # print(resp.text)

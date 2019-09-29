@@ -8,7 +8,7 @@ tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
 tag_go=go
-docker_install_dir=/root/usr
+docker_install_dir=/develop/usr
 uid=$(shell id -u)
 # uid=0
 
