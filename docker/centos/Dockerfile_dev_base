@@ -10,9 +10,9 @@ FROM centos
     && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
     && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
     && ccache --max-size=10G >/dev/null \
-    && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 \
-    && mkdir /develop \
-    && chmod 777 /develop
+    && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+#    && mkdir /develop \
+#    && chmod 777 /develop
 
 ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \

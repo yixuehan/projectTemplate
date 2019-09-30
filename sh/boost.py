@@ -25,12 +25,15 @@ def get_filepath(tree):
         print("未找到文件链接")
         assert False
     filepath = filepath[0]
+    # print(filepath)
+    return "/users/history/version_1_70_0.html"
     return filepath
 
 
 def get_version(filepath):
     basefile = os.path.basename(filepath)
     version = basefile.split(".")[0]
+    print(version)
     return version
 
 
@@ -72,6 +75,7 @@ def download_file(tree, filename):
             shutil.move(filename, filename + ".bak")
 
     print("downloading...")
+    print(downloadpath)
     wget.download(downloadpath)
 
 
@@ -130,12 +134,16 @@ def compile_install_boost(filename):
 
         # 建立软链接
         link_include = '%s/include' % (boost_dir)
-        if os.path.exists(link_include):
-            os.remove(link_include)
+        print("link_include:", link_include)
+        if os.path.islink(link_include):
+            os.unlink(link_include)
+            # os.remove(link_include)
 
         link_lib = '%s/lib' % (boost_dir)
-        if os.path.exists(link_lib):
-            os.remove(link_lib)
+        print("link_lib:", link_lib)
+        if os.path.islink(link_lib):
+            os.unlink(link_lib)
+            # os.remove(link_lib)
 
         for dst in [link_include, link_lib]:
             dir_name = os.path.dirname(dst)

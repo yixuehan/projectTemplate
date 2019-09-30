@@ -8,12 +8,12 @@ tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
 tag_go=go
-docker_install_dir=/develop/usr
+docker_install_dir=/develop
 uid=$(shell id -u)
 # uid=0
 
 # set -o errexit
-cwd=/home/ubuntu/projectTemplate/docker/centos
+cwd=$(shell pwd)
 git_dir=${HOME}/projectTemplate
 
 
@@ -33,7 +33,7 @@ build_go:Dockerfile_go
 	touch build_go
 
 build_test:main.cpp
-	docker run --rm -v ${cwd}:/opt/dev -w /opt/dev ${registry}/${image}:${tag_base} g++ main.cpp -std=c++1z
+	docker run --rm -v ${cwd}:${cwd} -w ${cwd} ${registry}/${image}:${tag_dev_base} g++ main.cpp -std=c++1z
 	touch build_test
 
 build_boost:${git_dir}/sh/boost.py build_dev_base
@@ -43,7 +43,7 @@ build_boost:${git_dir}/sh/boost.py build_dev_base
 		            -v ${cwd}/boost_install:${docker_install_dir} \
 					-w /src/sh \
 		    		${registry}/${image}:${tag_dev_base} \
-					python3 ./boost.py
+					python3 ./boost.py ${docker_install_dir}
 	touch build_boost
 
 build_mysql:${git_dir}/sh/mysql.sh build_dev_base
