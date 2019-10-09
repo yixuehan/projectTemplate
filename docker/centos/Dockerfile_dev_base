@@ -1,24 +1,39 @@
-FROM centos
+#FROM centos
 #FROM w505703394/centos:base
 
- RUN curl -o /etc/yum.repos.d/CentOS7-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo \
-    && yum update -y \
-    && yum install -y centos-release-scl epel-release \
-    && yum install -y devtoolset-8 \
-    && yum install -y make mysql-devel wget python36-devel which ccache git bzip2 kde-l10n-Chinese reinstall glibc-common \
-    && yum clean all \
-    && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
-    && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
-    && ccache --max-size=10G >/dev/null \
-    && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+# RUN curl -o /etc/yum.repos.d/CentOS7-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo \
+#    && yum update -y \
+#    && yum install -y centos-release-scl epel-release \
+#    && yum install -y devtoolset-8 \
+#    && yum install -y make mysql-devel wget python36-devel which ccache git bzip2 kde-l10n-Chinese reinstall glibc-common \
+#    && yum clean all \
+#    && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+#    && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
+#    && ccache --max-size=10G >/dev/null \
+#    && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
 #    && mkdir /develop \
 #    && chmod 777 /develop
+#
+FROM alpine
 
 ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \
     CCACHE_UMASK=0 \
-    PATH=/opt/rh/devtoolset-8/root/usr/bin${PATH:+:${PATH}} \
-    LANG=zh_CN.UTF-8 \
-    LANGUAGE=zh_CN:zh \
-    LC_ALL=zh_CN.UTF-8 \
-    MKOSTYPE=docker_centos
+    MKOSTYPE=alpine \
+    C_INCLUDE_PATH=/usr/include/libxml2:/usr/include/libexslt:/usr/include/libxslt
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+ && apk add --update-cache bash \
+ && apk add --no-cache python3 gcc g++ make wget ccache git bzip2 mysql-dev libxml2 libxml2-dev python3-dev libxslt libxslt-dev \
+ && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+ && pip3 install requests scons mako wget openpyxl lxml -i https://pypi.tuna.tsinghua.edu.cn/simple \
+ && ccache --max-size=10G >/dev/null
+
+# ENV CCACHE_DIR=/tmp/ccache \
+#     CCACHE_SIZE=10G \
+#     CCACHE_UMASK=0 \
+#     PATH=/opt/rh/devtoolset-8/root/usr/bin${PATH:+:${PATH}} \
+#     LANG=zh_CN.UTF-8 \
+#     LANGUAGE=zh_CN:zh \
+#     LC_ALL=zh_CN.UTF-8 \
+#     MKOSTYPE=docker_centos

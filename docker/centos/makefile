@@ -1,14 +1,17 @@
 #!/bin/bash
 #source ../../syncgit.sh
 registry=w505703394
-image=centos
+image_centos=centos
+image_alpine=alpine
+image=${image_alpine}
 tag_dev_base=dev_base
 tag_dev=dev
 tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
 tag_go=go
-docker_install_dir=/develop
+tag_python=python3
+docker_install_dir=/tmp
 uid=$(shell id -u)
 # uid=0
 
@@ -36,8 +39,14 @@ build_test:main.cpp
 	docker run --rm -v ${cwd}:${cwd} -w ${cwd} ${registry}/${image}:${tag_dev_base} g++ main.cpp -std=c++1z
 	touch build_test
 
+build_alpine_python:Dockerfile_alpine_python
+	docker build -t ${registry}/${image_alpine}:${tag_python} -f Dockerfile_alpine_python .
+	docker push ${registry}/${image_alpine}:${tag_python}
+	touch build_alpine_python
+
 build_boost:${git_dir}/sh/boost.py build_dev_base
 	rm -rf boost_install
+	mkdir boost_install
 	docker run --rm -u${uid}:${uid} \
 					-v ${git_dir}:/src \
 		            -v ${cwd}/boost_install:${docker_install_dir} \

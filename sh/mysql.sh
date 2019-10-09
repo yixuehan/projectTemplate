@@ -3,9 +3,6 @@ if [ $MKOSTYPE == 'centos' ]
 then
         sudo yum install mysql-devel -y
     # sudo yum install rh-mysql80-mysql-devel -y
-elif [ $MKOSTYPE == 'docker_centos' ]
-then
-    yum install mysql-devel -y
 elif [ $MKOSTYPE == 'ubuntu' ]
 then
     sudo apt install libmysqlclient-dev
