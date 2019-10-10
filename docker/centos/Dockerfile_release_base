@@ -1,6 +1,7 @@
-FROM centos
+FROM alpine
 
-RUN  yum update -y \
-  && yum install -y mysql-devel python-devel \
-  && yum clean all
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+ && apk add --no-cache mysql-dev python3-dev
+ 
+# apk add --update-cache bash \
 

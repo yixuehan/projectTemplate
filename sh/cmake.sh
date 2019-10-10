@@ -1,4 +1,10 @@
 #!/bin/bash
+if [ $# -lt 1 ]
+then
+    echo usage:$0 install_dir
+    exit 1
+fi
+install_dir=$1
 version=3.14.1
 version=3.13.4
 cd ../download_tmp
@@ -9,10 +15,8 @@ then
 fi
 cd cmake-${version}
 
-install_dir=${HOME}/usr/cmake
-
 case $MKOSTYPE in
-    ubuntu)
+    ubuntu|alpine)
         ./configure --prefix=${install_dir} && make install
         ;;
     centos|docker_centos)

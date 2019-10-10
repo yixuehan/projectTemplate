@@ -1,5 +1,5 @@
-FROM w505703394/centos:base
+FROM w505703394/alpine:dev_base
 
-COPY cmake_install /opt/cmake
+COPY cmake_install/ /develop/cmake
 
-ENV PATH=$PATH:/opt/cmake/bin
+ENV PATH=$PATH:/develop/cmake/bin

@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ $# -lt 1 ]
+then
+    echo usage:$0 install_dir
+    exit 1
+fi
+install_dir=$1
+
 if [ $MKOSTYPE == 'centos' ]
 then
         sudo yum install mysql-devel -y
@@ -28,5 +35,5 @@ then
     tar -xf mysql++-${version}.tar.gz
 fi
 cd mysql++-${version}
-./configure --prefix=${HOME}/usr --enable-shared=no --enable-static=yes
+./configure --prefix=${install_dir} --enable-shared=no --enable-static=yes
 make install

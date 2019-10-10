@@ -1,4 +1,10 @@
 #!/bin/bash
+if [ $# -lt 1 ]
+then
+    echo usage: $0 install_dir
+    exit 1
+fi
+install_dir=$1
 . tool.sh
 git_path=../git_tmp
 echo 编译json...
@@ -8,5 +14,5 @@ rm -rf build
 mkdir build
 cd build
 echo $(pwd)
-cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr/json ..
+cmake -DCMAKE_INSTALL_PREFIX=${install_dir} ..
 make install

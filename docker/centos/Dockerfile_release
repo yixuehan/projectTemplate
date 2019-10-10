@@ -1,4 +1,4 @@
-FROM w505703394/centos:release_base
+FROM w505703394/alpine:release_base
 
 COPY boost_install /opt/boost
 
