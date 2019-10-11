@@ -12,7 +12,8 @@ then
     # sudo yum install rh-mysql80-mysql-devel -y
 elif [ $MKOSTYPE == 'ubuntu' ]
 then
-    sudo apt install libmysqlclient-dev
+    sudo apt install -y libmysqlclient-dev
+    # sudo apt install -y libmariadbclient-dev
     if [ ! 0 -eq $? ]
     then
        exit 1
@@ -35,5 +36,9 @@ then
     tar -xf mysql++-${version}.tar.gz
 fi
 cd mysql++-${version}
+if [ ! -d ${install_dir} ]
+then
+    mkdir -p ${install_dir}
+fi
 ./configure --prefix=${install_dir} --enable-shared=no --enable-static=yes
-make install
+make && make install
