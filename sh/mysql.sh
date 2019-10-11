@@ -33,8 +33,9 @@ then
         rm -rf mysql++-${version}.tar.gz
         exit 1
     fi
-    tar -xf mysql++-${version}.tar.gz
 fi
+rm -rf mysql++-${version}
+tar -xf mysql++-${version}.tar.gz
 cd mysql++-${version}
 if [ ! -d ${install_dir} ]
 then

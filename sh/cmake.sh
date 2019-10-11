@@ -11,8 +11,9 @@ cd ../download_tmp
 if [ ! -f "cmake-${version}.tar.gz" ]
 then
     wget https://github.com/Kitware/CMake/releases/download/v${version}/cmake-${version}.tar.gz
-    tar -xf cmake-${version}.tar.gz
 fi
+rm -rf cmake-${version}
+tar -xf cmake-${version}.tar.gz
 cd cmake-${version}
 
 case $MKOSTYPE in
