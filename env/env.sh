@@ -58,11 +58,11 @@ alias mv='mv -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++2a -Wall'
 alias g++='g++ -std=c++1z -Wall'
 alias screen='screen -U'
-alias sconss='python3 $(which scons)'
+# alias scons='python3 $(which scons)'
 
 function scons()
 {
-    python3 $(which scons)
+    python3 $(which scons) $@
 }
 
 
