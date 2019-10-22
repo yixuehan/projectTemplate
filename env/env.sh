@@ -68,7 +68,12 @@ function scons()
 
 function stop_docker()
 {
-    containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
+    if [ $# -gt 0 ]
+    then
+        containers=$(docker ps -a | grep $1 | awk "NR > 1" | cut -d' ' -f1)
+    else
+        containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
+    fi
     echo ${containers}
     if [ "${containers}x" != "x" ]
     then
@@ -78,7 +83,12 @@ function stop_docker()
 
 function rm_docker()
 {
-    containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
+    if [ $# -gt 0 ]
+    then
+        containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | awk "NR > 1" | cut -d' ' -f1)
+    else
+        containers=$(docker ps -a | grep "Exited.*ago" | awk "NR > 1" | cut -d' ' -f1)
+    fi
     echo ${containers}
     if [ "${containers}x" != "x" ]
     then
