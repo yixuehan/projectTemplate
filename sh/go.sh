@@ -6,8 +6,8 @@ then
     return 1
 fi
 
-version=1.13
-version=1.12.9
+version=1.13.3
+#version=1.12.9
 
 go version | grep ${version}
 ret=$?

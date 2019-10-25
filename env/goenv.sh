@@ -11,5 +11,5 @@ export PATH=$PATH:$GOPATH/bin
 export GO111MODULE=on
 # export GO111MODULE=auto
 # Set the GOPROXY environment variable
-export GOPROXY=https://goproxy.io
+export GOPROXY=https://goproxy.io,direct
 #export GOPROXY=https://proxy.golang.org,direct

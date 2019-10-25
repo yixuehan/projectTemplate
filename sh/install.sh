@@ -75,7 +75,7 @@ env_install()
     case $MKOSTYPE in
         ubuntu) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
-    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip \
+    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl \
                                    python3-tk
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
