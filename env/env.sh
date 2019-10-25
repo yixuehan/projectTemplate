@@ -58,17 +58,22 @@ alias mv='mv -i'
 alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir w505703394/centos:dev g++ -std=c++2a -Wall'
 alias g++='g++ -std=c++1z -Wall'
 alias screen='screen -U'
-# alias sconss='python3 $(which scons)'
+# alias scons='python3 $(which scons)'
 
 function scons()
 {
-    python3 $(which scons)
+    python3 $(which scons) $@
 }
 
 
 function stop_docker()
 {
-    containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
+    if [ $# -gt 0 ]
+    then
+        containers=$(docker ps -a | grep $1 | awk "NR > 1" | cut -d' ' -f1)
+    else
+        containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
+    fi
     echo ${containers}
     if [ "${containers}x" != "x" ]
     then
@@ -78,7 +83,12 @@ function stop_docker()
 
 function rm_docker()
 {
-    containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
+    if [ $# -gt 0 ]
+    then
+        containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | awk "NR > 1" | cut -d' ' -f1)
+    else
+        containers=$(docker ps -a | grep "Exited.*ago" | awk "NR > 1" | cut -d' ' -f1)
+    fi
     echo ${containers}
     if [ "${containers}x" != "x" ]
     then

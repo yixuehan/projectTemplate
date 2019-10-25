@@ -1,0 +1,7 @@
+FROM alpine
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+ && apk add --update-cache bash \
+ && apk add --no-cache python3 go make \
+ && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+ && pip3 install requests markdown scons mako wget -i https://pypi.tuna.tsinghua.edu.cn/simple

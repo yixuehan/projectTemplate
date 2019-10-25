@@ -1,10 +1,10 @@
-FROM w505703394/centos:dev_base
+FROM w505703394/alpine:dev_base
 
-COPY boost_install/* /develop/boost
+COPY boost_install/ /develop/boost
 
-COPY mysql_install/* /develop/mysql
+COPY mysql_install/ /develop/mysql
 
-COPY json_install/* /develop/json
+COPY json_install/ /develop/json
 
 ENV CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:/develop/boost/include:/develop/mysql/include:/develop/json/include \
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/develop/boost/lib:/develop/mysql/lib \

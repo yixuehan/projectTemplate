@@ -110,10 +110,11 @@ def compile_install_boost(filename):
         print(r.read())
         # os.system(cmd)
 
-        home = os.environ['HOME']
+        # home = os.environ['HOME']
 
-        print("home:[%s] dirname:[%s]" % (home, dirname))
-        assert home
+        # print("home:[%s] dirname:[%s]" % (home, dirname))
+        print("dirname:[%s]" % (dirname))
+        # assert home
         assert dirname
         boost_dir = boost_install_dir
         install_dir = os.path.join(boost_dir, dirname)

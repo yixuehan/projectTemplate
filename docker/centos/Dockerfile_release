@@ -1,8 +1,10 @@
-FROM w505703394/centos:release_base
+FROM w505703394/alpine:release_base
 
-COPY boost_install /opt/boost
+COPY boost_install /develop/boost
 
-COPY mysql_install /opt/mysql
+COPY mysql_install /develop/mysql
 
-#ENV=
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/develop/boost/lib:/develop/mysql/lib \
+    LIBRARY_PATH=$LD_LIBRARY_PATH
+
 
