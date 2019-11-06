@@ -28,7 +28,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql
 
-export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface:${repo}/util/python
+export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface:${HOME}/util/python
 
 export PS1='[\u@\h \W]\$ '
 
