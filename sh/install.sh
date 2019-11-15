@@ -112,7 +112,7 @@ env_install()
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose  \
+		        docker-compose toml \
     		    -i https://pypi.tuna.tsinghua.edu.cn/simple
 }
 
