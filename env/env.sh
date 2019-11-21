@@ -70,7 +70,7 @@ function stop_docker()
 {
     if [ $# -gt 0 ]
     then
-        containers=$(docker ps -a | grep $1 | awk "NR > 1" | cut -d' ' -f1)
+        containers=$(docker ps -a | grep $1 | cut -d' ' -f1)
     else
         containers=$(docker ps -a | awk "NR > 1" | cut -d' ' -f1)
     fi
@@ -85,9 +85,9 @@ function rm_docker()
 {
     if [ $# -gt 0 ]
     then
-        containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | awk "NR > 1" | cut -d' ' -f1)
+        containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | cut -d' ' -f1)
     else
-        containers=$(docker ps -a | grep "Exited.*ago" | awk "NR > 1" | cut -d' ' -f1)
+        containers=$(docker ps -a | grep "Exited.*ago" | cut -d' ' -f1)
     fi
     echo ${containers}
     if [ "${containers}x" != "x" ]
