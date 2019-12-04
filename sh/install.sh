@@ -75,7 +75,7 @@ env_install()
     case $MKOSTYPE in
         ubuntu) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
-    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl \
+    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
                                    python3-tk
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
@@ -112,10 +112,10 @@ env_install()
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose toml sqlparse moz-sql-parser Sphinx \
+		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy \
     		    -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-# ubuntu: sudo -H pip3 install moz-sql-parser -i https://pypi.tuna.tsinghua.edu.cn/simple
+# ubuntu: sudo -H pip3 install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple
 # centos: sudo pip3 install Sphinx -i https://pypi.tuna.tsinghua.edu.cn/simple
 }
 
