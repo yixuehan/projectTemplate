@@ -26,7 +26,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/boost/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/mysql/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
 
-export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql
+export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql:.
 
 export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface:${HOME}/util/python
 
