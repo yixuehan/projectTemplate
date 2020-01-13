@@ -50,18 +50,14 @@ software()
     fi
 }
 
+PYTHON=python3
+PIP3=pip3
 case $MKOSTYPE in
 	ubuntu)
         SUDO="sudo -H"
-	    RHSUDO=${SUDO}
-	    PIP3=pip3
-        PYTHON=python3
     ;;
     centos) 
 	    SUDO="/bin/sudo -H"
-	    PIP3=$(which pip3)
-	    RHSUDO="sudo"
-        PYTHON=python36
     ;;
     *)
         echo unknown os type [$MKOSTYPE]
@@ -88,14 +84,11 @@ env_install()
                 ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
                 ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
                 git bzip2 openssl-devel ncurses-devel \
-                # which docker 2>/dev/null
-                # if [ $? != 0 ]
-                # then
-                    ${SUDO} curl -fsSL https://get.docker.com/ | bash
-                	${SUDO} systemctl enable docker
-                	${SUDO} systemctl start docker
-    		        ${SUDO} usermod -a -G docker ${USER}
-                # fi
+
+                ${SUDO} curl -fsSL https://get.docker.com/ | bash
+                ${SUDO} systemctl enable docker
+                ${SUDO} systemctl start docker
+    		    ${SUDO} usermod -a -G docker ${USER}
     
                 # ${SUDO} yum clean all
                 #提示
@@ -106,8 +99,6 @@ env_install()
     
     bash go.sh
     git config --global credential.helper store
-    
-    echo ${SUDO}
     
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     ${SUDO} ${PIP3} install -U openpyxl \
@@ -144,8 +135,7 @@ grpc()
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
-        centos) ${SUDO} yum install -y build-essential autoconf libtool pkg-config \
-                libgflags-dev libgtest-dev libc++-dev ;;
+        centos) ${SUDO} yum install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
     esac
     cd ${grpc_root}/third_party/protobuf
     ./autogen.sh
