@@ -11,11 +11,10 @@ repo=https://github.com/nlohmann/json.git
 git_pull ${repo}
 repodir=$(basename ${repo} | cut -d'.' -f1)
 cd ${gitdir}
-echo $repodir
 cd ${repodir}
 rm -rf build
 mkdir build
 cd build
 echo $(pwd)
-cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/$(basename ${repodir}) ..
+cmake -DCMAKE_INSTALL_PREFIX=${install_dir} ..
 make install

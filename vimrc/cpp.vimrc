@@ -14,10 +14,10 @@ Plugin 'majutsushi/tagbar'
 Plugin 'Raimondi/delimitMate'
 Plugin 'nvie/vim-flake8'
 
-Plugin 'dgryski/vim-godef'                       
-Plugin 'Blackrush/vim-gocode'                   
-Plugin 'nsf/gocode', {'rtp': 'vim/'}             
-Plugin 'fatih/vim-go',{ 'do': ':GoUpdateBinaries' }
+" Plugin 'dgryski/vim-godef'                       
+" Plugin 'Blackrush/vim-gocode'                   
+" Plugin 'nsf/gocode', {'rtp': 'vim/'}             
+" Plugin 'fatih/vim-go',{ 'do': ':GoUpdateBinaries' }
 Plugin 'scrooloose/syntastic'                    
 
 
@@ -209,35 +209,35 @@ let g:tagbar_autopreview = 1
 let g:tagbar_sort = 0
 
 "go.vim
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_autosave = 0
-let g:go_play_open_browser = 0
-let g:go_get_update = 0
-
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_structs = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_types = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
+" 
+" let g:go_def_mode='gopls'
+" let g:go_info_mode='gopls'
+" let g:go_fmt_command = "goimports"
+" let g:go_fmt_fail_silently = 1
+" let g:go_fmt_autosave = 0
+" let g:go_play_open_browser = 0
+" let g:go_get_update = 0
+" 
+" let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+" let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 "
 let g:neocomplete#enable_at_startup = 1
 
-autocmd BufWritePre *.go GoFmt
+"autocmd BufWritePre *.go GoFmt
 "autocmd BufWritePre *.go GoLint
 "autocmd BufWritePre *.go GoErrCheck
 
 
 " YCM settings
 
-imap <F6> <C-x><C-o>
+" imap <F6> <C-x><C-o>
 
 " dependence
 " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck

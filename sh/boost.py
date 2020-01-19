@@ -26,7 +26,7 @@ def get_filepath(tree):
         assert False
     filepath = filepath[0]
     # print(filepath)
-    return "/users/history/version_1_70_0.html"
+    # return "/users/history/version_1_70_0.html"
     return filepath
 
 
@@ -116,11 +116,14 @@ def compile_install_boost(filename):
         print("dirname:[%s]" % (dirname))
         # assert home
         assert dirname
-        boost_dir = boost_install_dir
-        install_dir = os.path.join(boost_dir, dirname)
+        # boost_dir = boost_install_dir
+        # install_dir = os.path.join(boost_dir, dirname)
+        global boost_install_dir
+        link_dir = os.path.join(boost_install_dir, 'boost')
+        boost_install_dir = os.path.join(boost_install_dir, dirname)
 
         cmd = './bootstrap.sh --libdir=%(install_dir)s/lib --includedir=%(install_dir)s/include'
-        cmd = cmd % {'install_dir': install_dir}
+        cmd = cmd % {'install_dir': boost_install_dir}
 
         print(cmd)
         r = os.popen(cmd)
@@ -134,25 +137,17 @@ def compile_install_boost(filename):
         # os.system(cmd)
 
         # 建立软链接
-        link_include = '%s/include' % (boost_dir)
-        print("link_include:", link_include)
-        if os.path.islink(link_include):
-            os.unlink(link_include)
-            # os.remove(link_include)
+        print("link_dir:", link_dir)
+        if os.path.islink(link_dir):
+            os.unlink(link_dir)
 
-        link_lib = '%s/lib' % (boost_dir)
-        print("link_lib:", link_lib)
-        if os.path.islink(link_lib):
-            os.unlink(link_lib)
-            # os.remove(link_lib)
-
-        for dst in [link_include, link_lib]:
+        for dst in [link_dir]:
             dir_name = os.path.dirname(dst)
             if not os.path.exists(dir_name):
                 os.makedirs(dir_name)
 
-        os.symlink("%s/include" % (install_dir), link_include)
-        os.symlink("%s/lib" % (install_dir), link_lib)
+        print("%s" % (boost_install_dir), link_dir)
+        os.symlink("%s" % (boost_install_dir), link_dir)
     else:
         print("不支持的系统...", os_type)
         assert False
@@ -160,9 +155,8 @@ def compile_install_boost(filename):
 
 if __name__ == '__main__':
     if len(os.sys.argv) < 2:
-        print("useage: %s boost_install_dir", os.sys.argv[0])
+        print("usage: %s boost_install_dir" % os.sys.argv[0])
         assert False
-    # global boost_install_dir
     boost_install_dir = os.path.abspath(os.sys.argv[1])
     os.chdir(downloaddir)
     resp = requests.get(url)

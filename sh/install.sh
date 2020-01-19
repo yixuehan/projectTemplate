@@ -1,23 +1,22 @@
 #!/bin/bash
 
-#if [ ${PRONAME}x == ""x ]
-#then
-#    echo 请先设置[PRONAME]
-#    exit 1
-#fi
+install_dir=${HOME}/usr
+
+# 下面不用修改
 
 shellpath=$(dirname $(realpath $0))
-rootpath=$(realpath ${shellpath}/..)
+shellpath=$(realpath ${shellpath}/..)
 #设置mak、shell路径`
-git_path=${rootpath}/git_tmp
-download_path=${rootpath}/download_tmp
+git_dir=${shellpath}/git_tmp
+download_path=${shellpath}/download_tmp
+cd ${shellpath}/sh
+source common.sh
 cd ${shellpath}
-source tool.sh
 
-if [ ! -d $git_path ]
+if [ ! -d $git_dir ]
 then
-    echo mkdir $git_path
-    mkdir $git_path
+    echo mkdir $git_dir
+    mkdir $git_dir
 fi
 
 if [ ! -d $download_path ]
@@ -66,7 +65,7 @@ case $MKOSTYPE in
 esac
 
 
-env_install()
+initdev()
 {
     case $MKOSTYPE in
         ubuntu) 
@@ -78,23 +77,23 @@ env_install()
                 ;;
         centos) 
     	    ${SUDO} yum install -y centos-release-scl 
-                ${SUDO} yum install -y devtoolset-8
-                ${SUDO} yum install -y epel-release
-                ${SUDO} yum update -y
-                ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
-                ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
-                git bzip2 openssl-devel ncurses-devel \
+            ${SUDO} yum install -y devtoolset-8
+            ${SUDO} yum install -y epel-release
+            ${SUDO} yum update -y
+            ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
+            ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
+            git bzip2 openssl-devel ncurses-devel \
 
-                ${SUDO} curl -fsSL https://get.docker.com/ | bash
-                ${SUDO} systemctl enable docker
-                ${SUDO} systemctl start docker
-    		    ${SUDO} usermod -a -G docker ${USER}
+            ${SUDO} curl -fsSL https://get.docker.com/ | bash
+            ${SUDO} systemctl enable docker
+            ${SUDO} systemctl start docker
+    		${SUDO} usermod -a -G docker ${USER}
     
-                # ${SUDO} yum clean all
-                #提示
-                source ${PWD}/env/env.sh
-                ${SUDO} yum install wget
-                ;;
+            # ${SUDO} yum clean all
+            #提示
+            source ${PWD}/env/env.sh
+            ${SUDO} yum install wget
+            ;;
     esac
     
     bash go.sh
@@ -116,21 +115,15 @@ env_install()
 boost()
 {
     echo 编译boost...
-    ./boost.py
+    ./boost.py ${install_dir}
 }
 
 # 编译grpc
 grpc()
 {
     old_path=$(pwd)
-    update_module v1.23.0 https://github.com/grpc/grpc.git grpc ${git_path}
-    # version=1.23.0
-    # grpc_root=grpc-${version}
-    # download ${download_path} https://github.com/grpc/grpc/archive/v${version}.zip grpc.zip
-    # cd ${download_path}/${grpc_root}
-    # git submodule update --init --recursive
-
-    grpc_root=${git_path}/grpc
+    git_pull https://github.com/grpc/grpc.git
+    grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
     case $MKOSTYPE in
@@ -139,44 +132,35 @@ grpc()
     esac
     cd ${grpc_root}/third_party/protobuf
     ./autogen.sh
-    ./configure --prefix=${HOME}/usr
+    ./configure --prefix=${install_dir}/grpc
     make && make install
     cd ${grpc_root}
-    make && make install prefix=${HOME}/usr
-    go get github.com/golang/protobuf/protoc-gen-go
+    make && make install prefix=${isntall_dir}/grpc
+    # go get github.com/golang/protobuf/protoc-gen-go
     cd ${old_path}
 }
 
 # 编译json
 json()
 {
-    ./json.sh
-    # echo 编译json...
-    # update_module v3.7.0 https://github.com/nlohmann/json.git json ${git_path}
-    # cd ${git_path}/json
-    # rm -rf build
-    # mkdir build
-    # cd build
-    # echo $(pwd)
-    # cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
-    # make install
+    ./json.sh ${install_dir}/json
 }
 
 gtest()
 {
-    update_module release-1.8.1 https://github.com/google/googletest.git googletest ${git_path}
-    cd ${git_path}/googletest
+    git_pull https://github.com/google/googletest.git release-1.8.1
+    cd ${git_dir}/googletest
     rm -rf build
     mkdir build
     cd build
-    cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
+    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/gtest ..
     make install
 }
 
 # demjson()
 # {
-#     update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_path}
-#     cd ${git_path}/demjson
+#     update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_dir}
+#     cd ${git_dir}/demjson
 #     ${PYTHON} setup.py install --prefix ${HOME}/usr
 # }
 
@@ -197,9 +181,9 @@ goget()
 
 updatevim()
 {
-    version=8.1.1931
-    download ${download_path} https://github.com/vim/vim/archive/v${version}.zip vim.zip
-    cd ${download_path}/vim-${version}/src
+    vimdir=${git_dir}/vim
+    git_pull https://github.com/vim/vim.git
+    cd ${vimdir}/src
 	./configure --with-features=huge --enable-pythoninterp --enable-python3interp
     make
 	${SUDO} make install
@@ -212,11 +196,13 @@ updatevim()
 
 vimdev()
 {
-    vimdir=${rootpath}/vimrc
+    vimdir=${shellpath}/vimrc
     cd ${shellpath}
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim --depth 1
+        mkdir -p ~/.vim/bundle/Vundle.vim
+        cd ~/.vim/bundle/Vundle.vim
+        gitpull https://github.com/VundleVim/Vundle.vim.git 
     fi
     if [ -f ~/.vimrc ]
     then
@@ -225,7 +211,6 @@ vimdev()
     ln -s ${vimdir}/cpp.vimrc ~/.vimrc -f
     ln -s ${vimdir}/base.vimrc ~/.base.vimrc -f
     # go get
-    goget
 
     vim -u ${vimdir}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     # vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
@@ -233,7 +218,7 @@ vimdev()
     cd ~/.vim/bundle/YouCompleteMe
     git submodule sync --recursive
     git submodule update --init --recursive
-    ${PYTHON} install.py --clang-completer --go-completer
+    ${PYTHON} install.py --clang-completer # --go-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
     then
         cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
@@ -249,4 +234,4 @@ done
 software cmake
 
 echo 在.bashrc中增加:
-echo ". ${rootpath}/env/env.sh"
+echo ". ${shellpath}/env/env.sh"

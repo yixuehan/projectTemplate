@@ -15,6 +15,7 @@ getrepo()
 shelldir=$(dirname $0)
 gitdir=$(realpath ${shelldir}/../git_tmp)
 
+# git_pull repo [branch]
 git_pull()
 {
     old_path=$(pwd)
@@ -25,14 +26,19 @@ git_pull()
 
     repo=$1
     exec_echo cd $gitdir
-    repodir=$(basename $0 | cut -d'.' -f1)
+    repodir=$(basename $1 | cut -d'.' -f1)
+
+    if [ $# -gt 1 ]
+    then
+        branch="-b $2"
+    fi
 
     if [ -d $repodir ]
     then
         cd ${repodir}
         exec_echo git pull
     else
-        exec_echo git clone $repo --depth=1
+        exec_echo git clone ${branch} $repo --depth=1
         cd ${repodir}
     fi
     exec_echo git submodule update --init --recursive

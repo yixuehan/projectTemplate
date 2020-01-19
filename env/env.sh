@@ -14,13 +14,13 @@ export MKOSTYPE
 export OPENCL_INCLUDE_PATH=/opt/intel/opencl/include
 export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 
-CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
-export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/boost/include
-export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/projectTemplate/util/cpp
-export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/mysql/include
-export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:~/usr/json/include
+C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/boost/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/mysql/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/json/include
 
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
+export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${C_INCLUDE_PATH}
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/boost/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/mysql/lib
