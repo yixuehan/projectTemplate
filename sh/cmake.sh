@@ -5,8 +5,8 @@ then
     exit 1
 fi
 install_dir=$1
-version=3.14.1
-version=3.13.4
+#version=3.14.1
+version=3.16.3
 cd ../download_tmp
 if [ ! -f "cmake-${version}.tar.gz" ]
 then

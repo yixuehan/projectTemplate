@@ -19,12 +19,19 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/boost/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/mysql/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/json/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/FFmpeg/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/spdlog/include
 
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${C_INCLUDE_PATH}
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/boost/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/mysql/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/jsoncpp/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/FFmpeg/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/spdlog/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql:.
 

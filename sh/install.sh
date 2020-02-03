@@ -11,7 +11,7 @@ git_dir=${shellpath}/git_tmp
 download_path=${shellpath}/download_tmp
 cd ${shellpath}/sh
 source common.sh
-cd ${shellpath}
+#cd ${shellpath}
 
 if [ ! -d $git_dir ]
 then
@@ -39,7 +39,7 @@ software()
     which $1 &>/dev/null
     if [ $? != 0 ]
     then
-    	. ${1}.sh
+    	bash ${1}.sh ${install_dir}
     	which $1 1>/dev/null
     	if [ $? != 0 ]
 	    then
@@ -135,7 +135,7 @@ grpc()
     ./configure --prefix=${install_dir}/grpc
     make && make install
     cd ${grpc_root}
-    make && make install prefix=${isntall_dir}/grpc
+    make && make install prefix=${install_dir}/grpc
     # go get github.com/golang/protobuf/protoc-gen-go
     cd ${old_path}
 }
@@ -143,6 +143,7 @@ grpc()
 # 编译json
 json()
 {
+    echo $PWD
     ./json.sh ${install_dir}/json
 }
 
@@ -202,7 +203,7 @@ vimdev()
     then
         mkdir -p ~/.vim/bundle/Vundle.vim
         cd ~/.vim/bundle/Vundle.vim
-        gitpull https://github.com/VundleVim/Vundle.vim.git 
+        git_pull https://github.com/VundleVim/Vundle.vim.git 
     fi
     if [ -f ~/.vimrc ]
     then
@@ -225,13 +226,47 @@ vimdev()
     fi
 }
 
+jsoncpp()
+{
+    git_pull git@github.com:open-source-parsers/jsoncpp.git
+    cd ${git_dir}/jsoncpp
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/jsoncpp --enable-shared ..
+    make -j${NUM_CPU} install
+}
+
+ffmpeg()
+{
+    git_pull git@github.com:FFmpeg/FFmpeg.git
+    cd ${git_dir}/FFmpeg
+    ./configure --prefix=${install_dir}/FFmpeg #--enable-shared --disable-static --disable-doc 
+    make -j${NUM_CPU} install
+}
+
+spdlog()
+{
+    git_pull https://github.com/gabime/spdlog.git
+    cd ${git_dir}/spdlog
+    mkdir build 
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/spdlog ..
+    make -j${NUM_CPU} install
+}
+
 echo $*
 for library in $* ; do
-    cd ${shellpath}
-    eval "${library}"
+    cd ${shellpath}/sh
+    case ${library} in
+    cmake)
+        bash cmake.sh ${install_dir}
+        ;;
+    *)
+        eval "${library}"
+        ;;
+    esac
 done
 
-software cmake
 
 echo 在.bashrc中增加:
 echo ". ${shellpath}/env/env.sh"
