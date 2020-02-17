@@ -122,7 +122,7 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    git_pull https://github.com/grpc/grpc.git
+    git_pull git@github.com:ycm-core/YouCompleteMe.git
     grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
@@ -149,21 +149,9 @@ json()
 
 gtest()
 {
-    git_pull https://github.com/google/googletest.git release-1.8.1
-    cd ${git_dir}/googletest
-    rm -rf build
-    mkdir build
-    cd build
-    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/gtest ..
-    make install
+    git_pull git@github.com:google/googletest.git
+    cmake_install ${install_dir}/gtest
 }
-
-# demjson()
-# {
-#     update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_dir}
-#     cd ${git_dir}/demjson
-#     ${PYTHON} setup.py install --prefix ${HOME}/usr
-# }
 
 goget()
 {
@@ -183,7 +171,7 @@ goget()
 updatevim()
 {
     vimdir=${git_dir}/vim
-    git_pull https://github.com/vim/vim.git
+    git_pull git@github.com:vim/vim.git
     cd ${vimdir}/src
 	./configure --with-features=huge --enable-pythoninterp --enable-python3interp
     make
@@ -203,7 +191,7 @@ vimdev()
     then
         mkdir -p ~/.vim/bundle/Vundle.vim
         cd ~/.vim/bundle/Vundle.vim
-        git_pull https://github.com/VundleVim/Vundle.vim.git 
+        git_pull git@github.com:ycm-core/YouCompleteMe.git
     fi
     if [ -f ~/.vimrc ]
     then
@@ -246,7 +234,7 @@ ffmpeg()
 
 spdlog()
 {
-    git_pull https://github.com/gabime/spdlog.git
+    git_pull git@github.com:gabime/spdlog.git
     cd ${git_dir}/spdlog
     mkdir build 
     cd build
