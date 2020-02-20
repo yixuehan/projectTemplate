@@ -14,4 +14,7 @@ sudo apt install -y google-chrome-stable gnome
 sudo apt install -y fcitx-table-wubi fcitx-frontend-qt5
 
 #
+# ppa.launchpad.net
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt upgrade -y

@@ -122,8 +122,10 @@ def compile_install_boost(filename):
         link_dir = os.path.join(boost_install_dir, 'boost')
         boost_install_dir = os.path.join(boost_install_dir, dirname)
 
-        cmd = './bootstrap.sh --libdir=%(install_dir)s/lib \
-                --includedir=%(install_dir)s/include --with-toolset=gcc-9 --with-python=$(which python3)'
+        # bugs
+        # unset CPLUS_INCLUDE_PATH
+        cmd = 'unset CPLUS_INCLUDE_PATH && ./bootstrap.sh --libdir=%(install_dir)s/lib \
+                --includedir=%(install_dir)s/include --with-python=$(which python3)'
         cmd = cmd % {'install_dir': boost_install_dir}
 
         print(cmd)
