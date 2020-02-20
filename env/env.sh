@@ -130,46 +130,20 @@ function cd()
     builtin cd $@ && ls
 }
 
-# function vimcpp()
-# {
-#     ln -s ${repo}/cpp.vimrc ~/.vimrc -f
-# }
-# 
-# function vimgo()
-# {
-#     ln -s ${repo}/go.vimrc ~/.vimrc -f
-# }
-# 
-# unalias vi 2>/dev/null
-# unalias vim 2>/dev/null
-# 
-# function vi()
-# {
-#     f=$1
-#     _vi=`which vi`
-#     if [ $MKOSTYPE = 'centos' ]
-#     then
-#         ${_vi} $@
-#         return $?
-#     fi
-#     case ${f##*.} in
-#         go) 
-#             ln -s ${repo}/go.vimrc ~/.vimrc -f
-#             ;;
-#         h|hpp|cpp|c|ipp) 
-#             ln -s ${repo}/cpp.vimrc ~/.vimrc -f
-#             ;;
-#         *)
-#             ln -s ${repo}/cpp.vimrc ~/.vimrc -f
-#             ;;
-#     esac
-#     ${_vi} $@
-# }
-# 
-# function vim()
-# {
-#     vi $@
-# }
+function re_link_gcc()
+{
+    if [ $# -lt 1 ]
+    then
+	echo usage:re_link_gcc version. eg: re_link_gcc 9
+	return 1
+    fi
+    sudo rm /usr/bin/gcc
+    sudo rm /usr/bin/g++
+    sudo ln -s /usr/bin/gcc-$1 /usr/bin/gcc
+    sudo ln -s /usr/bin/g++-$1 /usr/bin/g++
+}
+
+
 
 ulimit -c unlimited
 
