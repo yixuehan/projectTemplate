@@ -17,4 +17,4 @@ mkdir build
 cd build
 echo $(pwd)
 cmake -DCMAKE_INSTALL_PREFIX=${install_dir} ..
-make install
+make -j${NUM_CPU} install

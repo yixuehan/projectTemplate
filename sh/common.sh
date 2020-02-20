@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ ${NUM_CPU}x == "x" ]
+then
+    NUM_CPU=2
+fi
+
 exec_echo()
 {
     echo $@

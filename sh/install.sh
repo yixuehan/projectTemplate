@@ -133,9 +133,9 @@ grpc()
     cd ${grpc_root}/third_party/protobuf
     ./autogen.sh
     ./configure --prefix=${install_dir}/grpc
-    make && make install
+    make -j${NUM_CPU} install
     cd ${grpc_root}
-    make && make install prefix=${isntall_dir}/grpc
+    make -j${NUM_CPU} install prefix=${install_dir}/grpc
     # go get github.com/golang/protobuf/protoc-gen-go
     cd ${old_path}
 }
@@ -148,7 +148,7 @@ json()
 
 gtest()
 {
-    git_pull https://github.com/google/googletest.git release-1.8.1
+    git_pull https://github.com/google/googletest.git #release-1.8.1
     cd ${git_dir}/googletest
     rm -rf build
     mkdir build
@@ -223,6 +223,16 @@ vimdev()
     then
         cp ${HOME}/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.ycm_extra_conf.py
     fi
+}
+
+spdlog()
+{
+    git_pull https://github.com/gabime/spdlog.git
+    cd ${git_dir}/spdlog
+    mkdir build
+    cd build/
+    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/spdlog ..
+    make -j${NUM_CPU} install
 }
 
 echo $*
