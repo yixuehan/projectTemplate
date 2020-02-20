@@ -19,7 +19,7 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/boost/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/mysql/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/json/include
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/jsoncpp/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/FFmpeg/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/spdlog/include
 

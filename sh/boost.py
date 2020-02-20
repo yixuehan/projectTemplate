@@ -133,7 +133,7 @@ def compile_install_boost(filename):
         print(r.read())
         # os.system(cmd)
 
-        cmd = './b2 cxxflags="-std=c++1z" variant=release install'
+        cmd = './b2 cxxflags="-std=c++2a" variant=release install'
         print(cmd)
         r = os.popen(cmd)
         print(r.read())
