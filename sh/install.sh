@@ -122,7 +122,7 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    git_pull git@github.com:ycm-core/YouCompleteMe.git
+    git_pull git@github.com:grpc/grpc.git
     grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
@@ -141,10 +141,10 @@ grpc()
 }
 
 # 编译json
-json()
+nlohmann_json()
 {
-    echo $PWD
-    ./json.sh ${install_dir}/json
+    git_pull https://github.com/nlohmann/json.git
+    cmake_install ${git_dir}/json ${install_dir}/nlohmann_json
 }
 
 gtest()
@@ -217,29 +217,20 @@ vimdev()
 jsoncpp()
 {
     git_pull git@github.com:open-source-parsers/jsoncpp.git
-    cd ${git_dir}/jsoncpp
-    mkdir build
-    cd build
-    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/jsoncpp --enable-shared ..
-    make -j${NUM_CPU} install
+    echo jsoncpp install_dir: ${install_dir}/jsoncpp
+    cmake_install ${git_dir}/jsoncpp ${install_dir}/jsoncpp "-DBUILD_SHARED_LIBS=ON"
 }
 
 ffmpeg()
 {
     git_pull git@github.com:FFmpeg/FFmpeg.git
-    cd ${git_dir}/FFmpeg
-    ./configure --prefix=${install_dir}/FFmpeg #--enable-shared --disable-static --disable-doc 
-    make -j${NUM_CPU} install
+    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static"
 }
 
 spdlog()
 {
     git_pull git@github.com:gabime/spdlog.git
-    cd ${git_dir}/spdlog
-    mkdir build 
-    cd build
-    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/spdlog ..
-    make -j${NUM_CPU} install
+    cmake_install ${git_dir}/spdlog ${install_dir}/spdlog
 }
 
 echo $*
