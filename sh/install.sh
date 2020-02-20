@@ -11,7 +11,7 @@ git_dir=${shellpath}/git_tmp
 download_path=${shellpath}/download_tmp
 cd ${shellpath}/sh
 source common.sh
-cd ${shellpath}
+#cd ${shellpath}
 
 if [ ! -d $git_dir ]
 then
@@ -39,7 +39,7 @@ software()
     which $1 &>/dev/null
     if [ $? != 0 ]
     then
-    	. ${1}.sh
+    	bash ${1}.sh ${install_dir}
     	which $1 1>/dev/null
     	if [ $? != 0 ]
 	    then
@@ -122,7 +122,7 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    git_pull https://github.com/grpc/grpc.git
+    git_pull git@github.com:grpc/grpc.git
     grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
@@ -141,28 +141,17 @@ grpc()
 }
 
 # 编译json
-json()
+nlohmann_json()
 {
-    ./json.sh ${install_dir}/json
+    git_pull https://github.com/nlohmann/json.git
+    cmake_install ${git_dir}/json ${install_dir}/nlohmann_json
 }
 
 gtest()
 {
-    git_pull https://github.com/google/googletest.git #release-1.8.1
-    cd ${git_dir}/googletest
-    rm -rf build
-    mkdir build
-    cd build
-    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/gtest ..
-    make install
+    git_pull git@github.com:google/googletest.git
+    cmake_install ${install_dir}/gtest
 }
-
-# demjson()
-# {
-#     update_module release-2.2.4 https://github.com/dmeranda/demjson.git demjson ${git_dir}
-#     cd ${git_dir}/demjson
-#     ${PYTHON} setup.py install --prefix ${HOME}/usr
-# }
 
 goget()
 {
@@ -182,7 +171,7 @@ goget()
 updatevim()
 {
     vimdir=${git_dir}/vim
-    git_pull https://github.com/vim/vim.git
+    git_pull git@github.com:vim/vim.git
     cd ${vimdir}/src
 	./configure --with-features=huge --enable-pythoninterp --enable-python3interp
     make
@@ -202,7 +191,7 @@ vimdev()
     then
         mkdir -p ~/.vim/bundle/Vundle.vim
         cd ~/.vim/bundle/Vundle.vim
-        gitpull https://github.com/VundleVim/Vundle.vim.git 
+        git_pull git@github.com:ycm-core/YouCompleteMe.git
     fi
     if [ -f ~/.vimrc ]
     then
@@ -212,11 +201,11 @@ vimdev()
     ln -s ${vimdir}/base.vimrc ~/.base.vimrc -f
     # go get
 
-    vim -u ${vimdir}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
-    # vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
+    # vim -u ${vimdir}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
+    vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
-    git submodule sync --recursive
+    # git submodule sync --recursive
     git submodule update --init --recursive
     ${PYTHON} install.py --clang-completer # --go-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
@@ -225,23 +214,38 @@ vimdev()
     fi
 }
 
+jsoncpp()
+{
+    git_pull git@github.com:open-source-parsers/jsoncpp.git
+    echo jsoncpp install_dir: ${install_dir}/jsoncpp
+    cmake_install ${git_dir}/jsoncpp ${install_dir}/jsoncpp "-DBUILD_SHARED_LIBS=ON"
+}
+
+ffmpeg()
+{
+    git_pull git@github.com:FFmpeg/FFmpeg.git
+    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static"
+}
+
 spdlog()
 {
-    git_pull https://github.com/gabime/spdlog.git
-    cd ${git_dir}/spdlog
-    mkdir build
-    cd build/
-    cmake -DCMAKE_INSTALL_PREFIX=${install_dir}/spdlog ..
-    make -j${NUM_CPU} install
+    git_pull git@github.com:gabime/spdlog.git
+    cmake_install ${git_dir}/spdlog ${install_dir}/spdlog
 }
 
 echo $*
 for library in $* ; do
-    cd ${shellpath}
-    eval "${library}"
+    cd ${shellpath}/sh
+    case ${library} in
+    cmake)
+        bash cmake.sh ${install_dir}
+        ;;
+    *)
+        eval "${library}"
+        ;;
+    esac
 done
 
-software cmake
 
 echo 在.bashrc中增加:
 echo ". ${shellpath}/env/env.sh"

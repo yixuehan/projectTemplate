@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #export GOCACHE=off
-export GOPATH=${HOME}/go
+export GOPATH=${HOME}/gopath
 export GOFLAGS="-count=1"
 export GOBIN=${GOPATH}/bin
 export GOSRC=${GOPATH}/src

@@ -11,13 +11,6 @@ exec_echo()
     $@
 }
 
-getrepo()
-{
-    echo $0
-    echo $1
-    return "$(basename $0 | cut -d'.' -f1)"
-}
-
 shelldir=$(dirname $0)
 gitdir=$(realpath ${shelldir}/../git_tmp)
 
@@ -39,15 +32,12 @@ git_pull()
         branch="-b $2"
     fi
 
-    if [ -d $repodir ]
+    if [ ! -d $repodir ]
     then
-        cd ${repodir}
-        exec_echo git pull
-    else
         exec_echo git clone ${branch} $repo --depth=1
         cd ${repodir}
+        exec_echo git submodule update --init --recursive --depth=1
     fi
-    exec_echo git submodule update --init --recursive
     cd ${old_path}
     return 
 }
@@ -77,4 +67,49 @@ download()
         fi
     fi
     cd ${old_path}
+}
+
+cmake_install()
+{
+    # src_dir _install_dir
+    if [ $# -lt 2 ]
+    then
+        echo "cmake_install src_dir _install_dir"
+        return 1
+    fi
+    echo ".$0#." ".#$1." ".$2."
+    src_dir=$1
+    _install_dir=$2
+    cmake_flags=""
+    if [ $# -eq 3 ]
+    then
+        cmake_flags=$3
+    fi
+
+    cd ${src_dir}
+    rm -rf build
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $cmake_flags ..
+    make -j${NUM_CPU} install
+}
+
+configure_install()
+{
+    # src_dir _install_dir
+    if [ $# -lt 2 ]
+    then
+        echo "configure_install src_dir _install_dir"
+        return 1
+    fi
+    src_dir=$1
+    _install_dir=$2
+    configure_flags=""
+    if [ $# -eq 3 ]
+    then
+        configure_flags=$3
+    fi
+    cd ${src_dir}
+    ./configure --prefix=${_install_dir} $configure_flags
+    make -j${NUM_CPU} install
 }

@@ -19,6 +19,9 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/boost/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/mysql/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/json/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/jsoncpp/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/FFmpeg/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/spdlog/include
 
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${C_INCLUDE_PATH}
 
@@ -26,6 +29,10 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/boost/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/mysql/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/grpc/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/jsoncpp/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/FFmpeg/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/spdlog/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql:.
 
@@ -124,46 +131,20 @@ function cd()
     builtin cd $@ && ls
 }
 
-# function vimcpp()
-# {
-#     ln -s ${repo}/cpp.vimrc ~/.vimrc -f
-# }
-# 
-# function vimgo()
-# {
-#     ln -s ${repo}/go.vimrc ~/.vimrc -f
-# }
-# 
-# unalias vi 2>/dev/null
-# unalias vim 2>/dev/null
-# 
-# function vi()
-# {
-#     f=$1
-#     _vi=`which vi`
-#     if [ $MKOSTYPE = 'centos' ]
-#     then
-#         ${_vi} $@
-#         return $?
-#     fi
-#     case ${f##*.} in
-#         go) 
-#             ln -s ${repo}/go.vimrc ~/.vimrc -f
-#             ;;
-#         h|hpp|cpp|c|ipp) 
-#             ln -s ${repo}/cpp.vimrc ~/.vimrc -f
-#             ;;
-#         *)
-#             ln -s ${repo}/cpp.vimrc ~/.vimrc -f
-#             ;;
-#     esac
-#     ${_vi} $@
-# }
-# 
-# function vim()
-# {
-#     vi $@
-# }
+function re_link_gcc()
+{
+    if [ $# -lt 1 ]
+    then
+	echo usage:re_link_gcc version. eg: re_link_gcc 9
+	return 1
+    fi
+    sudo rm /usr/bin/gcc
+    sudo rm /usr/bin/g++
+    sudo ln -s /usr/bin/gcc-$1 /usr/bin/gcc
+    sudo ln -s /usr/bin/g++-$1 /usr/bin/g++
+}
+
+
 
 ulimit -c unlimited
 
