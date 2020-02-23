@@ -14,8 +14,8 @@ exec_echo()
 shelldir=$(dirname $0)
 gitdir=$(realpath ${shelldir}/../git_tmp)
 
-# git_pull repo [branch]
-git_pull()
+# git_tmp_pull repo [branch]
+git_tmp_pull()
 {
     old_path=$(pwd)
     if [ ! -d ${gitdir} ]
@@ -23,9 +23,42 @@ git_pull()
         exec_echo mkdir ${gitdir}
     fi
 
-    repo=$1
     exec_echo cd $gitdir
-    repodir=$(basename $1 | cut -d'.' -f1)
+    git_pull $*
+    cd ${old_path}
+
+}
+
+# git_sync_pull repo [branch]
+git_sync_pull()
+{
+    old_path=$(pwd)
+    repo=$1
+    repodir=$(basename $1)
+    repodir=${repodir::-4}
+
+    if [ $# -gt 1 ]
+    then
+        branch="-b $2"
+    fi
+
+    if [ ! -d $repodir ]
+    then
+        exec_echo git clone ${branch} $repo --depth=1
+        cd ${repodir}
+        exec_echo git submodule sync --recursive
+        exec_echo git submodule update --init --recursive --depth=1
+    fi
+    cd ${old_path}
+}
+
+# git_pull repo [branch]
+git_pull()
+{
+    old_path=$(pwd)
+    repo=$1
+    repodir=$(basename $1)
+    repodir=${repodir::-4}
 
     if [ $# -gt 1 ]
     then
@@ -39,7 +72,31 @@ git_pull()
         exec_echo git submodule update --init --recursive --depth=1
     fi
     cd ${old_path}
-    return 
+}
+
+# git_commit_pull commit
+# 有些github最新的提交可能有bug无法编译，取其中某次提交
+# 只拉取最新的10次提交
+git_commit_pull()
+{
+    old_path=$(pwd)
+    repo=$1
+    repodir=$(basename $1)
+    repodir=${repodir::-4}
+
+    if [ $# -gt 1 ]
+    then
+        commit="-b $2"
+    fi
+
+    if [ ! -d $repodir ]
+    then
+        exec_echo git clone $repo --depth=50
+        cd ${repodir}
+        exec_echo git checkout ${commit}
+        exec_echo git submodule update --init --recursive --depth=1
+    fi
+    cd ${old_path}
 }
 
 download()

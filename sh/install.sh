@@ -122,7 +122,7 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    git_pull git@github.com:grpc/grpc.git
+    git_tmp_pull git@github.com:grpc/grpc.git
     grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
@@ -143,13 +143,13 @@ grpc()
 # 编译json
 nlohmann_json()
 {
-    git_pull https://github.com/nlohmann/json.git
+    git_tmp_pull https://github.com/nlohmann/json.git
     cmake_install ${git_dir}/json ${install_dir}/nlohmann_json
 }
 
 gtest()
 {
-    git_pull git@github.com:google/googletest.git
+    git_tmp_pull git@github.com:google/googletest.git
     cmake_install ${install_dir}/gtest
 }
 
@@ -171,7 +171,7 @@ goget()
 updatevim()
 {
     vimdir=${git_dir}/vim
-    git_pull git@github.com:vim/vim.git
+    git_tmp_pull git@github.com:vim/vim.git
     cd ${vimdir}/src
 	./configure --with-features=huge --enable-pythoninterp --enable-python3interp
     make
@@ -186,13 +186,13 @@ updatevim()
 vimdev()
 {
     vimdir=${shellpath}/vimrc
-    cd ${shellpath}
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
-        mkdir -p ~/.vim/bundle/Vundle.vim
-        cd ~/.vim/bundle/Vundle.vim
-        git_pull git@github.com:ycm-core/YouCompleteMe.git
+        mkdir -p ~/.vim/bundle
     fi
+    cd ~/.vim/bundle
+    git_pull git@github.com:VundleVim/Vundle.vim.git
+    git_sync_pull git@github.com:ycm-core/YouCompleteMe.git
     if [ -f ~/.vimrc ]
     then
         mv ~/.vimrc ~/.vimrc.bak
@@ -205,7 +205,6 @@ vimdev()
     vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
-    # git submodule sync --recursive
     git submodule update --init --recursive
     ${PYTHON} install.py --clang-completer # --go-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
@@ -216,20 +215,20 @@ vimdev()
 
 jsoncpp()
 {
-    git_pull git@github.com:open-source-parsers/jsoncpp.git
+    git_tmp_pull git@github.com:open-source-parsers/jsoncpp.git
     echo jsoncpp install_dir: ${install_dir}/jsoncpp
     cmake_install ${git_dir}/jsoncpp ${install_dir}/jsoncpp "-DBUILD_SHARED_LIBS=ON"
 }
 
 ffmpeg()
 {
-    git_pull git@github.com:FFmpeg/FFmpeg.git
+    git_tmp_pull git@github.com:FFmpeg/FFmpeg.git
     configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static"
 }
 
 spdlog()
 {
-    git_pull git@github.com:gabime/spdlog.git
+    git_tmp_pull git@github.com:gabime/spdlog.git
     cmake_install ${git_dir}/spdlog ${install_dir}/spdlog
 }
 
