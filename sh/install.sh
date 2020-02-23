@@ -150,7 +150,7 @@ nlohmann_json()
 gtest()
 {
     git_tmp_pull git@github.com:google/googletest.git
-    cmake_install ${install_dir}/gtest
+    cmake_install ${git_dir}/googletest ${install_dir}/gtest
 }
 
 goget()
