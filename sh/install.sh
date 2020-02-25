@@ -232,12 +232,31 @@ spdlog()
     cmake_install ${git_dir}/spdlog ${install_dir}/spdlog
 }
 
+gcc_install()
+{
+    # download_install http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-9.2.0/gcc-9.2.0.tar.gz auto configure ${install_dir}/gcc
+    # sudo yum install gcc-multilib
+    sudo yum install -y glibc-devel.i686 libgcc.i686 libstdc++-devel.i686 ncurses-devel.i686 texinfo
+    version=9.2.0
+    download http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${version}/gcc-${version}.tar.gz
+    cd gcc-${version}
+    ./contrib/download_prerequisites
+    mkdir build
+    cd build
+    ../configure --prefix=${install_dir}/gcc-${version} --enable-checking=release --enable-languages=c,c++
+    make -j${NUM_CPU} install
+
+}
+
 echo $*
 for library in $* ; do
     cd ${shellpath}/sh
     case ${library} in
     cmake)
         bash cmake.sh ${install_dir}
+        ;;
+    gcc)
+        gcc_install
         ;;
     *)
         eval "${library}"

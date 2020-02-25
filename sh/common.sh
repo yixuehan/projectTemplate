@@ -12,18 +12,19 @@ exec_echo()
 }
 
 shelldir=$(dirname $0)
-gitdir=$(realpath ${shelldir}/../git_tmp)
+git_dir=$(realpath ${shelldir}/../git_tmp)
+download_dir=$(realpath ${shelldir}/../download_tmp)
 
 # git_tmp_pull repo [branch]
 git_tmp_pull()
 {
     old_path=$(pwd)
-    if [ ! -d ${gitdir} ]
+    if [ ! -d ${git_dir} ]
     then
-        exec_echo mkdir ${gitdir}
+        exec_echo mkdir ${git_dir}
     fi
 
-    exec_echo cd $gitdir
+    exec_echo cd $git_dir
     git_pull $*
     cd ${old_path}
 
@@ -99,33 +100,7 @@ git_commit_pull()
     cd ${old_path}
 }
 
-download()
-{
-    old_path=$(pwd)
-    download_path=$1
-    cd ${download_path}
-    url=$2
-    if [ $# -eq 3 ]
-    then
-        target=$3
-    else
-        target=$(basename ${url})
-    fi
-
-    if [ ! -f ${target} ]
-    then
-        wget ${url} -O${target}
-        ret=$?
-        if [ ${ret} -eq 0 ]
-        then
-            unzip ${target}
-        else
-            exit ${ret}
-        fi
-    fi
-    cd ${old_path}
-}
-
+# src_dir install_dir cmake_flags
 cmake_install()
 {
     # src_dir _install_dir
@@ -135,7 +110,7 @@ cmake_install()
         return 1
     fi
     echo ".$0#." ".#$1." ".$2."
-    src_dir=$1
+    _src_dir=$1
     _install_dir=$2
     cmake_flags=""
     if [ $# -eq 3 ]
@@ -143,7 +118,7 @@ cmake_install()
         cmake_flags=$3
     fi
 
-    cd ${src_dir}
+    cd ${_src_dir}
     rm -rf build
     mkdir build
     cd build
@@ -151,6 +126,7 @@ cmake_install()
     make -j${NUM_CPU} install
 }
 
+# src_dir install_dir configure_flags
 configure_install()
 {
     # src_dir _install_dir
@@ -169,4 +145,67 @@ configure_install()
     cd ${src_dir}
     ./configure --prefix=${_install_dir} $configure_flags
     make -j${NUM_CPU} install
+}
+
+# url [dirname]
+# 有些压缩包解压后的名字可能不一样，需要手动指定
+download() 
+{
+    if [ $# -lt 1 ]
+    then
+        echo usage:download_zip url [dirname] 
+    fi
+    cd ${download_dir}
+    url=$1
+    _filename=$(basename ${url})
+
+    if [ ! -f ${_filename} ]
+    then
+        wget ${url}
+        if [ ! $? -eq 0 ]
+        then
+            rm -rf ${_filename}
+            return 1
+        fi
+    fi
+
+
+    _suffixs=(.tar.gz .zip tar.bz2)
+    _suffix=
+    for x in ${_suffixs}
+    do
+        echo ${x}
+        if [[ ${_filename} =~ ${x} ]]
+        then
+            _suffix=${x}
+            break
+        fi
+    done
+    
+    echo ${_filename} ${_suffix} ${#_suffix}
+    _dirname=${_filename::-${#_suffix}}
+    if [ $# -eq 2 ]
+    then
+        _dirname=$2
+    fi
+
+    if [ ! -d ${_dirname} ]
+    then
+        case ${_suffix} in
+        .tar.gz)
+            tar -xf ${_filename}
+            ;;
+        .zip)
+            tar -zxf ${_filename}
+            ;;
+        .tar.bz2)
+            tar -jxf ${_filename}
+            ;;
+        *)
+            echo unknown file format ${_filename}
+            return 1
+            ;;
+        esac
+    fi
+    return 0
 }
