@@ -100,7 +100,7 @@ git_commit_pull()
     cd ${old_path}
 }
 
-# src_dir install_dir cmake_flags
+# src_dir install_dir _cmake_flags
 cmake_install()
 {
     # src_dir _install_dir
@@ -112,17 +112,44 @@ cmake_install()
     echo ".$0#." ".#$1." ".$2."
     _src_dir=$1
     _install_dir=$2
-    cmake_flags=""
+    _cmake_flags=""
     if [ $# -eq 3 ]
     then
-        cmake_flags=$3
+        _cmake_flags=$3
     fi
 
     cd ${_src_dir}
     rm -rf build
     mkdir build
     cd build
-    cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $cmake_flags ..
+    cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
+    make -j${NUM_CPU} install
+}
+
+# src_dir install_dir qmake_flags
+qmake_install()
+{
+    # src_dir _install_dir
+    if [ $# -lt 2 ]
+    then
+        echo "qmake_install src_dir _install_dir"
+        return 1
+    fi
+    echo ".$0#." ".#$1." ".$2."
+    _src_dir=$1
+    _install_dir=$2
+    _qmake_flags=""
+    if [ $# -eq 3 ]
+    then
+        _qmake_flags=$3
+    fi
+
+    cd ${_src_dir}
+    rm -rf build
+    mkdir build
+    cd build
+    # qmake PREFIX=${_install_dir} $_qmake_flags ..
+    /usr/lib/aarch64-linux-gnu/qt5/bin/qmake PREFIX=${_install_dir} $_qmake_flags ..
     make -j${NUM_CPU} install
 }
 

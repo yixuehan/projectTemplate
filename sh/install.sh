@@ -245,7 +245,19 @@ gcc_install()
     cd build
     ../configure --prefix=${install_dir}/gcc-${version} --enable-checking=release --enable-languages=c,c++
     make -j${NUM_CPU} install
+}
 
+zlib()
+{
+    version=1.2.11
+    download https://www.zlib.net/zlib-${version}.tar.gz
+    cmake_install ${download_dir}/zlib-${version} ${install_dir}/zlib
+}
+
+quazip()
+{
+    git_tmp_pull https://github.com/stachenov/quazip.git
+    qmake_install ${git_dir}/quazip ${install_dir}/quazip
 }
 
 echo $*
