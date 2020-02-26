@@ -133,9 +133,9 @@ grpc()
     cd ${grpc_root}/third_party/protobuf
     ./autogen.sh
     ./configure --prefix=${install_dir}/grpc
-    make -j${NUM_CPU} install
+    make -j${PHYSICAL_NUM} install
     cd ${grpc_root}
-    make -j${NUM_CPU} install prefix=${install_dir}/grpc
+    make -j${PHYSICAL_NUM} install prefix=${install_dir}/grpc
     # go get github.com/golang/protobuf/protoc-gen-go
     cd ${old_path}
 }
@@ -244,7 +244,7 @@ gcc_install()
     mkdir build
     cd build
     ../configure --prefix=${install_dir}/gcc-${version} --enable-checking=release --enable-languages=c,c++
-    make -j${NUM_CPU} install
+    make -j${PHYSICAL_NUM} install
 }
 
 zlib()
@@ -260,12 +260,19 @@ quazip()
     qmake_install ${git_dir}/quazip ${install_dir}/quazip
 }
 
+cmake_install()
+{
+    version=3.16.4
+    download https://github.com/Kitware/CMake/releases/download/v${version}/cmake-${version}.tar.gz
+    configure_install ${download_dir}/cmake-${version} ${install_dir}/cmake
+}
+
 echo $*
 for library in $* ; do
     cd ${shellpath}/sh
     case ${library} in
     cmake)
-        bash cmake.sh ${install_dir}
+        cmake_install
         ;;
     gcc)
         gcc_install

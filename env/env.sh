@@ -36,7 +36,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql:.
 
-export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/bin:${PRONAME}/src/python/interface:${HOME}/util/python
+export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/cmake/bin:${PRONAME}/src/python/interface:${HOME}/util/python
 
 export PS1='[\u@\h \W]\$ '
 
@@ -45,7 +45,8 @@ export MKHOME=${repo}/mak
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
 
-export NUM_CPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
+export LOGIC_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
+export PHYSICAL_NUM=`cat /proc/cpuinfo | grep "physical id" | uniq | wc -l`
 
 export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
 
@@ -143,8 +144,6 @@ function re_link_gcc()
     sudo ln -s /usr/bin/gcc-$1 /usr/bin/gcc
     sudo ln -s /usr/bin/g++-$1 /usr/bin/g++
 }
-
-
 
 ulimit -c unlimited
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ ${NUM_CPU}x == "x" ]
+if [ ${PHYSICAL_NUM}x == "x" ]
 then
-    NUM_CPU=2
+    PHYSICAL_NUM=2
 fi
 
 exec_echo()
@@ -123,7 +123,7 @@ cmake_install()
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
-    make -j${NUM_CPU} install
+    make -j${PHYSICAL_NUM} install
 }
 
 # src_dir install_dir qmake_flags
@@ -150,7 +150,7 @@ qmake_install()
     cd build
     # qmake PREFIX=${_install_dir} $_qmake_flags ..
     /usr/lib/aarch64-linux-gnu/qt5/bin/qmake PREFIX=${_install_dir} $_qmake_flags ..
-    make -j${NUM_CPU} install
+    make -j${PHYSICAL_NUM} install
 }
 
 # src_dir install_dir configure_flags
@@ -171,7 +171,7 @@ configure_install()
     fi
     cd ${src_dir}
     ./configure --prefix=${_install_dir} $configure_flags
-    make -j${NUM_CPU} install
+    make -j${PHYSICAL_NUM} install
 }
 
 # url [dirname]
