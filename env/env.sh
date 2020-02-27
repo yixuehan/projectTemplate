@@ -46,7 +46,7 @@ export MKHOME=${repo}/mak
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
 
-export LOGIC_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
+export LOGICAL_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
 export PHYSICAL_NUM=`cat /proc/cpuinfo | grep "physical id" | uniq | wc -l`
 
 export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
