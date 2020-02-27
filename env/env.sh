@@ -128,6 +128,16 @@ function clean_dockeri()
     esac
 }
 
+function build()
+{
+    old=$(pwd)
+    mkdir build
+    cd build
+    cmake ..
+    make -j${NUM_CPU}
+    cd ${old}
+}
+
 function cd()
 {
     builtin cd $@ && ls

@@ -6,13 +6,13 @@ then
 fi
 install_dir=$1
 #version=3.14.1
-version=3.16.3
+version=3.16.4
 cd ../download_tmp
 if [ ! -f "cmake-${version}.tar.gz" ]
 then
     download_url=https://github.com/Kitware/CMake/releases/download/v${version}/cmake-${version}.tar.gz
-    echo ${download_url}
-    echo https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
+    # echo ${download_url}
+    # echo https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
     wget ${download_url}
     if [ $? -gt 0 ]
     then
