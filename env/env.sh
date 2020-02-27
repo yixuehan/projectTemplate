@@ -19,6 +19,7 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/boost/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/mysql/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/json/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/nlohmann_json/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/jsoncpp/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/FFmpeg/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/spdlog/include
@@ -36,7 +37,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql:.
 
-export PATH=$PATH:${PRONAME}/bin:${HOME}/usr/cmake/bin:${PRONAME}/src/python/interface:${HOME}/util/python
+export PATH=${PRONAME}/bin:${HOME}/usr/cmake/bin:${PRONAME}/src/python/interface:${HOME}/util/python:${PATH}
 
 export PS1='[\u@\h \W]\$ '
 
