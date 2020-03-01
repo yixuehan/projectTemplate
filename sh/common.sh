@@ -162,15 +162,20 @@ configure_install()
         echo "configure_install src_dir _install_dir"
         return 1
     fi
-    src_dir=$1
+    _src_dir=$1
     _install_dir=$2
     configure_flags=""
     if [ $# -eq 3 ]
     then
         configure_flags=$3
     fi
-    cd ${src_dir}
-    ./configure --prefix=${_install_dir} $configure_flags
+    cd ${_src_dir}
+    _config=configure
+    if [[ ${_src_dir} =~ "openssl" ]]
+    then
+        _config=config
+    fi
+    ./${_config} --prefix=${_install_dir} $configure_flags
     make -j${PHYSICAL_NUM} install
 }
 

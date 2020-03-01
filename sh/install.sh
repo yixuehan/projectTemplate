@@ -260,11 +260,25 @@ quazip()
     qmake_install ${git_dir}/quazip ${install_dir}/quazip
 }
 
-cmake_install()
+install_cmake()
 {
     version=3.16.4
     download https://github.com/Kitware/CMake/releases/download/v${version}/cmake-${version}.tar.gz
     configure_install ${download_dir}/cmake-${version} ${install_dir}/cmake
+}
+
+install_openssl()
+{
+    version=1.1.1d
+    download https://www.openssl.org/source/openssl-${version}.tar.gz
+    configure_install ${download_dir}/openssl-${version} ${install_dir}/openssl
+}
+
+aliyun_oss()
+{
+    sudo apt install libcurl4-openssl-dev
+    git_tmp_pull git@github.com:aliyun/aliyun-oss-cpp-sdk.git
+    cmake_install ${git_dir}/aliyun-oss-cpp-sdk ${install_dir}/aliyun-oss-cpp-sdk
 }
 
 echo $*
@@ -272,10 +286,13 @@ for library in $* ; do
     cd ${shellpath}/sh
     case ${library} in
     cmake)
-        cmake_install
+        install_cmake
         ;;
     gcc)
-        gcc_install
+        install_gcc
+        ;;
+    openssl)
+        install_openssl
         ;;
     *)
         eval "${library}"

@@ -15,29 +15,28 @@ export OPENCL_INCLUDE_PATH=/opt/intel/opencl/include
 export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/boost/include
+
+libs_dir=~/usr
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk)
+for lib in ${libs}
+do
+    include_path=${include_path}:${libs_path}/${lib}/include
+    lib_path=${lib_path}:${libs_path}/${lib}/lib
+    bin_path=${bin_path}:${libs_path}/${lib}/bin
+done
+
+export C_INCLUDE_PATH=${include_path}/${C_INCLUDE_PATH}
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/mysql/include
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/json/include
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/nlohmann_json/include
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/jsoncpp/include
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/FFmpeg/include
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/usr/spdlog/include
 
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${C_INCLUDE_PATH}
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/boost/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/mysql/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/grpc/lib
+
+export LD_LIBRARY_PATH=${lib_path}/${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/jsoncpp/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/FFmpeg/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/spdlog/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/usr/lib
 
-export LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/mysql:.
+export LIBRARY_PATH=$LD_LIBRARY_PATH:${LD_LIBRARY_PATH}
 
-export PATH=${PRONAME}/bin:${HOME}/usr/cmake/bin:${PRONAME}/src/python/interface:${HOME}/util/python:${PATH}
+export PATH=${bin_path}:${PATH}
 
 export PS1='[\u@\h \W]\$ '
 
