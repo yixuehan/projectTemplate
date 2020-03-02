@@ -17,13 +17,18 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
-libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk)
-for lib in ${libs}
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk cmake)
+for lib in ${libs[@]}
 do
-    include_path=${include_path}:${libs_path}/${lib}/include
-    lib_path=${lib_path}:${libs_path}/${lib}/lib
-    bin_path=${bin_path}:${libs_path}/${lib}/bin
+#    echo ${lib}
+    include_path=${include_path}:${libs_dir}/${lib}/include
+    lib_path=${lib_path}:${libs_dir}/${lib}/lib
+    bin_path=${bin_path}:${libs_dir}/${lib}/bin
 done
+
+#echo $include_path
+#echo $lib_path
+#echo $bin_path
 
 export C_INCLUDE_PATH=${include_path}/${C_INCLUDE_PATH}
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
@@ -31,10 +36,10 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${C_INCLUDE_PATH}
 
 
-export LD_LIBRARY_PATH=${lib_path}/${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${lib_path}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
 
-export LIBRARY_PATH=$LD_LIBRARY_PATH:${LD_LIBRARY_PATH}
+export LIBRARY_PATH=$LD_LIBRARY_PATH:${LIBRARY_PATH}
 
 export PATH=${bin_path}:${PATH}
 
