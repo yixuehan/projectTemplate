@@ -199,13 +199,13 @@ vimdev()
     fi
     ln -s ${vimdir}/cpp.vimrc ~/.vimrc -f
     ln -s ${vimdir}/base.vimrc ~/.base.vimrc -f
-    # go get
 
+    # go get
     # vim -u ${vimdir}/cpp.vimrc +PluginInstall! +GoInstallBinaries +qall
     vim -u ${vimdir}/cpp.vimrc +PluginInstall! +qall
 
     cd ~/.vim/bundle/YouCompleteMe
-    git submodule update --init --recursive
+    # git submodule update --init --recursive
     ${PYTHON} install.py --clang-completer # --go-completer
     if [ ! -f ~/.ycm_extra_conf.py ]
     then
@@ -279,6 +279,12 @@ aliyun_oss()
     sudo apt install libcurl4-openssl-dev
     git_tmp_pull git@github.com:aliyun/aliyun-oss-cpp-sdk.git
     cmake_install ${git_dir}/aliyun-oss-cpp-sdk ${install_dir}/aliyun-oss-cpp-sdk
+}
+
+rapidjson()
+{
+    git_tmp_pull git@github.com:Tencent/rapidjson.git
+    cmake_install ${git_dir}/rapidjson ${install_dir}/rapidjson
 }
 
 echo $*

@@ -48,7 +48,7 @@ git_sync_pull()
         exec_echo git clone ${branch} $repo --depth=1
         cd ${repodir}
         exec_echo git submodule sync --recursive
-        exec_echo git submodule update --init --recursive --depth=1
+        exec_echo git submodule update --init --recursive
     fi
     cd ${old_path}
 }
@@ -109,7 +109,7 @@ cmake_install()
         echo "cmake_install src_dir _install_dir"
         return 1
     fi
-    echo ".$0#." ".#$1." ".$2."
+    #echo ".$0#." ".#$1." ".$2."
     _src_dir=$1
     _install_dir=$2
     _cmake_flags=""

@@ -17,7 +17,7 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
-libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk cmake)
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
