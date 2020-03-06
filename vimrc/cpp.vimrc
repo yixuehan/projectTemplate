@@ -29,6 +29,7 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_error_symbol = '>>'
 let g:ycm_warning_symbol = '>*'
 let g:ycm_auto_trigger = 1
+let g:ycm_max_diagnostics_to_display = 0
 let g:ycm_max_num_candidates  =  0
 let g:ycm_max_num_identifier_candidates  =  0
 let g:ycm_always_populate_location_list  =  1
@@ -39,6 +40,7 @@ let g:ycm_use_ultisnips_completer = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
 let g:ycm_collect_identifiers_from_tags_files = 1"
 let g:ycm_log_level='debug'
+let g:ycm_goto_buffer_command = 'new-tab'
 
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_show_diagnostics_ui = 1

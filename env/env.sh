@@ -17,15 +17,15 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
-libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake sqlite3)
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
     include_path=${include_path}:${libs_dir}/${lib}/include
-    if [ -d ${lib}/lib ]
+    if [ -d ${libs_dir}/${lib}/lib ]
     then
         lib_path=${lib_path}:${libs_dir}/${lib}/lib
-    elif [ -d ${lib}/lib64 ]
+    elif [ -d ${libs_dir}/${lib}/lib64 ]
     then
         lib_path=${lib_path}:${libs_dir}/${lib}/lib64
     fi
@@ -39,11 +39,11 @@ done
 export C_INCLUDE_PATH=${include_path}/${C_INCLUDE_PATH}
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
 
-export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${C_INCLUDE_PATH}
+export CPLUS_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
 
 export LD_LIBRARY_PATH=${lib_path}:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:${LIBRARY_PATH}
 
