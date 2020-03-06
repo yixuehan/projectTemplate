@@ -17,12 +17,18 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
-libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake)
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake sqlite3)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
     include_path=${include_path}:${libs_dir}/${lib}/include
-    lib_path=${lib_path}:${libs_dir}/${lib}/lib
+    if [ -d ${lib}/lib ]
+    then
+        lib_path=${lib_path}:${libs_dir}/${lib}/lib
+    elif [ -d ${lib}/lib64 ]
+    then
+        lib_path=${lib_path}:${libs_dir}/${lib}/lib64
+    fi
     bin_path=${bin_path}:${libs_dir}/${lib}/bin
 done
 

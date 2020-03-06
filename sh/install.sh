@@ -287,6 +287,13 @@ rapidjson()
     cmake_install ${git_dir}/rapidjson ${install_dir}/rapidjson
 }
 
+sqlite3()
+{
+    version=202002271621
+    download https://www.sqlite.org/snapshot/sqlite-snapshot-${version}.tar.gz
+    configure_install ${download_dir}/sqlite-snapshot-${version} ${install_dir}/sqlite3
+}
+
 echo $*
 for library in $* ; do
     cd ${shellpath}/sh
