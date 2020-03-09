@@ -1,13 +1,6 @@
 #!/bin/bash
 
-if [ $0 == '-bash' ]
-then
-	curr=$(pwd)
-else
-	curr=$(dirname $0)
-fi
-
-repo=$(realpath ${curr}/..)
+repo=$(realpath $(dirname ${BASH_SOURCE})/..)
 
 if [ -e '/etc/centos-release' ]
 then
