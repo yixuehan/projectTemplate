@@ -45,12 +45,13 @@ git_sync_pull()
 
     if [ ! -d $repodir ]
     then
-        exec_echo git clone ${branch} $repo --depth=1
+        git clone ${branch} $repo --depth=1
         cd ${repodir}
-        exec_echo git submodule sync --recursive
-        exec_echo git submodule update --init --recursive
+        git submodule sync --recursive
+        git submodule update --init --recursive
     fi
     cd ${old_path}
+    return 0
 }
 
 # git_pull repo [branch]
@@ -123,7 +124,8 @@ cmake_install()
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
-    make -j${PHYSICAL_NUM} install
+    make -j${PHYSICAL_NUM}
+    make install
 }
 
 # src_dir install_dir qmake_flags
@@ -150,7 +152,8 @@ qmake_install()
     cd build
     # qmake PREFIX=${_install_dir} $_qmake_flags ..
     /usr/lib/aarch64-linux-gnu/qt5/bin/qmake PREFIX=${_install_dir} $_qmake_flags ..
-    make -j${PHYSICAL_NUM} install
+    make -j${PHYSICAL_NUM}
+    make install
 }
 
 # src_dir install_dir configure_flags
@@ -164,10 +167,10 @@ configure_install()
     fi
     _src_dir=$1
     _install_dir=$2
-    configure_flags=""
+    _configure_flags=""
     if [ $# -eq 3 ]
     then
-        configure_flags=$3
+        _configure_flags=$3
     fi
     cd ${_src_dir}
     _config=configure
@@ -175,8 +178,9 @@ configure_install()
     then
         _config=config
     fi
-    ./${_config} --prefix=${_install_dir} $configure_flags
-    make -j${PHYSICAL_NUM} install
+    ./${_config} --prefix=${_install_dir} $_configure_flags
+    make -j${PHYSICAL_NUM}
+    make install
 }
 
 # url [dirname]

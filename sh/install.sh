@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o errexit
+
 install_dir=${HOME}/usr
 
 # 下面不用修改
@@ -194,6 +196,11 @@ vimdev()
     cd ~/.vim/bundle
     git_pull git@github.com:VundleVim/Vundle.vim.git
     git_sync_pull git@github.com:ycm-core/YouCompleteMe.git
+    if [ ! $? -eq 0 ]
+    then
+        echo "clone git@github.com:ycm-core/YouCompleteMe.git error"
+        return 1
+    fi
     if [ -f ~/.vimrc ]
     then
         mv ~/.vimrc ~/.vimrc.bak
