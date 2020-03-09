@@ -165,6 +165,7 @@ goget()
         honnef.co/go/tools/cmd/keyify \
         github.com/jstemmer/gotags \
         golang.org/x/lint/golint
+    go get -u github.com/golang/protobuf/protoc-gen-go
 
 }
 

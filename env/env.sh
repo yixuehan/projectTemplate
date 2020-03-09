@@ -1,6 +1,13 @@
 #!/bin/bash
 
-repo=~/projectTemplate
+if [ $0 == '-bash' ]
+then
+	curr=$(pwd)
+else
+	curr=$(dirname $0)
+fi
+
+repo=$(realpath ${curr}/..)
 
 if [ -e '/etc/centos-release' ]
 then
