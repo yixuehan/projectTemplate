@@ -31,6 +31,11 @@ fi
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
+    grep "release 8" /etc/centos-release
+    if [ $? -eq 0 ]
+    then
+	MKOSTYPE=centos8
+    fi
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
@@ -54,7 +59,7 @@ software()
 PYTHON=python3
 PIP3=pip3
 case $MKOSTYPE in
-	ubuntu)
+	ubuntu|centos8)
         SUDO="sudo -H"
     ;;
     centos) 
@@ -69,36 +74,36 @@ esac
 
 initdev()
 {
+    tools="lrzsz git wget ctags curl screen"
     case $MKOSTYPE in
         ubuntu) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
-    	    ${SUDO} apt install -y ccache git wget vim docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
-                                   python3-tk
+    	    ${SUDO} apt install -y ccache git wget docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
+                                   python3-tk screen lrzsz
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
                 ;;
-        centos) 
-    	    ${SUDO} yum install -y centos-release-scl 
-            ${SUDO} yum install -y devtoolset-8
+        centos|centos8) 
+	    echo ${MKOSTYPE}
+	    if [ ${MKOSTYPE} != 'centos8' ]
+	    then
+    	        ${SUDO} yum install -y centos-release-scl 
+                ${SUDO} yum install -y devtoolset-8
+            fi
             ${SUDO} yum install -y epel-release
             ${SUDO} yum update -y
             ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
             ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
-            git bzip2 openssl-devel ncurses-devel \
+            git bzip2 openssl-devel ncurses-devel screen lrzsz\
 
-            ${SUDO} curl -fsSL https://get.docker.com/ | bash
-            ${SUDO} systemctl enable docker
-            ${SUDO} systemctl start docker
-    		${SUDO} usermod -a -G docker ${USER}
-    
             # ${SUDO} yum clean all
             #提示
-            source ${PWD}/env/env.sh
+            source ${PWD}/../env/env.sh
             ${SUDO} yum install wget
             ;;
     esac
     
-    bash go.sh
+    # bash go.sh
     git config --global credential.helper store
     
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -109,6 +114,14 @@ initdev()
 
 # ubuntu: sudo -H pip3 install redis -i https://pypi.tuna.tsinghua.edu.cn/simple
 # centos: sudo pip3 install Sphinx -i https://pypi.tuna.tsinghua.edu.cn/simple
+}
+
+install_docker()
+{
+    ${SUDO} curl -fsSL https://get.docker.com/ | bash
+    ${SUDO} systemctl enable docker
+    ${SUDO} systemctl start docker
+    ${SUDO} usermod -a -G docker ${USER}
 }
 
 
@@ -195,6 +208,10 @@ vimdev()
     fi
     cd ~/.vim/bundle
     git_pull git@github.com:VundleVim/Vundle.vim.git
+    git_pull git@github.com:nvie/vim-flake8.git
+    git_pull git@github.com:SirVer/ultisnips.git
+    git_pull git@github.com:majutsushi/tagbar.git
+    git_pull git@github.com:Raimondi/delimitMate.git
     git_sync_pull git@github.com:ycm-core/YouCompleteMe.git
     if [ ! $? -eq 0 ]
     then
@@ -292,6 +309,7 @@ aliyun_oss()
 rapidjson()
 {
     git_tmp_pull git@github.com:Tencent/rapidjson.git
+    # git_tmp_pull https://github.com/Tencent/rapidjson.git
     cmake_install ${git_dir}/rapidjson ${install_dir}/rapidjson
 }
 

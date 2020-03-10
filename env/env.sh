@@ -171,12 +171,16 @@ ulimit -c unlimited
 # devtoolset-7
 if [ $MKOSTYPE = "centos" ]
 then
-    #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
-    #export PATH=/opt/rh/rh-python36/root/bin:$PATH
-    source /opt/rh/devtoolset-8/enable
-    # source /opt/rh/rh-python36/enable
-    source /opt/rh/rh-mysql80/enable
-    # scl enable devtoolset-7 bash
+    grep "release 8" /etc/centos-release &>/dev/null
+    if [ ! $? -eq 0 ]
+    then
+        #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
+        #export PATH=/opt/rh/rh-python36/root/bin:$PATH
+        source /opt/rh/devtoolset-8/enable
+        # source /opt/rh/rh-python36/enable
+        source /opt/rh/rh-mysql80/enable
+        # scl enable devtoolset-7 bash
+    fi
 fi
 
 #if [ 4 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
