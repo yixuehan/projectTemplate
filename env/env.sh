@@ -144,7 +144,8 @@ function build()
     mkdir build
     cd build
     cmake ..
-    make -j${NUM_CPU}
+	echo "make -j${LOGICAL_NUM}"
+    make -j${LOGICAL_NUM}
     cd ${old}
 }
 
