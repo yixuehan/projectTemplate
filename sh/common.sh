@@ -76,15 +76,17 @@ git_pull()
     cd ${old_path}
 }
 
-# git_commit_pull commit
-# 有些github最新的提交可能有bug无法编译，取其中某次提交
-# 只拉取最新的10次提交
+# git_commit_pull repo
+# 有些github最新的提交可能有未与子模块同步
+# 拉取子模块最新的10次提交
 git_commit_pull()
 {
     old_path=$(pwd)
+    cd ${git_dir}
     repo=$1
     repodir=$(basename $1)
     repodir=${repodir::-4}
+    echo repodir:${repodir}
 
     if [ $# -gt 1 ]
     then
@@ -93,10 +95,10 @@ git_commit_pull()
 
     if [ ! -d $repodir ]
     then
-        exec_echo git clone $repo --depth=50
+        exec_echo git clone $repo --depth=1
         cd ${repodir}
-        exec_echo git checkout ${commit}
-        exec_echo git submodule update --init --recursive --depth=1
+        #exec_echo git submodule update --init --recursive --depth=10
+        exec_echo git submodule update --init --recursive
     fi
     cd ${old_path}
 }

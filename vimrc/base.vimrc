@@ -66,7 +66,7 @@ set shiftwidth=4
 set tags=tags;
 set termencoding=utf-8
 set encoding=utf-8
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5,latin-1
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5
 set nohlsearch
 set pastetoggle=<F5>
 set backspace=indent,eol,start

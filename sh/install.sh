@@ -109,7 +109,7 @@ initdev()
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis \
+		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 \
     		    -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # ubuntu: sudo -H pip3 install redis -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -188,6 +188,8 @@ updatevim()
 {
     vimdir=${git_dir}/vim
     git_tmp_pull git@github.com:vim/vim.git
+    configure_install ${vimdir}/src ${install_dir}/vim "--with-features=huge --enable-pythoninterp --enable-python3interp"
+    return $?
     cd ${vimdir}/src
 	./configure --with-features=huge --enable-pythoninterp --enable-python3interp
     make
@@ -308,8 +310,7 @@ aliyun_oss()
 
 rapidjson()
 {
-    git_tmp_pull git@github.com:Tencent/rapidjson.git
-    # git_tmp_pull https://github.com/Tencent/rapidjson.git
+    git_commit_pull git@github.com:Tencent/rapidjson.git
     cmake_install ${git_dir}/rapidjson ${install_dir}/rapidjson
 }
 

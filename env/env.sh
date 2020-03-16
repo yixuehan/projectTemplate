@@ -17,7 +17,7 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
-libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3)
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
@@ -151,7 +151,7 @@ function build()
 
 function cd()
 {
-    builtin cd $@ && ls
+    builtin cd "$@" && ls
 }
 
 function re_link_gcc()

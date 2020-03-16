@@ -82,7 +82,7 @@ let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 基于标签引�
 "let g:ycm_cache_omnifunc=0    " 禁止缓存匹配项,每次都重新生成匹配项
 let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
 let g:max_diagnostics_to_display=1000
-nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
+"nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
 "nnoremap <leader>lo :lopen<CR>    "open locationlist
 "nnoremap <leader>lc :lclose<CR>    "close locationlist
 let mapleader=","
