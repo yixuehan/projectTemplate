@@ -321,10 +321,20 @@ sqlite3()
     configure_install ${download_dir}/sqlite-snapshot-${version} ${install_dir}/sqlite3
 }
 
+install_git()
+{
+    sudo add-apt-repository ppa:git-core/ppa
+    sudo apt-get update
+    sudo apt-get install git
+}
+
 echo $*
 for library in $* ; do
     cd ${shellpath}/sh
     case ${library} in
+    git)
+        install_git
+        ;;
     cmake)
         install_cmake
         ;;
