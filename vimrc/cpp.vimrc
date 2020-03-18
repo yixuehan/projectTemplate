@@ -298,3 +298,4 @@ highlight SyntasticErrorSign guifg=white guibg=black
 " 禁止插件æ£查java
 " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
 let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
+set term=screen-256color
