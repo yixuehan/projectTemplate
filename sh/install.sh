@@ -159,7 +159,8 @@ grpc()
 # 编译json
 nlohmann_json()
 {
-    git_tmp_pull https://github.com/nlohmann/json.git
+    # git_tmp_pull https://github.com/nlohmann/json.git
+    git_tmp_pull git@github.com:nlohmann/json.git
     cmake_install ${git_dir}/json ${install_dir}/nlohmann_json
 }
 

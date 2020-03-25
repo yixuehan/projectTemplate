@@ -213,3 +213,13 @@ then
     export CCACHE_UMASK=0 # shared to world
 fi
 export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
+
+function clean_git_history()
+{
+    git checkout --orphan latest_branch
+    git add -A
+    git commit -am "清除所有历史版本"
+    git branch -D master
+    git branch -m master
+    git push -f origin master
+}
