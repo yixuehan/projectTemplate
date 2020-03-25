@@ -137,7 +137,8 @@ boost()
 grpc()
 {
     old_path=$(pwd)
-    git_tmp_pull git@github.com:grpc/grpc.git
+    cd ${git_dir}
+    git_sync_pull git@github.com:grpc/grpc.git
     grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
@@ -250,7 +251,7 @@ jsoncpp()
 ffmpeg()
 {
     git_tmp_pull git@github.com:FFmpeg/FFmpeg.git
-    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static"
+    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-decoder=h264"
 }
 
 spdlog()
@@ -328,10 +329,76 @@ install_git()
     sudo apt-get install git
 }
 
+libevdev()
+{
+    version=1.8.0
+    download https://www.freedesktop.org/software/libevdev/libevdev-${version}.tar.xz
+    configure_install ${download_dir}/libevdev-${version} ${install_dir}/libevdev
+}
+
+install_redis()
+{
+    download http://download.redis.io/redis-stable.tar.gz
+    cd ${download_dir}/redis-stable
+    make -j${PHYSICAL_NUM}
+    make PREFIX=${install_dir}/redis install
+}
+
+hiredis()
+{
+    git_tmp_pull git@github.com:redis/hiredis.git
+    cmake_install ${git_dir}/hiredis ${install_dir}/hiredis
+}
+
+hiredis-vip()
+{
+    git_tmp_pull git@github.com:vipshop/hiredis-vip.git
+    cd ${git_dir}/hiredis-vip
+    make -j${PHYSICAL_NUM}
+    make PREFIX=${install_dir}/hiredis-vip install
+}
+
+hiredis-v()
+{
+    git_tmp_pull git@github.com:wuli1999/hiredis-v.git
+    cd ${git_dir}/hiredis-v/src
+    make -j${PHYSICAL_NUM}
+    make PREFIX=${install_dir}/hiredis-v install
+    mkdir ${install_dir}/hiredis-v/lib
+    cp librediscluster.a librediscluster.so ${install_dir}/hiredis-v/lib
+}
+
+tcmalloc()
+{
+    git_tmp_pull git@github.com:google/tcmalloc.git
+    # cd ${git_dir}/tcmalloc
+}
+
+muduo()
+{
+    sudo apt-get install protobuf-compiler
+    git_tmp_pull git@github.com:chenshuo/muduo.git
+    cd ${git_dir}/muduo
+    ./build.sh
+}
+
+opencv()
+{
+    version=3.4.1
+    download https://github.com/opencv/opencv/archive/${version}.zip opencv-${version}
+    cd ${download_dir}/opencv-${version}
+    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}
+    unlink ${install_dir}/opencv || true
+    ln -s opencv-${version} ${install_dir}/opencv
+}
+
 echo $*
 for library in $* ; do
     cd ${shellpath}/sh
     case ${library} in
+    redis)
+        install_redis
+        ;;
     git)
         install_git
         ;;

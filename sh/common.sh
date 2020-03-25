@@ -208,9 +208,9 @@ download()
     fi
 
 
-    _suffixs=(.tar.gz .zip tar.bz2)
+    _suffixs=(.tar.gz .zip .tar.bz2 .tar.xz)
     _suffix=
-    for x in ${_suffixs}
+    for x in ${_suffixs[@]}
     do
         echo ${x}
         if [[ ${_filename} =~ ${x} ]]
@@ -230,6 +230,10 @@ download()
     if [ ! -d ${_dirname} ]
     then
         case ${_suffix} in
+        .tar.xz)
+            xz -kd ${_filename}
+            tar -xf ${_dirname}.tar
+            ;;
         .tar.gz)
             tar -xf ${_filename}
             ;;

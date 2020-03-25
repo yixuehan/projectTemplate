@@ -17,7 +17,8 @@ export OPENCL_LIBRARY_PATH=/opt/intel/opencl
 C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
-libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim)
+libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim libevdev \
+      hiredis-v opencv)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
@@ -58,6 +59,15 @@ export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
 
 export LOGICAL_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
 export PHYSICAL_NUM=`cat /proc/cpuinfo | grep "physical id" | uniq | wc -l`
+# 有些物理核心与逻辑核心数一样，编译时会崩溃，可能是内存不够，这种情况线程数 /2
+if [ ${PHYSICAL_NUM} -eq ${LOGICAL_NUM} ]
+then
+    PHYSICAL_NUM=${PHYSICAL_NUM}/2
+    if [ ${PHYSICAL_NUM} -lt 1 ]
+    then
+        PHYSICAL_NUM=1
+    fi
+fi
 
 export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
 
@@ -85,6 +95,11 @@ function scons()
     python3 $(which scons) $@
 }
 
+function lnboost()
+{
+    unlink ~/usr/boost || true
+    ln -s boost_$1 ~/usr/boost
+}
 
 function stop_docker()
 {
@@ -144,8 +159,8 @@ function build()
     mkdir build
     cd build
     cmake ..
-	echo "make -j${LOGICAL_NUM}"
-    make -j${LOGICAL_NUM}
+	echo "make -j${PHYSICAL_NUM}"
+    make -j${PHYSICAL_NUM}
     cd ${old}
 }
 

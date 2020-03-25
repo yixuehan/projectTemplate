@@ -1,0 +1,10 @@
+FROM dorowu/ubuntu-desktop-lxde-vnc
+
+COPY aliyun_sources.list /etc/apt/sources.list
+
+# VOLUME ["/home/shenlan/projectTemplate/docker/ubuntu/aliyun_sources.list", "/etc/apt/sources.list"]
+
+RUN cat /etc/apt/sources.list \
+ && apt update \
+ && apt install -y qt5-default g++ ccache make \
+ && apt clean
