@@ -109,7 +109,8 @@ initdev()
     ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 \
+		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython
+     \
     		    -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # ubuntu: sudo -H pip3 install redis -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -249,10 +250,17 @@ jsoncpp()
     cmake_install ${git_dir}/jsoncpp ${install_dir}/jsoncpp "-DBUILD_SHARED_LIBS=ON"
 }
 
+libx264()
+{
+    sudo apt install libx264-dev 
+    # git_tmp_pull git://git.videolan.org/x264
+    # configure_install ${git_dir}/x264 ${install_dir}/libx264 "--enable-shared"
+}
+
 ffmpeg()
 {
     git_tmp_pull git@github.com:FFmpeg/FFmpeg.git
-    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-decoder=h264"
+    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264"
 }
 
 spdlog()
@@ -385,7 +393,8 @@ muduo()
 
 opencv()
 {
-    version=3.4.1
+    version=3.3.0
+    # version=3.4.1
     download https://github.com/opencv/opencv/archive/${version}.zip opencv-${version}
     cd ${download_dir}/opencv-${version}
     cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}

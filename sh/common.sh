@@ -238,7 +238,7 @@ download()
             tar -xf ${_filename}
             ;;
         .zip)
-            tar -zxf ${_filename}
+            unzip ${_filename}
             ;;
         .tar.bz2)
             tar -jxf ${_filename}
