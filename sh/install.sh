@@ -84,9 +84,9 @@ initdev()
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
                 ;;
         centos|centos8) 
-	    echo ${MKOSTYPE}
-	    if [ ${MKOSTYPE} != 'centos8' ]
-	    then
+	        echo ${MKOSTYPE}
+	        if [ ${MKOSTYPE} != 'centos8' ]
+	        then
     	        ${SUDO} yum install -y centos-release-scl 
                 ${SUDO} yum install -y devtoolset-8
             fi
@@ -94,7 +94,7 @@ initdev()
             ${SUDO} yum update -y
             ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
             ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
-            git bzip2 openssl-devel ncurses-devel screen lrzsz\
+            git bzip2 openssl-devel ncurses-devel screen lrzsz gdb \
 
             # ${SUDO} yum clean all
             #提示
@@ -119,10 +119,17 @@ initdev()
 
 install_docker()
 {
-    ${SUDO} curl -fsSL https://get.docker.com/ | bash
-    ${SUDO} systemctl enable docker
-    ${SUDO} systemctl start docker
-    ${SUDO} usermod -a -G docker ${USER}
+    version=1.2.6-3.3
+    # cd ${download_dir}
+    sudo dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-${version}.el7.x86_64.rpm
+    # sudo rpm -i containerd.io-${version}.el7.x86_64.rpm
+    sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    sudo yum install docker-ce docker-ce-cli containerd.io
+    # ${SUDO} curl -fsSL https://get.docker.com/ | bash
+    # ${SUDO} systemctl enable docker
+    # ${SUDO} systemctl start docker
+    # ${SUDO} usermod -a -G docker ${USER}
 }
 
 
@@ -313,7 +320,7 @@ install_openssl()
 
 aliyun_oss()
 {
-    sudo apt install libcurl4-openssl-dev
+    # sudo apt install libcurl4-openssl-dev
     git_tmp_pull git@github.com:aliyun/aliyun-oss-cpp-sdk.git
     cmake_install ${git_dir}/aliyun-oss-cpp-sdk ${install_dir}/aliyun-oss-cpp-sdk
 }
@@ -408,6 +415,9 @@ for library in $* ; do
     case ${library} in
     redis)
         install_redis
+        ;;
+    docker)
+        install_docker
         ;;
     git)
         install_git
