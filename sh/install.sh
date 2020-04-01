@@ -1,19 +1,19 @@
 #!/bin/bash
 
-set -o errexit
+# set -o errexit
 
 install_dir=${HOME}/usr
 
 # 下面不用修改
 
-shellpath=$(dirname $(realpath $0))
-shellpath=$(realpath ${shellpath}/..)
+pro_dir=$(dirname $(realpath $0))
+pro_dir=$(realpath ${pro_dir}/..)
 #设置mak、shell路径`
-git_dir=${shellpath}/git_tmp
-download_path=${shellpath}/download_tmp
-cd ${shellpath}/sh
+git_dir=${pro_dir}/git_tmp
+download_path=${pro_dir}/download_tmp
+cd ${pro_dir}/sh
 source common.sh
-#cd ${shellpath}
+#cd ${pro_dir}
 
 if [ ! -d $git_dir ]
 then
@@ -31,10 +31,10 @@ fi
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
-    grep "release 8" /etc/centos-release
-    if [ $? -eq 0 ]
+    r=$(grep "release 8" /etc/centos-release | grep -v grep)
+    if [ ${r}x != "" ]
     then
-	MKOSTYPE=centos8
+	    MKOSTYPE=centos8
     fi
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
@@ -94,7 +94,7 @@ initdev()
             ${SUDO} yum update -y
             ${SUDO} yum install -y make mysql-devel wget which ccache autoconf \
             ${PYTHON} ${PYTHON}-pip ${PYTHON}-devel ${PYTHON}-tkinter \
-            git bzip2 openssl-devel ncurses-devel screen lrzsz gdb \
+                git bzip2 openssl-devel ncurses-devel screen lrzsz gdb \
 
             # ${SUDO} yum clean all
             #提示
@@ -213,7 +213,7 @@ updatevim()
 
 vimdev()
 {
-    vimdir=${shellpath}/vimrc
+    vimdir=${pro_dir}/vimrc
     if [ ! -d ~/.vim/bundle/Vundle.vim ]
     then
         mkdir -p ~/.vim/bundle
@@ -340,9 +340,11 @@ sqlite3()
 
 install_git()
 {
-    sudo add-apt-repository ppa:git-core/ppa
-    sudo apt-get update
-    sudo apt-get install git
+    version=2.26.0
+    download https://mirrors.edge.kernel.org/pub/software/scm/git/git-${version}.tar.gz
+    # sudo add-apt-repository ppa:git-core/ppa
+    # sudo apt-get update
+    # sudo apt-get install git
 }
 
 libevdev()
@@ -402,6 +404,8 @@ opencv()
 {
     version=3.3.0
     # version=3.4.1
+    version=3.4.2
+    version=4.2.0
     download https://github.com/opencv/opencv/archive/${version}.zip opencv-${version}
     cd ${download_dir}/opencv-${version}
     cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}
@@ -409,9 +413,15 @@ opencv()
     ln -s opencv-${version} ${install_dir}/opencv
 }
 
+yasm()
+{
+    git_tmp_pull https://github.com/yasm/yasm.git
+    configure_install ${git_dir}/yasm ${install_dir}/yasm
+}
+
 echo $*
 for library in $* ; do
-    cd ${shellpath}/sh
+    cd ${pro_dir}/sh
     case ${library} in
     redis)
         install_redis
@@ -439,4 +449,4 @@ done
 
 
 echo 在.bashrc中增加:
-echo ". ${shellpath}/env/env.sh"
+echo ". ${pro_dir}/env/env.sh"
