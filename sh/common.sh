@@ -1,9 +1,13 @@
 #!/bin/bash
 
-if [ ${PHYSICAL_NUM}x == "x" ]
+source env.sh
+
+if [ "${PHYSICAL_NUM}x" == "x" ]
 then
     PHYSICAL_NUM=2
 fi
+
+echo ${PHYSICAL_NUM}
 
 exec_echo()
 {
@@ -115,6 +119,10 @@ cmake_install()
     #echo ".$0#." ".#$1." ".$2."
     _src_dir=$1
     _install_dir=$2
+    if [ ${uid} -eq 0 ]
+    then
+        _install_dir=/root/usr
+    fi
     _cmake_flags=""
     if [ $# -eq 3 ]
     then
@@ -142,6 +150,10 @@ qmake_install()
     echo ".$0#." ".#$1." ".$2."
     _src_dir=$1
     _install_dir=$2
+    if [ ${uid} -eq 0 ] 
+    then
+        _install_dir=/root/usr
+    fi
     _qmake_flags=""
     if [ $# -eq 3 ]
     then
@@ -169,6 +181,10 @@ configure_install()
     fi
     _src_dir=$1
     _install_dir=$2
+    if [ ${uid} -eq 0 ] 
+    then
+        _install_dir=/root/usr
+    fi
     _configure_flags=""
     if [ $# -eq 3 ]
     then

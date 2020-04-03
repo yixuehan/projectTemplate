@@ -32,7 +32,7 @@ if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
     r=$(grep "release 8" /etc/centos-release | grep -v grep)
-    if [ ${r}x != "" ]
+    if [ "${r}x" != "" ]
     then
 	    MKOSTYPE=centos8
     fi
@@ -58,18 +58,23 @@ software()
 
 PYTHON=python3
 PIP3=pip3
-case $MKOSTYPE in
-	ubuntu|centos8)
-        SUDO="sudo -H"
-    ;;
-    centos) 
-	    SUDO="/bin/sudo -H"
-    ;;
-    *)
-        echo unknown os type [$MKOSTYPE]
-        exit 1
-    ;;
-esac
+uid=$(id -u)
+if [ ! ${uid} -eq 0 ]
+then
+    case $MKOSTYPE in
+    	ubuntu|centos8)
+            SUDO="sudo -H"
+        ;;
+        centos) 
+    	    SUDO="/bin/sudo -H"
+        ;;
+        *)
+            echo unknown os type [$MKOSTYPE]
+            exit 1
+        ;;
+    esac
+fi
+
 
 
 initdev()

@@ -1,7 +1,9 @@
 #!/bin/bash
 #source ../../syncgit.sh
-registry=registry.cn-shanghai.aliyuncs.com/love996
-image=centos
+registry=w505703394
+image_centos=centos
+image_alpine=alpine
+image=${image_alpine}
 tag_dev_base=dev_base
 tag_dev=dev
 tag_cmake=cmake
@@ -11,15 +13,12 @@ tag_go=go
 tag_python=python3
 #docker_home=/develop
 docker_install_dir=/develop
-git_tmp=${PWD}/git_tmp
-download_tmp=${PWD}/download_tmp
 uid=$(shell id -u)
 # uid=0
 
 # set -o errexit
 cwd=$(shell pwd)
-repo_dir=${HOME}/projectTemplate
-docker_repo_dir=/root/projectTemplate
+git_dir=${HOME}/projectTemplate
 
 complile_boost:${git_dir}/sh/boost.py build_dev_base
 	rm -rf boost_install
@@ -70,17 +69,10 @@ build_cmake:complile_cmake ${git_dir}/sh/cmake.sh Dockerfile_cmake build_dev_bas
 	docker push ${registry}/${image}:${tag_cmake}
 	touch build_cmake
 
-dev:
-	docker run --rm -v ${repo_dir}/sh:${docker_repo_dir}/sh \
-		            -v ${PWD}/git_tmp:${docker_repo_dir}/git_tmp \
-					-v ${PWD}/download_tmp:${docker_repo_dir}/download_tmp \
-					-v ${PWD}/pkg:/root/usr \
-					-w ${docker_repo_dir}/sh \
-					${registry}/${image}:${tag_dev_base} \
-					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v openssl sqlite3 aliyun_oss
-	# docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
-	# docker push ${registry}/${image}:${tag_dev}
-	touch dev
+build_dev:complile_boost complile_json complile_mysql Dockerfile_dev
+	docker build -t ${registry}/${image}:${tag_dev} --no-cache -f Dockerfile_dev .
+	docker push ${registry}/${image}:${tag_dev}
+	touch build_dev
 
 build_release:build_release_base Dockerfile_release
 	docker build -t ${registry}/${image}:${tag_release} -f Dockerfile_release .
@@ -95,7 +87,7 @@ build_alpine_python:Dockerfile_alpine_python
 dev_base:Dockerfile_dev_base
 	docker build -t ${registry}/${image}:${tag_dev_base} -f Dockerfile_dev_base .
 	# docker push ${registry}/${image}:${tag_dev_base}
-	touch dev_base
+	touch build_dev_base
 
 build_release_base:Dockerfile_release_base
 	docker build -t ${registry}/${image}:${tag_release_base} -f Dockerfile_release_base .
