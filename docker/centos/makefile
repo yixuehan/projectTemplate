@@ -74,7 +74,8 @@ dev:
 	docker run --rm -v ${repo_dir}/sh:${docker_repo_dir}/sh \
 		            -v ${PWD}/git_tmp:${docker_repo_dir}/git_tmp \
 					-v ${PWD}/download_tmp:${docker_repo_dir}/download_tmp \
-					-v ${PWD}/pkg:/root/usr \
+					-v ${HOME}/.ssh:/root/.ssh \
+					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
 					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v openssl sqlite3 aliyun_oss
