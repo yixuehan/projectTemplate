@@ -151,7 +151,7 @@ grpc()
 {
     old_path=$(pwd)
     cd ${git_dir}
-    git_sync_pull git@github.com:grpc/grpc.git
+    git_sync_pull https://github.com/grpc/grpc.git
     grpc_root=${git_dir}/grpc
 
     echo 编译grpc...
@@ -173,13 +173,13 @@ grpc()
 nlohmann_json()
 {
     # git_tmp_pull https://github.com/nlohmann/json.git
-    git_tmp_pull git@github.com:nlohmann/json.git
+    git_tmp_pull https://github.com/nlohmann/json.git
     cmake_install ${git_dir}/json ${install_dir}/nlohmann_json
 }
 
 gtest()
 {
-    git_tmp_pull git@github.com:google/googletest.git
+    git_tmp_pull https://github.com/google/googletest.git
     cmake_install ${git_dir}/googletest ${install_dir}/gtest
 }
 
@@ -202,7 +202,7 @@ goget()
 updatevim()
 {
     vimdir=${git_dir}/vim
-    git_tmp_pull git@github.com:vim/vim.git
+    git_tmp_pull https://github.com/vim/vim.git
     configure_install ${vimdir}/src ${install_dir}/vim "--with-features=huge --enable-pythoninterp --enable-python3interp"
     return $?
     cd ${vimdir}/src
@@ -224,15 +224,15 @@ vimdev()
         mkdir -p ~/.vim/bundle
     fi
     cd ~/.vim/bundle
-    git_pull git@github.com:VundleVim/Vundle.vim.git
-    git_pull git@github.com:nvie/vim-flake8.git
-    git_pull git@github.com:SirVer/ultisnips.git
-    git_pull git@github.com:majutsushi/tagbar.git
-    git_pull git@github.com:Raimondi/delimitMate.git
-    git_sync_pull git@github.com:ycm-core/YouCompleteMe.git
+    git_pull https://github.com/VundleVim/Vundle.vim.git
+    git_pull https://github.com/nvie/vim-flake8.git
+    git_pull https://github.com/SirVer/ultisnips.git
+    git_pull https://github.com/majutsushi/tagbar.git
+    git_pull https://github.com/Raimondi/delimitMate.git
+    git_sync_pull https://github.com/ycm-core/YouCompleteMe.git
     if [ ! $? -eq 0 ]
     then
-        echo "clone git@github.com:ycm-core/YouCompleteMe.git error"
+        echo "clone https://github.com/ycm-core/YouCompleteMe.git error"
         return 1
     fi
     if [ -f ~/.vimrc ]
@@ -257,7 +257,7 @@ vimdev()
 
 jsoncpp()
 {
-    git_tmp_pull git@github.com:open-source-parsers/jsoncpp.git
+    git_tmp_pull https://github.com/open-source-parsers/jsoncpp.git
     echo jsoncpp install_dir: ${install_dir}/jsoncpp
     cmake_install ${git_dir}/jsoncpp ${install_dir}/jsoncpp "-DBUILD_SHARED_LIBS=ON"
 }
@@ -271,13 +271,13 @@ libx264()
 
 ffmpeg()
 {
-    git_tmp_pull git@github.com:FFmpeg/FFmpeg.git
+    git_tmp_pull https://github.com/FFmpeg/FFmpeg.git
     configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264"
 }
 
 spdlog()
 {
-    git_tmp_pull git@github.com:gabime/spdlog.git
+    git_tmp_pull https://github.com/gabime/spdlog.git
     cmake_install ${git_dir}/spdlog ${install_dir}/spdlog
 }
 
@@ -326,13 +326,13 @@ install_openssl()
 aliyun_oss()
 {
     # sudo apt install libcurl4-openssl-dev
-    git_tmp_pull git@github.com:aliyun/aliyun-oss-cpp-sdk.git
+    git_tmp_pull https://github.com/aliyun/aliyun-oss-cpp-sdk.git
     cmake_install ${git_dir}/aliyun-oss-cpp-sdk ${install_dir}/aliyun-oss-cpp-sdk
 }
 
 rapidjson()
 {
-    git_commit_pull git@github.com:Tencent/rapidjson.git
+    git_commit_pull https://github.com/Tencent/rapidjson.git
     cmake_install ${git_dir}/rapidjson ${install_dir}/rapidjson
 }
 
@@ -369,13 +369,13 @@ install_redis()
 
 hiredis()
 {
-    git_tmp_pull git@github.com:redis/hiredis.git
+    git_tmp_pull https://github.com/redis/hiredis.git
     cmake_install ${git_dir}/hiredis ${install_dir}/hiredis
 }
 
 hiredis-vip()
 {
-    git_tmp_pull git@github.com:vipshop/hiredis-vip.git
+    git_tmp_pull https://github.com/vipshop/hiredis-vip.git
     cd ${git_dir}/hiredis-vip
     make -j${PHYSICAL_NUM}
     make PREFIX=${install_dir}/hiredis-vip install
@@ -383,7 +383,7 @@ hiredis-vip()
 
 hiredis-v()
 {
-    git_tmp_pull git@github.com:wuli1999/hiredis-v.git
+    git_tmp_pull https://github.com/wuli1999/hiredis-v.git
     cd ${git_dir}/hiredis-v/src
     make -j${PHYSICAL_NUM}
     make PREFIX=${install_dir}/hiredis-v install
@@ -393,14 +393,14 @@ hiredis-v()
 
 tcmalloc()
 {
-    git_tmp_pull git@github.com:google/tcmalloc.git
+    git_tmp_pull https://github.com/google/tcmalloc.git
     # cd ${git_dir}/tcmalloc
 }
 
 muduo()
 {
     sudo apt-get install protobuf-compiler
-    git_tmp_pull git@github.com:chenshuo/muduo.git
+    git_tmp_pull https://github.com/chenshuo/muduo.git
     cd ${git_dir}/muduo
     ./build.sh
 }
