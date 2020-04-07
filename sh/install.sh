@@ -127,11 +127,11 @@ install_docker()
 {
     version=1.2.6-3.3
     # cd ${download_dir}
-    sudo dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-${version}.el7.x86_64.rpm
+    ${SUDO} dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-${version}.el7.x86_64.rpm
     # sudo rpm -i containerd.io-${version}.el7.x86_64.rpm
-    sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    sudo yum install docker-ce docker-ce-cli containerd.io
+    ${SUDO} yum install -y yum-utils device-mapper-persistent-data lvm2
+    ${SUDO} yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    ${SUDO} yum install docker-ce docker-ce-cli containerd.io
     # ${SUDO} curl -fsSL https://get.docker.com/ | bash
     # ${SUDO} systemctl enable docker
     # ${SUDO} systemctl start docker
@@ -164,7 +164,7 @@ grpc()
     echo 编译grpc...
     case $MKOSTYPE in
         ubuntu) ${SUDO} apt install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
-        centos) ${SUDO} yum install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
+        centos|centos8) ${SUDO} yum install -y build-essential autoconf libtool pkg-config libgflags-dev libgtest-dev clang libc++-dev ;;
     esac
     cd ${grpc_root}/third_party/protobuf
     ./autogen.sh
@@ -271,7 +271,7 @@ jsoncpp()
 
 libx264()
 {
-    sudo apt install libx264-dev 
+    ${SUDO} apt install libx264-dev 
     # git_tmp_pull git://git.videolan.org/x264
     # configure_install ${git_dir}/x264 ${install_dir}/libx264 "--enable-shared"
 }
@@ -292,7 +292,7 @@ gcc_install()
 {
     # download_install http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-9.2.0/gcc-9.2.0.tar.gz auto configure ${install_dir}/gcc
     # sudo yum install gcc-multilib
-    sudo yum install -y glibc-devel.i686 libgcc.i686 libstdc++-devel.i686 ncurses-devel.i686 texinfo
+    ${SUDO} yum install -y glibc-devel.i686 libgcc.i686 libstdc++-devel.i686 ncurses-devel.i686 texinfo
     version=9.2.0
     download http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${version}/gcc-${version}.tar.gz
     cd gcc-${version}
@@ -359,9 +359,6 @@ install_git()
 {
     version=2.26.0
     download https://mirrors.edge.kernel.org/pub/software/scm/git/git-${version}.tar.gz
-    # sudo add-apt-repository ppa:git-core/ppa
-    # sudo apt-get update
-    # sudo apt-get install git
 }
 
 libevdev()
@@ -411,19 +408,9 @@ tcmalloc()
 
 muduo()
 {
-    sudo apt-get install protobuf-compiler
+    # ${SUDO} apt-get install protobuf-compiler
     git_tmp_pull https://github.com/chenshuo/muduo.git
     cmake_install ${git_dir}/muduo ${install_dir}/muduo "-DMUDUO_BUILD_EXAMPLES=OFF"
-    # cd ${git_dir}/muduo
-    # sed -i 's@-Wconversion@#-Wconversion@g' CMakeLists.txt
-    # sed -i 's@-Wold-style-cast@#-Wold-style-cast@g' CMakeLists.txt
-    # if [ ${uid} -eq 0 ]
-    # then
-    #     sed -i 's@INSTALL_DIR=.*@INSTALL_DIR=${HOME}/usr@g' build.sh
-    # else
-    #     sed -i 's@INSTALL_DIR=.*@INSTALL_DIR=${HOME}/usr/muduo@g' build.sh
-    # fi
-    # ./build.sh
 }
 
 opencv()
