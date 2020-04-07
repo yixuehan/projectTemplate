@@ -76,7 +76,7 @@ export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
 alias cds='cd $PRONAME/src'
 alias cdi='cd $PRONAME/include'
 alias cdm='cd ${repo}/mak'
-alias cde='cd ${repo}/env'
+alias cdsh='cd ${repo}/sh'
 alias cdl='cd $PRONAME/log'
 alias cdb='cd $PRONAME/bin'
 alias cdp='cd $PRONAME'
@@ -118,11 +118,12 @@ function stop_docker()
 
 function rm_docker()
 {
-    if [ $# -gt 0 ]
+    if [ "allx" == "${1}x" ]
+    then
+        containers=$(docker ps -a | grep "Exited.*ago" | cut -d' ' -f1)
+    elif [ $# -gt 0 ]
     then
         containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | cut -d' ' -f1)
-    else
-        containers=$(docker ps -a | grep "Exited.*ago" | cut -d' ' -f1)
     fi
     echo ${containers}
     if [ "${containers}x" != "x" ]

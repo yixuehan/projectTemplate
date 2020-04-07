@@ -70,7 +70,7 @@ build_cmake:complile_cmake ${git_dir}/sh/cmake.sh Dockerfile_cmake build_dev_bas
 	docker push ${registry}/${image}:${tag_cmake}
 	touch build_cmake
 
-dev:
+dev:Dockerfile_dev
 	docker run --rm -v ${repo_dir}/sh:${docker_repo_dir}/sh \
 		            -v ${PWD}/git_tmp:${docker_repo_dir}/git_tmp \
 					-v ${PWD}/download_tmp:${docker_repo_dir}/download_tmp \
@@ -78,7 +78,8 @@ dev:
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v openssl sqlite3 aliyun_oss
+					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss
+					# bash
 	# docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
 	# docker push ${registry}/${image}:${tag_dev}
 	touch dev
@@ -95,7 +96,7 @@ build_alpine_python:Dockerfile_alpine_python
 
 dev_base:Dockerfile_dev_base
 	docker build -t ${registry}/${image}:${tag_dev_base} -f Dockerfile_dev_base .
-	# docker push ${registry}/${image}:${tag_dev_base}
+	docker push ${registry}/${image}:${tag_dev_base}
 	touch dev_base
 
 build_release_base:Dockerfile_release_base

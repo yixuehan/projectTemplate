@@ -58,14 +58,15 @@ def download_file(tree, filename):
         assert False
     downloadpath = downloadpath[0]
 
-    if len(downloadhash) != 1:
-        print("获取文件hash失败！")
-        assert False
-    downloadhash = downloadhash[0]
-
     # filename = os.path.join(downloaddir, filename)
 
     if os.path.exists(filename):
+        if len(downloadhash) != 1:
+            print("获取文件hash失败！")
+            downloadhash = [hashlib.sha256(open(filename, "rb").read()).hexdigest()]
+            # assert False
+        downloadhash = downloadhash[0]
+
         hashcode = hashlib.sha256(open(filename, "rb").read()).hexdigest()
         print("hash:", hashcode)
         if hashcode == downloadhash:
