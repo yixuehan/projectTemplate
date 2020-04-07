@@ -14,6 +14,7 @@ download_path=${pro_dir}/download_tmp
 cd ${pro_dir}/sh
 source common.sh
 #cd ${pro_dir}
+uid=$(id -u)
 
 if [ ! -d $git_dir ]
 then
@@ -143,7 +144,13 @@ install_docker()
 boost()
 {
     echo 编译boost...
-    ./boost.py ${install_dir}
+    if [ ${uid} -eq 0 ]
+    then
+        ./boost.py /root/usr
+    else
+        ./boost.py ${install_dir}
+    fi
+
 }
 
 # 编译grpc
@@ -174,7 +181,7 @@ nlohmann_json()
 {
     # git_tmp_pull https://github.com/nlohmann/json.git
     git_tmp_pull https://github.com/nlohmann/json.git
-    cmake_install ${git_dir}/json ${install_dir}/nlohmann_json
+    cmake_install ${git_dir}/json ${install_dir}/nlohmann_json "-DBUILD_TESTING=OFF"
 }
 
 gtest()
@@ -311,7 +318,12 @@ quazip()
 
 install_cmake()
 {
+    curr_version=$(cmake --version | head -n1 | cut -d' ' -f3)
     version=3.16.4
+    if [ "${curr_version}x" == "${version}x" ]
+    then
+        return 0
+    fi
     download https://github.com/Kitware/CMake/releases/download/v${version}/cmake-${version}.tar.gz
     configure_install ${download_dir}/cmake-${version} ${install_dir}/cmake
 }
@@ -401,8 +413,17 @@ muduo()
 {
     sudo apt-get install protobuf-compiler
     git_tmp_pull https://github.com/chenshuo/muduo.git
-    cd ${git_dir}/muduo
-    ./build.sh
+    cmake_install ${git_dir}/muduo ${install_dir}/muduo "-DMUDUO_BUILD_EXAMPLES=OFF"
+    # cd ${git_dir}/muduo
+    # sed -i 's@-Wconversion@#-Wconversion@g' CMakeLists.txt
+    # sed -i 's@-Wold-style-cast@#-Wold-style-cast@g' CMakeLists.txt
+    # if [ ${uid} -eq 0 ]
+    # then
+    #     sed -i 's@INSTALL_DIR=.*@INSTALL_DIR=${HOME}/usr@g' build.sh
+    # else
+    #     sed -i 's@INSTALL_DIR=.*@INSTALL_DIR=${HOME}/usr/muduo@g' build.sh
+    # fi
+    # ./build.sh
 }
 
 opencv()
@@ -424,10 +445,20 @@ yasm()
     configure_install ${git_dir}/yasm ${install_dir}/yasm
 }
 
+install_ccache()
+{
+    version=3.7.9
+    download https://github.com/ccache/ccache/releases/download/v${version}/ccache-${version}.tar.gz
+    configure_install ${download_dir}/ccache-${version} ${install_dir}/ccache
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
     case ${library} in
+    ccache)
+        install_ccache
+        ;;
     redis)
         install_redis
         ;;

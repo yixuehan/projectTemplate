@@ -18,7 +18,7 @@ C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
 libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim libevdev \
-      hiredis-v opencv)
+      hiredis-v opencv ccache)
 for lib in ${libs[@]}
 do
 #    echo ${lib}

@@ -19,6 +19,7 @@ uid=$(shell id -u)
 # set -o errexit
 cwd=$(shell pwd)
 repo_dir=${HOME}/projectTemplate
+docker_dir=${repo_dir}/docker
 docker_repo_dir=/root/projectTemplate
 
 complile_boost:${git_dir}/sh/boost.py build_dev_base
@@ -72,22 +73,21 @@ build_cmake:complile_cmake ${git_dir}/sh/cmake.sh Dockerfile_cmake build_dev_bas
 
 dev:Dockerfile_dev
 	docker run --rm -v ${repo_dir}/sh:${docker_repo_dir}/sh \
-		            -v ${PWD}/git_tmp:${docker_repo_dir}/git_tmp \
-					-v ${PWD}/download_tmp:${docker_repo_dir}/download_tmp \
+		            -v ${docker_dir}/git_tmp:${docker_repo_dir}/git_tmp \
+					-v ${docker_dir}/download_tmp:${docker_repo_dir}/download_tmp \
 					-v ${HOME}/.ssh:/root/.ssh \
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss
-					# bash
-	# docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
-	# docker push ${registry}/${image}:${tag_dev}
+					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache
+	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
+	docker push ${registry}/${image}:${tag_dev}
 	touch dev
 
-build_release:build_release_base Dockerfile_release
+release:Dockerfile_release
 	docker build -t ${registry}/${image}:${tag_release} -f Dockerfile_release .
 	docker push ${registry}/${image}:${tag_release}
-	touch build_release
+	touch release
 
 build_alpine_python:Dockerfile_alpine_python
 	docker build -t ${registry}/${image_alpine}:${tag_python} -f Dockerfile_alpine_python .

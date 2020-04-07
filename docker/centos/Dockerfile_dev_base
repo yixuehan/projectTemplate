@@ -1,18 +1,39 @@
-FROM centos
+FROM centos:centos8
 
 RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo \
- && yum update -y \
- && yum install -y epel-release \
- && yum update -y \
- && yum install -y make mysql-devel wget python3 which ccache git bzip2 glibc-common gcc-c++ gdb \
+ && yum install -y glibc-langpack-en \
+ && yum update -y \ 
+ && yum install -y make mysql-devel wget python3 which git bzip2 glibc-common gcc-c++ gdb python3-devel \
  && yum clean all \
- && pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
- && pip3 install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple \
+ && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
+ && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
+    -i https://mirrors.aliyun.com/pypi/simple \
  && mkdir -p /tmp/ccache
 
+# && yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm \
+# && sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel* \
+# && sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel* \
+# && yum clean all \
+# && yum makecache \
+
+# RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo 
+# RUN yum install -y glibc-langpack-en 
+# RUN yum install -y epel-release 
+# RUN yum update -y 
+# RUN yum install -y make mysql-devel wget python2 python3 which ccache git bzip2 glibc-common gcc-c++ gdb 
+# RUN ln -s python2 /usr/bin/python 
+# RUN yum clean all 
+# RUN pip3 --no-cache-dir install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple 
+# RUN pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
+#     -i https://pypi.tuna.tsinghua.edu.cn/simple 
+# RUN mkdir -p /tmp/ccache
+
+# && yum install -y epel-release \
+# && yum update -y \
 # && yum install -y make mysql-devel wget python3 which ccache git bzip2 kde-l10n-Chinese reinstall glibc-common gcc-c++ gdb \
 # && ccache --max-size=10G >/dev/null \
 # && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+# && yum update -y \
 
 ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \

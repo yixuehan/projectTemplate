@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import requests
+# import requests
+import getpass
 import wget
 import os
 from lxml import html
 import hashlib
 import shutil
 import platform
+import subprocess
+from subprocess import PIPE, STDOUT
 # import bz2
 
 
-url = 'https://www.boost.org/'
+url = 'https://www.boost.org'
 findpath = '//div[@id="downloads"]/ul/li/div[@class="news-title"]/a/@href'
 downloadfilefind = '//table[@class="download-table"]//tr[2]/td/a/@href'
 downloadhashfind = '//table[@class="download-table"]//tr[2]/td[2]/text()'
@@ -27,7 +30,7 @@ def get_filepath(tree):
     filepath = filepath[0]
     # print(filepath)
     # return "/users/history/version_1_70_0.html"
-    return "/users/history/version_1_58_0.html"
+    # return "/users/history/version_1_58_0.html"
     return filepath
 
 
@@ -96,20 +99,20 @@ def compile_install_boost(filename):
 
             print("解压...", filename)
             cmd = 'tar -jxf ' + filename
-            r = os.popen(cmd)
-            print(r.read())
+            r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
+            print(r.stdout.read())
             # assert 0 == os.system(cmd)
             cmd = 'mv %s %s' % (dirname, linux_dirname)
             print("改名：", cmd)
-            r = os.popen(cmd)
-            print(r.read())
+            r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
+            print(r.stdout.read())
             # assert 0 == os.system(cmd)
 
         os.chdir(linux_dirname)
 
         cmd = 'rm -f project-config.jam*'
-        r = os.popen(cmd)
-        print(r.read())
+        r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
+        print(r.stdout.read())
         # os.system(cmd)
 
         # home = os.environ['HOME']
@@ -126,33 +129,36 @@ def compile_install_boost(filename):
 
         # bugs
         # unset CPLUS_INCLUDE_PATH
+        if 'root' == getpass.getuser():
+            boost_install_dir = '/root/usr'
+
         cmd = 'unset CPLUS_INCLUDE_PATH && ./bootstrap.sh --libdir=%(install_dir)s/lib \
                 --includedir=%(install_dir)s/include --with-python=$(which python3)'
         cmd = cmd % {'install_dir': boost_install_dir}
 
         print(cmd)
-        r = os.popen(cmd)
-        print(r.read())
+        r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
+        print(r.stdout.read())
         # os.system(cmd)
 
-        cmd = './b2 cxxflags="-std=c++2a" variant=release install'
+        cmd = './b2 cxxflags="-std=c++1z" variant=release install'
         print(cmd)
-        r = os.popen(cmd)
-        print(r.read())
+        r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
+        while True:
+            line = r.stdout.readline()
+            if not line:
+                break
+            print(line)
         # os.system(cmd)
 
         # 建立软链接
-        print("link_dir:", link_dir)
-        if os.path.islink(link_dir):
-            os.unlink(link_dir)
+        if 'root' != getpass.getuser():
+            print("link_dir:", link_dir)
+            if os.path.islink(link_dir):
+                os.unlink(link_dir)
 
-        for dst in [link_dir]:
-            dir_name = os.path.dirname(dst)
-            if not os.path.exists(dir_name):
-                os.makedirs(dir_name)
-
-        print("%s" % (boost_install_dir), link_dir)
-        os.symlink("%s" % (boost_install_dir), link_dir)
+            print("ln -s %s %s" % (dirname, link_dir))
+            os.symlink(dirname, link_dir)
     else:
         print("不支持的系统...", os_type)
         assert False
@@ -164,15 +170,24 @@ if __name__ == '__main__':
         assert False
     boost_install_dir = os.path.abspath(os.sys.argv[1])
     os.chdir(downloaddir)
-    resp = requests.get(url)
+    # resp = requests.get(url)
+    r = subprocess.Popen(args=["curl", url], stdout=PIPE, stderr=STDOUT)
+    resp = r.stdout.read()
+    print(resp)
+    # os.sys.exit(1)
+
     # print(resp.text)
-    tree = html.fromstring(resp.text)
+    tree = html.fromstring(resp)
     filepath = get_filepath(tree)
     version = get_version(filepath)
     filename = get_filename(version)
     # download
     downloadweb = url + filepath
-    resp = requests.get(downloadweb)
-    tree = html.fromstring(resp.text)
+    # resp = requests.get(downloadweb)
+    print(downloadweb)
+    r = subprocess.Popen(args=["curl", downloadweb], stdout=PIPE, stderr=STDOUT)
+    resp = r.stdout.read()
+    print(resp)
+    tree = html.fromstring(resp)
     download_file(tree, filename)
     compile_install_boost(filename)

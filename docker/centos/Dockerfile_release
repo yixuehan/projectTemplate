@@ -1,0 +1,11 @@
+FROM centos:centos8
+
+RUN yum update -y \
+ && yum install -y libstdc++ \
+ && mkdir -p /root/usr/lib
+
+COPY pkg_tmp/lib /root/usr/lib
+
+ENV LD_LIBRARY_PATH=/root/usr/lib:${LD_LIBRARY_PATH}
+
+# LIBRARY_PATH=/root/usr/lib:${LIBRARY_PATH} \
