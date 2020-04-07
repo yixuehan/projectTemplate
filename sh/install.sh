@@ -339,6 +339,7 @@ aliyun_oss()
 {
     # sudo apt install libcurl4-openssl-dev
     git_tmp_pull https://github.com/aliyun/aliyun-oss-cpp-sdk.git
+    # git_tmp_pull git@github.com:aliyun/aliyun-oss-cpp-sdk.git
     cmake_install ${git_dir}/aliyun-oss-cpp-sdk ${install_dir}/aliyun-oss-cpp-sdk
 }
 
