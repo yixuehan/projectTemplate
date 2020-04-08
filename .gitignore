@@ -12,6 +12,8 @@
 /docker/centos/json
 /docker/centos/mysql
 /docker/centos/boost
+/docker/centos/dev
+/docker/centos/release
 **/*_tmp
 **/__pycache__
 **/go.mod

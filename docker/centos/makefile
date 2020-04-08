@@ -79,7 +79,7 @@ dev:Dockerfile_dev
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache
+					./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libevdev
 	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
 	docker push ${registry}/${image}:${tag_dev}
 	touch dev

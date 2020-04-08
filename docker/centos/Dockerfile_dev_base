@@ -3,7 +3,8 @@ FROM centos:centos8
 RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo \
  && yum install -y glibc-langpack-en \
  && yum update -y \ 
- && yum install -y make mysql-devel wget python3 which git bzip2 glibc-common gcc-c++ gdb python3-devel \
+ && yum install -y make mysql-devel wget python3 which git bzip2 glibc-common gcc-c++ gdb python3-devel mysql-devel \
+ && yum install -y https://cdn.mysql.com/archives/mysql-connector-c++/mysql-connector-c++-1.1.12-linux-el7-x86-64bit.rpm \
  && yum clean all \
  && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
  && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
