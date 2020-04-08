@@ -32,6 +32,7 @@ fi
 if [ -e '/etc/centos-release' ]
 then
     MKOSTYPE=centos
+    INSTALL="yum install -y"
     r=$(grep "release 8" /etc/centos-release | grep -v grep)
     if [ "${r}x" != "" ]
     then
@@ -39,6 +40,7 @@ then
     fi
 else
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
+    INSTALL="apt install -y"
 fi
 
 
@@ -271,13 +273,20 @@ jsoncpp()
 
 libx264()
 {
-    sudo apt install libx264-dev 
-    # git_tmp_pull git://git.videolan.org/x264
-    # configure_install ${git_dir}/x264 ${install_dir}/libx264 "--enable-shared"
+    # ${SUDO} ${INSTALL} libx264-dev 
+    git_tmp_pull https://github.com/mirror/x264.git
+    configure_install ${git_dir}/x264 ${install_dir}/libx264 "--enable-shared --disable-asm"
+}
+
+FFmpeg()
+{
+    ffmpeg
 }
 
 ffmpeg()
 {
+    yasm
+    libx264
     git_tmp_pull https://github.com/FFmpeg/FFmpeg.git
     configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264"
 }
@@ -337,7 +346,8 @@ install_openssl()
 
 aliyun_oss()
 {
-    # sudo apt install libcurl4-openssl-dev
+    ${SUDO} ${INSTALL} libcurl4-openssl-dev
+    ${SUDO} ${INSTALL} libcurl-devel
     git_tmp_pull https://github.com/aliyun/aliyun-oss-cpp-sdk.git
     cmake_install ${git_dir}/aliyun-oss-cpp-sdk ${install_dir}/aliyun-oss-cpp-sdk
 }
@@ -390,7 +400,12 @@ hiredis-vip()
     git_tmp_pull https://github.com/vipshop/hiredis-vip.git
     cd ${git_dir}/hiredis-vip
     make -j${PHYSICAL_NUM}
-    make PREFIX=${install_dir}/hiredis-vip install
+    if [ ${uid} -eq 0 ]
+    then
+    	make PREFIX=${install_dir} install
+    else
+    	make PREFIX=${install_dir}/hiredis-vip install
+    fi
 }
 
 hiredis-v()
@@ -398,25 +413,35 @@ hiredis-v()
     git_tmp_pull https://github.com/wuli1999/hiredis-v.git
     cd ${git_dir}/hiredis-v/src
     make -j${PHYSICAL_NUM}
-    make PREFIX=${install_dir}/hiredis-v install
-    mkdir ${install_dir}/hiredis-v/lib
-    cp librediscluster.a librediscluster.so ${install_dir}/hiredis-v/lib
+    if [ ${uid} == 0 ]
+    then
+        make PREFIX=${install_dir} install
+        mkdir ${install_dir}/lib
+        cp librediscluster.a librediscluster.so ${install_dir}/lib
+    else
+        make PREFIX=${install_dir}/hiredis-v install
+        mkdir ${install_dir}/hiredis-v/lib
+        cp librediscluster.a librediscluster.so ${install_dir}/hiredis-v/lib
+    fi
 }
 
 tcmalloc()
 {
-    git_tmp_pull https://github.com/google/tcmalloc.git
-    # cd ${git_dir}/tcmalloc
+    ${SUDO} ${INSTALL} autoconf automake libtool
+    git_tmp_pull https://github.com/gperftools/gperftools.git
+    cd ${git_dir}/gperftools
+    ./autogen.sh
+    configure_install ${git_dir}/gperftools ${install_dir}/gperftools
 }
 
 muduo()
 {
-    sudo apt-get install protobuf-compiler
+    # sudo apt-get install protobuf-compiler
     git_tmp_pull https://github.com/chenshuo/muduo.git
+    cd ${git_dir}/muduo
+    sed -i 's@-Wconversion@#-Wconversion@g' CMakeLists.txt
+    sed -i 's@-Wold-style-cast@#-Wold-style-cast@g' CMakeLists.txt
     cmake_install ${git_dir}/muduo ${install_dir}/muduo "-DMUDUO_BUILD_EXAMPLES=OFF"
-    # cd ${git_dir}/muduo
-    # sed -i 's@-Wconversion@#-Wconversion@g' CMakeLists.txt
-    # sed -i 's@-Wold-style-cast@#-Wold-style-cast@g' CMakeLists.txt
     # if [ ${uid} -eq 0 ]
     # then
     #     sed -i 's@INSTALL_DIR=.*@INSTALL_DIR=${HOME}/usr@g' build.sh
@@ -442,7 +467,7 @@ opencv()
 yasm()
 {
     git_tmp_pull https://github.com/yasm/yasm.git
-    configure_install ${git_dir}/yasm ${install_dir}/yasm
+    cmake_install ${git_dir}/yasm ${install_dir}/yasm
 }
 
 install_ccache()
