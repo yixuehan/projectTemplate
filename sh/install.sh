@@ -474,6 +474,25 @@ install_ccache()
     configure_install ${download_dir}/ccache-${version} ${install_dir}/ccache
 }
 
+mysql_conn_cpp()
+{
+    git_tmp_pull https://github.com/anhstudios/mysql-connector-cpp.git
+    cmake_install ${git_dir}/mysql-connector-cpp ${install_dir}/mysql-connector-cpp
+}
+
+cryptopp()
+{
+    git_tmp_pull https://github.com/weidai11/cryptopp.git
+    cd ${git_dir}/cryptopp
+    if [ ${uid} -eq 0 ]
+    then
+        make PREFIX=${install_dir} -j${PHYSICAL_NUM}
+    else
+        make PREFIX=${install_dir}/cryptopp -j${PHYSICAL_NUM}
+    fi
+    make install
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
