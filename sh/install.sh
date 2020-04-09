@@ -339,6 +339,7 @@ install_cmake()
 install_openssl()
 {
     version=1.1.1d
+    version=1.1.1f
     # download https://www.openssl.org/source/openssl-${version}.tar.gz
     # configure_install ${download_dir}/openssl-${version} ${install_dir}/openssl
     git_tmp_pull https://github.com/openssl/openssl.git

@@ -9,7 +9,12 @@ RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
     -i https://mirrors.aliyun.com/pypi/simple \
  && mkdir -p /tmp/ccache
 
-# && apt update && apt upgrade -y \
+RUN apt install -y language-pack-zh-hans \
+ && locale-gen zh_CN.UTF-8 \
+ && export LC_ALL='zh_CN.utf8' \
+ && locale
+
+
 ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \
     CCACHE_UMASK=0 \
