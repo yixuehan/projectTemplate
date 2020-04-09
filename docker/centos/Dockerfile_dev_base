@@ -3,9 +3,7 @@ FROM centos:centos8
 RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo \
  && yum install -y glibc-langpack-en \
  && yum update -y \ 
- && yum install -y make mysql-devel wget python3 which git bzip2 glibc-common gcc-c++ gdb python3-devel mysql-devel \
- && yum debuginfo-install -y compat-openssl10-debuginfo libgcc-debuginfo libstdc++-debuginfo zlib-debuginfo \
- && yum install -y https://cdn.mysql.com/archives/mysql-connector-c++/mysql-connector-c++-1.1.12-linux-el7-x86-64bit.rpm \
+ && yum install -y make wget python3 which git bzip2 glibc-common gcc-c++ gdb python3-devel mysql-devel \
  && yum clean all \
  && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
  && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
@@ -33,6 +31,8 @@ RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Cen
 # && yum install -y epel-release \
 # && yum update -y \
 # && yum install -y make mysql-devel wget python3 which ccache git bzip2 kde-l10n-Chinese reinstall glibc-common gcc-c++ gdb \
+# && yum debuginfo-install -y compat-openssl10-debuginfo libgcc-debuginfo libstdc++-debuginfo zlib-debuginfo \
+# && yum install -y https://cdn.mysql.com/archives/mysql-connector-c++/mysql-connector-c++-1.1.12-linux-el7-x86-64bit.rpm \
 # && ccache --max-size=10G >/dev/null \
 # && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
 # && yum update -y \
