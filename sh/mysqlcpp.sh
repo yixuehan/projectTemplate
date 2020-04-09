@@ -12,13 +12,13 @@ mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
 #cmake -DBUILD_STATIC=on -DBUILD_SHARED=on -DCMAKE_INSTALL_PREFIX=${HOME}/usr ..
-rm -rf ${HOME}/usr/include/mysqlx
-make install
-cp libmysqlcppconn8-static.a ${HOME}/usr/lib
-if [ 0 -eq $? ]
-then
+#rm -rf ${HOME}/usr/include/mysqlx
+#make install
+#cp libmysqlcppconn8-static.a ${HOME}/usr/lib
+#if [ 0 -eq $? ]
+#then
     :
     #cd ../..
     #rm -rf ${tar_name}
     #rm -rf ${dir_name}
-fi
+#fi

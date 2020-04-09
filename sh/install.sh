@@ -371,11 +371,12 @@ install_git()
     download https://mirrors.edge.kernel.org/pub/software/scm/git/git-${version}.tar.gz
 }
 
-libevdev()
+libev()
 {
-    version=1.8.0
-    download https://www.freedesktop.org/software/libevdev/libevdev-${version}.tar.xz
-    configure_install ${download_dir}/libevdev-${version} ${install_dir}/libevdev
+    git_tmp_pull https://github.com/enki/libev.git
+    configure_install ${git_dir}/libev ${install_dir}/libev
+    # version=1.8.0
+    # download https://www.freedesktop.org/software/libevdev/libevdev-${version}.tar.xz
 }
 
 install_redis()
@@ -476,8 +477,21 @@ install_ccache()
 
 mysql_conn_cpp()
 {
-    git_tmp_pull https://github.com/anhstudios/mysql-connector-cpp.git
-    cmake_install ${git_dir}/mysql-connector-cpp ${install_dir}/mysql-connector-cpp
+    # version=8.0.19
+    # download https://cdn.mysql.com//Downloads/Connector-C++/mysql-connector-c++-${version}-src.tar.gz
+
+    version=1.1.12
+    download https://cdn.mysql.com//Downloads/Connector-C++/mysql-connector-c++-${version}.tar.gz
+    flags="-DBUILD_STATIC=ON -DBUNDLE_DEPENDENCIES=ON -DWITH_JDBC=ON -DMYSQL_LIB_DIR="
+    cxxflags="-DMYCPPCONN_MAJOR_VERSION=8 -DMYCPPCONN_MINOR_VERSION=0 -DMYCPPCONN_PATCH_VERSION=19"
+    if [ ${uid} -eq 0 ]
+    then
+        cmake_install ${download_dir}/mysql-connector-c++-${version} ${install_dir}/mysql_conn_cpp "-DBOOST_ROOT=/root/usr ${flags}"
+    else
+        cmake_install ${download_dir}/mysql-connector-c++-${version} ${install_dir}/mysql_conn_cpp "-DBOOST_ROOT=${HOME}/usr/boost ${flags}"
+    fi
+    # git_tmp_pull https://github.com/anhstudios/mysql-connector-cpp.git
+    # cmake_install ${git_dir}/mysql-connector-cpp ${install_dir}/mysql-connector-cpp
 }
 
 cryptopp()

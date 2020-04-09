@@ -4,6 +4,7 @@ RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Cen
  && yum install -y glibc-langpack-en \
  && yum update -y \ 
  && yum install -y make mysql-devel wget python3 which git bzip2 glibc-common gcc-c++ gdb python3-devel mysql-devel \
+ && yum debuginfo-install -y compat-openssl10-debuginfo libgcc-debuginfo libstdc++-debuginfo zlib-debuginfo \
  && yum install -y https://cdn.mysql.com/archives/mysql-connector-c++/mysql-connector-c++-1.1.12-linux-el7-x86-64bit.rpm \
  && yum clean all \
  && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
@@ -41,7 +42,7 @@ ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_UMASK=0 \
     C_INCLUDE_PATH=/root/usr/include:${C_INCLUDE_PATH} \
     LD_LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LD_LIBRARY_PATH} \
-    LIBRARY_PATH=${LD_LIBRARY_PATH}:${LIBRARY_PATH} \
+    LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LIBRARY_PATH} \
     PATH=/root/usr/bin:${PATH}
 
 #    LANG=zh_CN.UTF-8 \

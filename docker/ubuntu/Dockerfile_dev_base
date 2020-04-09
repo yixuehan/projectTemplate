@@ -1,0 +1,19 @@
+FROM ubuntu:18.04
+
+RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
+ && apt update \
+ && apt install -y make libmysqlcppconn-dev wget python3 git bzip2 g++ gdb python3-dev python3-pip \
+ && apt clean all \
+ && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
+ && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
+    -i https://mirrors.aliyun.com/pypi/simple \
+ && mkdir -p /tmp/ccache
+
+# && apt update && apt upgrade -y \
+ENV CCACHE_DIR=/tmp/ccache \
+    CCACHE_SIZE=10G \
+    CCACHE_UMASK=0 \
+    C_INCLUDE_PATH=/root/usr/include:${C_INCLUDE_PATH} \
+    LD_LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LD_LIBRARY_PATH} \
+    LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LIBRARY_PATH} \
+    PATH=/root/usr/bin:${PATH}
