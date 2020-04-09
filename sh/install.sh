@@ -486,11 +486,14 @@ cryptopp()
     cd ${git_dir}/cryptopp
     if [ ${uid} -eq 0 ]
     then
-        make PREFIX=${install_dir} -j${PHYSICAL_NUM}
+        mkdir -p ${install_dir}
+        make -j${PHYSICAL_NUM}
+        make PREFIX=${install_dir} install
     else
-        make PREFIX=${install_dir}/cryptopp -j${PHYSICAL_NUM}
+        mkdir -p ${install_dir}/cryptopp
+        make -j${PHYSICAL_NUM}
+        make PREFIX=${install_dir}/cryptopp install
     fi
-    make install
 }
 
 echo $*
