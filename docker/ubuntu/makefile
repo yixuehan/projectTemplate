@@ -79,7 +79,7 @@ build_dev:
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh cmake cryptopp boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev
+					./install.sh openssl cmake cryptopp boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev
 					# openssl
 
 dev:Dockerfile_dev
