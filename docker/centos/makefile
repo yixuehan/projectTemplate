@@ -19,7 +19,7 @@ uid=$(shell id -u)
 # set -o errexit
 cwd=$(shell pwd)
 repo_dir=${HOME}/projectTemplate
-local_dir=${repo_dir}/docker/centos
+local_dir=${repo_dir}/docker/cache/centos
 docker_repo_dir=/root/projectTemplate
 
 complile_boost:${git_dir}/sh/boost.py build_dev_base

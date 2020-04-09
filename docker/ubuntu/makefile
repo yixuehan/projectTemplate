@@ -19,7 +19,7 @@ uid=$(shell id -u)
 # set -o errexit
 cwd=$(shell pwd)
 repo_dir=${HOME}/projectTemplate
-local_dir=${repo_dir}/docker/ubuntu
+local_dir=${repo_dir}/docker/cache/ubuntu
 docker_repo_dir=/root/projectTemplate
 
 complile_boost:${git_dir}/sh/boost.py build_dev_base
@@ -79,7 +79,7 @@ build_dev:
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh cryptopp cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev
+					./install.sh cmake cryptopp boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev
 					# openssl
 
 dev:Dockerfile_dev
