@@ -3,7 +3,9 @@
 registry=registry.cn-shanghai.aliyuncs.com/love996
 image=ubuntu
 tag_dev_base=dev_base
+tag_native_dev_base=native_dev_base
 tag_dev=dev
+tag_native_dev=native_dev
 tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
@@ -22,56 +24,16 @@ repo_dir=${HOME}/projectTemplate
 local_dir=${repo_dir}/docker/cache/ubuntu
 docker_repo_dir=/root/projectTemplate
 
-complile_boost:${git_dir}/sh/boost.py build_dev_base
-	rm -rf boost_install
-	mkdir boost_install
-	docker run --rm -u${uid}:${uid} \
-					-v ${git_dir}:/src \
-		            -v ${cwd}/boost_install:${docker_install_dir}/boost \
-					-w /src/sh \
-		    		${registry}/${image}:${tag_dev_base} \
-					python3 ./boost.py ${docker_install_dir}/boost
-	touch complile_boost
+build_native_dev:native_dev_base
+	docker run --rm -it -v ${repo_dir}/sh:${docker_repo_dir}/sh \
+		            -v ${local_dir}/git_tmp:${docker_repo_dir}/git_tmp \
+					-v ${local_dir}/download_tmp:${docker_repo_dir}/download_tmp \
+					-v ${PWD}/pkg_tmp:/root/usr \
+					-w ${docker_repo_dir}/sh \
+					${registry}/${image}:${tag_native_dev_base} \
+					./install.sh openssl cmake cryptopp jsoncpp spdlog sqlite3 nlohmann_json yasm libx264 FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
 
-complile_mysql:${git_dir}/sh/mysql.sh build_dev_base
-	rm -rf mysql_install
-	mkdir mysql_install
-	docker run --rm -u${uid}:${uid} \
-					-v ${git_dir}:/src \
-		         	-v ${cwd}/mysql_install:${docker_install_dir}/mysql \
-					-w /src/sh \
-					${registry}/${image}:${tag_dev_base} \
-					./mysql.sh ${docker_install_dir}/mysql
-	touch complile_mysql
-
-complile_cmake:${git_dir}/sh/cmake.sh
-	rm -rf cmake_install
-	mkdir cmake_install
-	docker run --rm -u${uid}:${uid} \
-					-v ${git_dir}:/src \
-		            -v ${cwd}/cmake_install:${docker_install_dir}/cmake \
-					-w /src/sh \
-					${registry}/${image}:${tag_dev_base} \
-					./cmake.sh ${docker_install_dir}/cmake
-	touch complile_cmake
-
-complile_json:${git_dir}/sh/json.sh build_cmake
-	rm -rf json_install
-	mkdir json_install
-	docker run --rm -u${uid}:${uid} \
-					-v ${git_dir}:/src \
-					-w /src/sh \
-		            -v ${cwd}/json_install:${docker_install_dir}/json \
-		    		${registry}/${image}:${tag_cmake} \
-					./json.sh ${docker_install_dir}/json
-	touch complile_json
-
-build_cmake:complile_cmake ${git_dir}/sh/cmake.sh Dockerfile_cmake build_dev_base
-	docker build -t ${registry}/${image}:${tag_cmake} -f Dockerfile_cmake .
-	docker push ${registry}/${image}:${tag_cmake}
-	touch build_cmake
-
-build_dev:
+build_dev:dev_base
 	docker run --rm -it -v ${repo_dir}/sh:${docker_repo_dir}/sh \
 		            -v ${local_dir}/git_tmp:${docker_repo_dir}/git_tmp \
 					-v ${local_dir}/download_tmp:${docker_repo_dir}/download_tmp \
@@ -80,7 +42,12 @@ build_dev:
 					${registry}/${image}:${tag_dev_base} \
 					./install.sh openssl cmake cryptopp jsoncpp spdlog sqlite3 nlohmann_json yasm libx264 FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
 
-dev:Dockerfile_dev
+native_dev:Dockerfile_native_dev build_native_dev
+	docker build -t ${registry}/${image}:${tag_native_dev} -f Dockerfile_native_dev .
+	docker push ${registry}/${image}:${tag_native_dev}
+	touch native_dev
+
+dev:Dockerfile_dev build_dev
 	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
 	docker push ${registry}/${image}:${tag_dev}
 	touch dev
@@ -94,6 +61,11 @@ build_alpine_python:Dockerfile_alpine_python
 	docker build -t ${registry}/${image_alpine}:${tag_python} -f Dockerfile_alpine_python .
 	docker push ${registry}/${image_alpine}:${tag_python}
 	touch build_alpine_python
+
+native_dev_base:Dockerfile_dev_base
+	docker build -t ${registry}/${image}:${tag_native_dev_base} -f Dockerfile_dev_base .
+	docker push ${registry}/${image}:${tag_native_dev_base}
+	touch native_dev_base
 
 dev_base:Dockerfile_dev_base
 	docker build -t ${registry}/${image}:${tag_dev_base} -f Dockerfile_dev_base .
