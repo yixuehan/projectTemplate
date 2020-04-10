@@ -284,10 +284,13 @@ FFmpeg()
 
 ffmpeg()
 {
-    yasm
-    libx264
     git_tmp_pull https://github.com/FFmpeg/FFmpeg.git
-    configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264"
+    if [ ${uid} -eq 0 ]
+    then
+        configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264 --extra-cflags=-I/root/usr/include --extra-ldflags=-L/root/usr/lib"
+    else
+        configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264 --extra-cflags=-I${install_dir}/x264/include --extra-ldflags=-L${install_dir}/x264/lib"
+    fi
 }
 
 spdlog()

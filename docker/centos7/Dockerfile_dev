@@ -1,0 +1,9 @@
+FROM registry.cn-shanghai.aliyuncs.com/love996/centos:dev_base
+
+RUN wget http://repo.mysql.com/mysql80-community-release-el8-1.noarch.rpm \
+ && wget http://repo.mysql.com/mysql80-community-release-el8.rpm \
+ && rpm -Uvh mysql80-community-release*rpm \
+ && dnf --enablerepo=mysql-connectors-community install -y mysql-connector-c++-devel \
+ && rm -f mysql80-community-release-el8-1.noarch.rpm mysql80-community-release-el8.rpm
+
+COPY pkg_tmp /root/usr

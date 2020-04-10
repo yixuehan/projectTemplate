@@ -19,6 +19,7 @@ ENV CCACHE_DIR=/tmp/ccache \
     CCACHE_SIZE=10G \
     CCACHE_UMASK=0 \
     C_INCLUDE_PATH=/root/usr/include:${C_INCLUDE_PATH} \
+    CPLUS_INCLUDE_PATH=/root/usr/include:${CPLUS_INCLUDE_PATH} \
     LD_LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LD_LIBRARY_PATH} \
     LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LIBRARY_PATH} \
     PATH=/root/usr/bin:${PATH}

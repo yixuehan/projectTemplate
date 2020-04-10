@@ -25,7 +25,7 @@ def get_filepath(tree):
     filepath = tree.xpath(findpath)
     print(filepath)
     if len(filepath) == 0:
-        print("未找到文件链接")
+        # print("未找到文件链接")
         assert False
     filepath = filepath[0]
     # print(filepath)
@@ -57,7 +57,7 @@ def download_file(tree, filename):
     downloadhash = tree.xpath(downloadhashfind)
 
     if len(downloadpath) != 1:
-        print("获取下载路径失败！")
+        # print("获取下载路径失败！")
         assert False
     downloadpath = downloadpath[0]
 
@@ -65,7 +65,7 @@ def download_file(tree, filename):
 
     if os.path.exists(filename):
         if len(downloadhash) != 1:
-            print("获取文件hash失败！")
+            # print("获取文件hash失败！")
             downloadhash = [hashlib.sha256(open(filename, "rb").read()).hexdigest()]
             # assert False
         downloadhash = downloadhash[0]
@@ -73,10 +73,10 @@ def download_file(tree, filename):
         hashcode = hashlib.sha256(open(filename, "rb").read()).hexdigest()
         print("hash:", hashcode)
         if hashcode == downloadhash:
-            print("hash值相同，不需要下载")
+            # print("hash值相同，不需要下载")
             return
         else:
-            print("hash值不同，重新下载")
+            # print("hash值不同，重新下载")
             shutil.move(filename, filename + ".bak")
 
     print("downloading...")
@@ -97,13 +97,13 @@ def compile_install_boost(filename):
             if os.path.exists(dirname):
                 shutil.rmtree(dirname)
 
-            print("解压...", filename)
+            # print("解压...", filename)
             cmd = 'tar -jxf ' + filename
             r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
             print(r.stdout.read())
             # assert 0 == os.system(cmd)
             cmd = 'mv %s %s' % (dirname, linux_dirname)
-            print("改名：", cmd)
+            # print("改名：", cmd)
             r = subprocess.Popen(cmd, bufsize=0, stdout=PIPE, stderr=PIPE, shell=True)
             print(r.stdout.read())
             # assert 0 == os.system(cmd)
@@ -160,7 +160,7 @@ def compile_install_boost(filename):
             print("ln -s %s %s" % (dirname, link_dir))
             os.symlink(dirname, link_dir)
     else:
-        print("不支持的系统...", os_type)
+        # print("不支持的系统...", os_type)
         assert False
 
 

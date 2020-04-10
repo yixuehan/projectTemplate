@@ -1,7 +1,7 @@
 #!/bin/bash
 #source ../../syncgit.sh
 registry=registry.cn-shanghai.aliyuncs.com/love996
-image=ubuntu
+image=centos7
 tag_dev_base=dev_base
 tag_dev=dev
 tag_cmake=cmake
@@ -19,7 +19,7 @@ uid=$(shell id -u)
 # set -o errexit
 cwd=$(shell pwd)
 repo_dir=${HOME}/projectTemplate
-local_dir=${repo_dir}/docker/cache/ubuntu
+local_dir=${repo_dir}/docker/cache/centos
 docker_repo_dir=/root/projectTemplate
 
 complile_boost:${git_dir}/sh/boost.py build_dev_base
@@ -72,13 +72,15 @@ build_cmake:complile_cmake ${git_dir}/sh/cmake.sh Dockerfile_cmake build_dev_bas
 	touch build_cmake
 
 build_dev:
-	docker run --rm -it -v ${repo_dir}/sh:${docker_repo_dir}/sh \
+	docker run --rm -v ${repo_dir}/sh:${docker_repo_dir}/sh \
 		            -v ${local_dir}/git_tmp:${docker_repo_dir}/git_tmp \
 					-v ${local_dir}/download_tmp:${docker_repo_dir}/download_tmp \
+					-v ${HOME}/.ssh:/root/.ssh \
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh openssl cmake cryptopp jsoncpp spdlog sqlite3 nlohmann_json yasm libx264 FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
+					./install.sh mysql_conn_cpp #cryptopp #openssl
+					# ./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev
 
 dev:Dockerfile_dev
 	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
