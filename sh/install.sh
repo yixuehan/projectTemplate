@@ -129,7 +129,11 @@ install_docker()
 {
     version=1.2.6-3.3
     # cd ${download_dir}
-    ${SUDO} dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-${version}.el7.x86_64.rpm
+    if [ ${MKOSTYPE} == "centos8" ]
+    then
+        # centos8
+        ${SUDO} dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-${version}.el7.x86_64.rpm
+    fi
     # sudo rpm -i containerd.io-${version}.el7.x86_64.rpm
     ${SUDO} yum install -y yum-utils device-mapper-persistent-data lvm2
     ${SUDO} yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
