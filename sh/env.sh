@@ -55,7 +55,7 @@ export PS1='[\u@\h \W]\$ '
 export MKHOME=${repo}/mak
 # export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages:${HOME}/gencode
 export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
-export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
+# export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
 
 export LOGICAL_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
 export PHYSICAL_NUM=`cat /proc/cpuinfo | grep "physical id" | uniq | wc -l`
@@ -186,19 +186,19 @@ function re_link_gcc()
 ulimit -c unlimited
 
 # devtoolset-7
-# if [ "$MKOSTYPE = "centos" ]
-# then
-#     grep "release 8" /etc/centos-release &>/dev/null
-#     if [ ! $? -eq 0 ]
-#     then
-#         #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
-#         #export PATH=/opt/rh/rh-python36/root/bin:$PATH
-#         source /opt/rh/devtoolset-8/enable
-#         # source /opt/rh/rh-python36/enable
-#         source /opt/rh/rh-mysql80/enable
-#         # scl enable devtoolset-7 bash
-#     fi
-# fi
+if [ "$MKOSTYPE" = "centos" ]
+then
+    grep "release 8" /etc/centos-release &>/dev/null
+    if [ ! $? -eq 0 ]
+    then
+        #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
+        #export PATH=/opt/rh/rh-python36/root/bin:$PATH
+        source /opt/rh/devtoolset-8/enable
+        # source /opt/rh/rh-python36/enable
+        # source /opt/rh/rh-mysql80/enable
+        # scl enable devtoolset-7 bash
+    fi
+fi
 
 #if [ 4 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
 #then
