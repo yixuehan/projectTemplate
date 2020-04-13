@@ -1,0 +1,3 @@
+FROM registry.cn-shanghai.aliyuncs.com/love996/ubuntu:dev_base
+
+COPY pkg_tmp /root/usr

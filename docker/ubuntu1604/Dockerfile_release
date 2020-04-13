@@ -1,0 +1,14 @@
+FROM centos:centos8
+
+RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo \
+ && yum install -y glibc-langpack-en \
+ && yum update -y \
+ && yum install -y libstdc++ \
+ && yum clean all \
+ && mkdir -p /root/usr/lib
+
+COPY pkg_tmp/lib /root/usr/lib
+
+ENV LD_LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LD_LIBRARY_PATH} \
+    LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LIBRARY_PATH} \
+    PATH=/root/usr/bin:${PATH}

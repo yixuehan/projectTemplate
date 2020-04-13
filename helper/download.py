@@ -8,6 +8,13 @@ sys.path.append("..")
 from util.python.util import run_cmd
 # import pdb
 
+def git_version():
+    cmd = "git version | cut -d ' ' -f3"
+    r = run_cmd(cmd, show=False)
+    versions = r[0].split('.')
+    # 越界？应该报错
+    return int(versions[0]), int(versions[1]), int(versions[2])
+
 
 def check_repo(repo_dir):
     if not os.path.exists(repo_dir) or not os.path.exists(os.path.join(repo_dir, '.git')):
@@ -22,8 +29,13 @@ def check_repo(repo_dir):
 def git_clone(repo, local_dir, options, submodule_options):
     cmd = ["git", "clone", repo, local_dir] + options
     run_cmd(cmd)
-    cmd = "cd %s && git submodule update --init --recursive" % repo
+    cmd = "cd %s && git submodule update --init --recursive" % local_dir
+    v1, v2, v3 = git_version()
     for option in submodule_options:
+        if v1 < 2:
+            if -1 != option.find("--depth"):
+                continue
+        
         cmd = cmd + ' ' + option
     run_cmd(cmd)
     return True
@@ -49,6 +61,7 @@ class Git:
 
     def append(self, repo, local_dir=None, options=[], submodule_options=[]):
         assert isinstance(options, list)
+        assert isinstance(submodule_options, list)
         if not local_dir:
             local_dir = os.path.basename(repo)
             local_dir = local_dir.replace(".git", "")

@@ -1,0 +1,30 @@
+FROM ubuntu:16.04
+
+RUN apt update \
+ && apt install -y software-properties-common \
+ && apt update \
+ && add-apt-repository ppa:ubuntu-toolchain-r/test -y \
+ && apt update \
+ && apt install -y curl make libmysqlcppconn-dev wget python3 git bzip2 g++-7 gdb python3-dev python3-pip \
+ && apt clean all \
+ && rm /usr/bin/gcc && rm /usr/bin/g++ \
+ && ln -s /usr/bin/gcc-7 /usr/bin/gcc && ln -s /usr/bin/g++-7 /usr/bin/g++ \
+ && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
+ && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
+    -i https://mirrors.aliyun.com/pypi/simple \
+ && mkdir -p /tmp/ccache
+
+RUN apt install -y language-pack-zh-hans \
+ && locale-gen zh_CN.UTF-8 \
+ && export LC_ALL='zh_CN.utf8' \
+ && locale
+
+
+ENV CCACHE_DIR=/tmp/ccache \
+    CCACHE_SIZE=10G \
+    CCACHE_UMASK=0 \
+    C_INCLUDE_PATH=/root/usr/include:${C_INCLUDE_PATH} \
+    CPLUS_INCLUDE_PATH=/root/usr/include:${CPLUS_INCLUDE_PATH} \
+    LD_LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LD_LIBRARY_PATH} \
+    LIBRARY_PATH=/root/usr/lib:/root/usr/lib64:${LIBRARY_PATH} \
+    PATH=/root/usr/bin:${PATH}

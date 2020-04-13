@@ -2,10 +2,9 @@ FROM centos:centos7
 
 RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo \
  && yum update -y \ 
- && yum install -y glibc-langpack-en \
  && yum -y install kde-l10n-Chinese \
  && reinstall -y glibc-common \
- && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+ && localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 \
  && yum update -y \
  && rm -f /etc/yum.repos.d/epel.repo && rm -f /etc/yum.repos.d/epel-testing.repo \
  && curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo \
@@ -20,6 +19,9 @@ RUN pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi
  && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
     -i https://mirrors.aliyun.com/pypi/simple \
  && mkdir -p /tmp/ccache
+
+# && yum install -y glibc-langpack-en \
+CMD ['scl enable devtoolset-8 bash']
 
 
 ENV CCACHE_DIR=/tmp/ccache \
