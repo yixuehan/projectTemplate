@@ -6,6 +6,7 @@ tag_dev_base=dev_base
 tag_native_dev_base=native_dev_base
 tag_dev=dev
 tag_native_dev=native_dev
+tag_ros_dev=ros_dev
 tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
@@ -46,6 +47,11 @@ native_dev:Dockerfile_native_dev build_native_dev
 	docker build -t ${registry}/${image}:${tag_native_dev} -f Dockerfile_native_dev .
 	docker push ${registry}/${image}:${tag_native_dev}
 	touch native_dev
+
+ros_dev:Dockerfile_ros_dev
+	docker build -t ${registry}/${image}:${tag_ros_dev} -f Dockerfile_ros_dev .
+	docker push ${registry}/${image}:${tag_ros_dev}
+	touch ros_dev
 
 dev:Dockerfile_dev build_dev
 	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .
