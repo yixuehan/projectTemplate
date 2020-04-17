@@ -1,0 +1,5 @@
+FROM registry.cn-shanghai.aliyuncs.com/love996/ubuntu1604:ros
+
+COPY pkg_tmp /root/usr
+
+ENTRYPOINT ["/bin/bash", "-l", "-c"]

@@ -1,7 +1,7 @@
 #!/bin/bash
 #source ../../syncgit.sh
 registry=registry.cn-shanghai.aliyuncs.com/love996
-image=ubuntu
+image=ubuntu1804
 tag_dev_base=dev_base
 tag_native_dev_base=native_dev_base
 tag_dev=dev
@@ -22,7 +22,7 @@ uid=$(shell id -u)
 # set -o errexit
 cwd=$(shell pwd)
 repo_dir=${HOME}/projectTemplate
-local_dir=${repo_dir}/docker/cache/ubuntu
+local_dir=${repo_dir}/docker/cache/ubuntu1804
 docker_repo_dir=/root/projectTemplate
 
 build_native_dev:native_dev_base

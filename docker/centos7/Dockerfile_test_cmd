@@ -1,0 +1,28 @@
+FROM centos:centos7
+
+RUN yum update -y \ 
+ && yum install -y centos-release-scl \
+ && yum install -y devtoolset-8
+
+# RUN scl enable devtoolset-8 bash
+# CMD scl enable devtoolset-8 bash
+RUN echo "source /opt/rh/devtoolset-8/enable" >> /root/.bashrc
+# RUN echo "source /opt/rh/devtoolset-8/enable" >> /root/.profile
+
+# RUN gcc -v
+
+# SHELL ["/usr/bin/scl", "enable", "devtoolset-8", "bash"]
+# SHELL ["/bin/bash", "-l", "-c"]
+ENTRYPOINT ["/bin/bash", "-c", "-l"]
+
+# RUN gcc -v
+# CMD ["/bin/bash"]
+# ENTRYPOINT scl enable devtoolset-8 bash
+# ENTRYPOINT ["scl", "enable", "devtoolset-8", "bash"]
+# CMD ["g++", "-v"]
+# RUN scl enable devtoolset-8 bash
+# CMD g++ -v
+
+# CMD ['scl enable devtoolset-8 bash']
+# CMD scl enable devtoolset-8 bash
+

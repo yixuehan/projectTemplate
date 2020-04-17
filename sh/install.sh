@@ -125,6 +125,12 @@ initdev()
 # centos: sudo pip3 install Sphinx -i https://pypi.tuna.tsinghua.edu.cn/simple
 }
 
+navigation_msgs()
+{
+    git_tmp_pull https://github.com/ros-planning/navigation_msgs.git
+    cmake_install ${git_dir}/navigation_msgs/move_base_msgs ${install_dir}/move_base_msgs
+}
+
 install_docker()
 {
     version=1.2.6-3.3

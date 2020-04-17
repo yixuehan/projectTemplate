@@ -118,14 +118,18 @@ function stop_docker()
 
 function rm_docker()
 {
+    # echo $*
+    # echo $@
     if [ "allx" == "${1}x" ]
     then
         containers=$(docker ps -a | grep "Exited.*ago" | cut -d' ' -f1)
-    elif [ $# -gt 0 ]
-    then
-        containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | cut -d' ' -f1)
+    # elif [ $# -eq 0 ]
+    # then
+    #     containers=$(docker ps -a | grep $1 | grep "Exited.*ago" | cut -d' ' -f1)
+    else
+        containers=$@
     fi
-    echo ${containers}
+    # echo ${containers}
     if [ "${containers}x" != "x" ]
     then
         echo ${containers} | xargs docker rm
@@ -161,7 +165,7 @@ function build()
     cd build
     cmake ..
 	echo "make -j${PHYSICAL_NUM}"
-    make -j${PHYSICAL_NUM}
+    make -j${PHYSICAL_NUM} VERBOSE=1
     cd ${old}
 }
 

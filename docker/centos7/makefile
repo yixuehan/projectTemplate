@@ -4,6 +4,7 @@ registry=registry.cn-shanghai.aliyuncs.com/love996
 image=centos7
 tag_dev_base=dev_base
 tag_dev=dev
+tag_test_cmd=test_cmd
 tag_cmake=cmake
 tag_release_base=release_base
 tag_release=release
@@ -111,6 +112,10 @@ build_go:Dockerfile_go
 	docker build -t ${registry}/${image}:${tag_go} -f Dockerfile_go .
 	docker push ${registry}/${image}:${tag_go}
 	touch build_go
+
+test_cmd:
+	docker build -t ${registry}/${image}:${tag_test_cmd} -f Dockerfile_test_cmd .
+	# docker push ${registry}/${image}:${tag_test_cmd}
 
 build_test:main.cpp
 	docker run --rm -v ${cwd}:${cwd} -w ${cwd} ${registry}/${image}:${tag_dev_base} g++ main.cpp -std=c++1z

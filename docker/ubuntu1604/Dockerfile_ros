@@ -1,14 +1,22 @@
 FROM registry.cn-shanghai.aliyuncs.com/love996/ubuntu1604:dev_base
 
+COPY resolv.conf /etc/resolv.conf
 
 RUN sh -c '. /etc/lsb-release && echo "deb http://mirrors.tuna.tsinghua.edu.cn/ros/ubuntu/ xenial main" > /etc/apt/sources.list.d/ros-latest.list' \
  && curl -sSL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' | apt-key add - \
  && apt update \
- && apt install -y ros-kinetic-desktop-full \
- && . /opt/ros/kinetic/setup.bash \
+ && apt install -y ros-kinetic-desktop-full
+
+SHELL ["/bin/bash", "-c"]
+
+RUN source /opt/ros/kinetic/setup.bash \
  && apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential \
  && rosdep init \
  && rosdep update
 
 
-CMD [". /opt/ros/kinetic/setup.bash"]
+RUN echo "source /opt/ros/kinetic/setup.bash" >> /root/.profile \
+ && echo "mesg n || true" >> /root/.profile \
+ && apt install -y libopencv-dev
+
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
