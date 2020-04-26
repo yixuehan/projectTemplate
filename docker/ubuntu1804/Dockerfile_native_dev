@@ -1,3 +1,3 @@
-FROM registry.cn-shanghai.aliyuncs.com/love996/ubuntu:native_dev_base
+FROM registry.cn-shanghai.aliyuncs.com/love996/ubuntu1804:native_dev_base
 
 COPY pkg_tmp /root/usr

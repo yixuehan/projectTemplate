@@ -539,10 +539,19 @@ cryptopp()
     fi
 }
 
+install_zip()
+{
+    git_tmp_pull https://github.com/kuba--/zip.git
+    cmake_install ${git_dir}/zip ${install_dir}/zip
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
     case ${library} in
+    zip)
+        install_zip
+        ;;
     ccache)
         install_ccache
         ;;
