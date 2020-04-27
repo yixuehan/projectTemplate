@@ -41,7 +41,8 @@ build_dev:dev_base
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh openssl cmake cryptopp jsoncpp spdlog sqlite3 nlohmann_json yasm libx264 FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
+					./install.sh cryptopp jsoncpp spdlog sqlite3 nlohmann_json hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
+					# ./install.sh openssl cmake cryptopp jsoncpp spdlog sqlite3 nlohmann_json yasm libx264 FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
 
 native_dev:Dockerfile_native_dev build_native_dev
 	docker build -t ${registry}/${image}:${tag_native_dev} -f Dockerfile_native_dev .
