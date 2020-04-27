@@ -164,8 +164,17 @@ function build()
     mkdir build
     cd build
     cmake ..
-	echo "make -j${PHYSICAL_NUM}"
-    make -j${PHYSICAL_NUM} VERBOSE=1
+    MemAvailable=$(cat /proc/meminfo | grep MemAvailable | tr -cd "[0-9]")
+    MemAvailable=$(expr ${MemAvailable} / 1024 / 1024 - 2)
+    NUM=${PHYSICAL_NUM}
+    if [ ${MemAvailable} -le 0 ] 
+    then
+        NUM=1
+    elif [ ${NUM} -ge ${MemAvailable} ]
+    then
+        NUM=${MemAvailable}
+    fi
+    make -j${NUM} VERBOSE=1
     cd ${old}
 }
 
