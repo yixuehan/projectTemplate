@@ -545,6 +545,16 @@ install_zip()
     cmake_install ${git_dir}/zip ${install_dir}/zip
 }
 
+ftplibpp()
+{
+    git_tmp_pull https://github.com/mkulke/ftplibpp.git
+    cd ${git_dir}/ftplibpp
+    sed -i 's@/usr/local@$(PREFIX)@g' Makefile
+    mkdir -p ${install_dir}/ftplibpp/lib
+    mkdir -p ${install_dir}/ftplibpp/include
+    make PREFIX=${install_dir}/ftplibpp install
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
