@@ -18,7 +18,7 @@ C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
 libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim \
-      hiredis-v opencv ccache muduo cryptopp libev zip)
+      hiredis-v opencv ccache muduo cryptopp libev zip ftplibpp)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
@@ -236,4 +236,16 @@ function clean_git_history()
     git branch -D master
     git branch -m master
     git push -f origin master
+}
+
+function docker_search()
+{
+    for Repo in $* ; do
+      curl -s -S "https://registry.hub.docker.com/v2/repositories/library/$Repo/tags/" | \
+        sed -e 's/,/,\n/g' -e 's/\[/\[\n/g' | \
+        grep '"name"' | \
+        awk -F\" '{print $4;}' | \
+        sort -fu | \
+        sed -e "s/^/${Repo}:/"
+    done
 }
