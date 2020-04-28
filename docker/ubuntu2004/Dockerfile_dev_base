@@ -2,10 +2,12 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
+SHELL ["/bin/bash", "-c"]
+
 RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
- && echo 'Asia/Shanghai' >/etc/timezone \
  && apt update && apt upgrade -y \
- && apt install -y curl make libmysqlcppconn-dev wget python3 git bzip2 g++ gdb python3-dev python3-pip \
+ && apt install -y openssl cmake curl make libmysqlcppconn-dev wget python3 git bzip2 g++ gdb python3-dev python3-pip \
  && apt clean all \
  && pip3 --no-cache-dir install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple \
  && pip3 --no-cache-dir install GitPython apio requests scons lxml mako numpy wget sqlparser pandas openpyxl \
