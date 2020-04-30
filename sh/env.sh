@@ -156,7 +156,7 @@ function build()
     cd build
     cmake ..
     MemAvailable=$(cat /proc/meminfo | grep MemAvailable | tr -cd "[0-9]")
-    MemAvailable=$(expr ${MemAvailable} / 1024 / 1024)
+    MemAvailable=$(expr ${MemAvailable} / 800 / 1024)
     NUM=${PHYSICAL_NUM}
     if [ ${MemAvailable} -le 0 ] 
     then
