@@ -114,15 +114,14 @@ initdev()
     # bash go.sh
     git config --global credential.helper store
     
-    ${SUDO} ${PIP3} install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+    ${SUDO} ${PIP3} install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython
-     \
-    		    -i https://pypi.tuna.tsinghua.edu.cn/simple
+		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython \
+    		    -i https://mirrors.aliyun.com/pypi/simple
 
-# ubuntu: sudo -H pip3 install redis -i https://pypi.tuna.tsinghua.edu.cn/simple
-# centos: sudo pip3 install Sphinx -i https://pypi.tuna.tsinghua.edu.cn/simple
+# ubuntu: sudo -H pip3 install redis -i https://mirrors.aliyun.com/pypi/simple
+# centos: sudo pip3 install Sphinx -i https://mirrors.aliyun.com/pypi/simple
 }
 
 navigation_msgs()
