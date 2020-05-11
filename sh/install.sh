@@ -187,6 +187,16 @@ grpc()
     cd ${old_path}
 }
 
+protobuf()
+{
+    git_tmp_pull https://github.com/protocolbuffers/protobuf.git
+    cd ${git_dir}/protobuf
+    ./autogen.sh
+    ./configure --prefix=${install_dir}/protobuf
+    make -j${PHYSICAL_NUM} install
+
+}
+
 # 编译json
 nlohmann_json()
 {
