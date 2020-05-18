@@ -150,12 +150,8 @@ function clean_dockeri()
     esac
 }
 
-function build()
+function compile_num()
 {
-    old=$(pwd)
-    mkdir build
-    cd build
-    cmake ..
     MemAvailable=$(cat /proc/meminfo | grep MemAvailable | tr -cd "[0-9]")
     MemAvailable=$(expr ${MemAvailable} / 800 / 1024)
     NUM=${LOGICAL_NUM}
@@ -166,6 +162,17 @@ function build()
     then
         NUM=${MemAvailable}
     fi
+    echo ${NUM}
+    # return ${NUM}
+}
+
+function build()
+{
+    old=$(pwd)
+    mkdir build
+    cd build
+    cmake ..
+    NUM=`compile_num`
 	echo "make -j${NUM} VERBOSE=1"
     make -j${NUM} VERBOSE=1
     cd ${old}

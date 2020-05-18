@@ -564,6 +564,12 @@ ftplibpp()
     make PREFIX=${install_dir}/ftplibpp install
 }
 
+mqtt()
+{
+    git_tmp_pull https://github.com/eclipse/mosquitto.git
+    cmake_install ${git_dir}/mosquitto ${install_dir}/mqtt
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh

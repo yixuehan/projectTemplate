@@ -2,12 +2,12 @@
 
 source env.sh
 
-if [ "${PHYSICAL_NUM}x" == "x" ]
+if [ "${compile_num}x" == "x" ]
 then
     PHYSICAL_NUM=2
 fi
 
-echo ${PHYSICAL_NUM}
+echo ${compile_num}
 
 exec_echo()
 {
@@ -134,7 +134,7 @@ cmake_install()
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
-    make -j${PHYSICAL_NUM}
+    make -j${compile_num}
     make install
 }
 
@@ -166,7 +166,7 @@ qmake_install()
     cd build
     # qmake PREFIX=${_install_dir} $_qmake_flags ..
     /usr/lib/aarch64-linux-gnu/qt5/bin/qmake PREFIX=${_install_dir} $_qmake_flags ..
-    make -j${PHYSICAL_NUM}
+    make -j${compile_num}
     make install
 }
 
@@ -197,7 +197,7 @@ configure_install()
         _config=config
     fi
     ./${_config} --prefix=${_install_dir} $_configure_flags
-    make -j${PHYSICAL_NUM}
+    make -j${compile_num}
     make install
 }
 
