@@ -13,6 +13,7 @@ git_dir=${pro_dir}/git_tmp
 download_path=${pro_dir}/download_tmp
 cd ${pro_dir}/sh
 source common.sh
+# source env.sh
 #cd ${pro_dir}
 uid=$(id -u)
 
@@ -564,9 +565,10 @@ ftplibpp()
     make PREFIX=${install_dir}/ftplibpp install
 }
 
-mqtt()
+install_mqtt()
 {
     git_tmp_pull https://github.com/eclipse/mosquitto.git
+    cd ${git_dir}/mosquitto
     cmake_install ${git_dir}/mosquitto ${install_dir}/mqtt
 }
 
@@ -574,6 +576,9 @@ echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
     case ${library} in
+    mqtt)
+        install_mqtt
+        ;;
     zip)
         install_zip
         ;;
