@@ -111,6 +111,7 @@ git_commit_pull()
 cmake_install()
 {
     # src_dir _install_dir
+    old=$(pwd)
     if [ $# -lt 2 ]
     then
         echo "cmake_install src_dir _install_dir"
@@ -130,12 +131,13 @@ cmake_install()
     fi
 
     cd ${_src_dir}
-    rm -rf build
+    # rm -rf build
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
-    make -j${compile_num}
+    make -j`compile_num`
     make install
+    cd ${old}
 }
 
 # src_dir install_dir qmake_flags
@@ -166,7 +168,7 @@ qmake_install()
     cd build
     # qmake PREFIX=${_install_dir} $_qmake_flags ..
     /usr/lib/aarch64-linux-gnu/qt5/bin/qmake PREFIX=${_install_dir} $_qmake_flags ..
-    make -j${compile_num}
+    make -j`compile_num`
     make install
 }
 
@@ -197,7 +199,7 @@ configure_install()
         _config=config
     fi
     ./${_config} --prefix=${_install_dir} $_configure_flags
-    make -j${compile_num}
+    make -j`compile_num`
     make install
 }
 
