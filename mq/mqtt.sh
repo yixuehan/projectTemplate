@@ -7,13 +7,15 @@ image_dir=/data/${image}/${tag}/mosquitto
 
 config_file=${image_dir}/config/mosquitto.conf
 config_dir=$(dirname ${config_file})
+echo $config_dir
+echo $config_file
 
-if [ -d ${config_dir} ]
+if [ ! -d ${config_dir} ]
 then
     sudo bash -c "mkdir -p ${config_dir} && touch ${config_file}"
 fi
 
-if [ -f ${config_file} ]
+if [ ! -f ${config_file} ]
 then
     sudo bash -c "touch ${config_file}"
 fi
