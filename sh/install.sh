@@ -391,6 +391,12 @@ sqlite3()
     configure_install ${download_dir}/sqlite-snapshot-${version} ${install_dir}/sqlite3
 }
 
+sqlite3_cpp()
+{
+    git_tmp_pull https://github.com/SqliteModernCpp/sqlite_modern_cpp.git
+    configure_install ${git_dir}/sqlite_modern_cpp ${install_dir}/sqlite_modern_cpp
+}
+
 install_git()
 {
     version=2.26.0
