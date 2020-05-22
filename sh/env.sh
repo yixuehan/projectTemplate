@@ -38,7 +38,7 @@ done
 #echo $bin_path
 
 export C_INCLUDE_PATH=${include_path}/${C_INCLUDE_PATH}
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/projectTemplate/util/cpp
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/util/cpp
 
 export CPLUS_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
