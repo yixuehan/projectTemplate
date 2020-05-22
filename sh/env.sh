@@ -18,7 +18,7 @@ C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
 libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim \
-      hiredis-v opencv ccache muduo cryptopp libev zip ftplibpp protobuf sqlite_modern_cpp)
+      hiredis-v opencv ccache muduo cryptopp libev zip ftplibpp protobuf mqtt_c mqtt_cpp mosquitto sqlite_modern_cpp)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
@@ -32,6 +32,9 @@ do
     fi
     bin_path=${bin_path}:${libs_dir}/${lib}/bin
 done
+
+export PAHO_MQTT_C_LIBRARIES=${libs_dir}/mqtt_c/include
+export PAHO_MQTT_C_INCLUDE_DIRS=${libs_dir}/mqtt_c/lib
 
 #echo $include_path
 #echo $lib_path
