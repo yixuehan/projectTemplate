@@ -13,6 +13,7 @@ git_dir=${pro_dir}/git_tmp
 download_path=${pro_dir}/download_tmp
 cd ${pro_dir}/sh
 source common.sh
+# source env.sh
 #cd ${pro_dir}
 uid=$(id -u)
 
@@ -390,6 +391,12 @@ sqlite3()
     configure_install ${download_dir}/sqlite-snapshot-${version} ${install_dir}/sqlite3
 }
 
+sqlite3_cpp()
+{
+    git_tmp_pull https://github.com/SqliteModernCpp/sqlite_modern_cpp.git
+    configure_install ${git_dir}/sqlite_modern_cpp ${install_dir}/sqlite_modern_cpp
+}
+
 install_git()
 {
     version=2.26.0
@@ -564,16 +571,46 @@ ftplibpp()
     make PREFIX=${install_dir}/ftplibpp install
 }
 
-mqtt()
+mosquitto()
 {
     git_tmp_pull https://github.com/eclipse/mosquitto.git
-    cmake_install ${git_dir}/mosquitto ${install_dir}/mqtt
+    cmake_install ${git_dir}/mosquitto ${install_dir}/mosquitto "-DDOCUMENTATION=OFF"
+}
+
+mqtt_c()
+{
+    git_tmp_pull https://github.com/eclipse/paho.mqtt.c.git
+    cmake_install ${git_dir}/paho.mqtt.c ${install_dir}/mqtt_c "-DPAHO_WITH_SSL=ON -DPAHO_ENABLE_TESTING=OFF -DPAHO_BUILD_STATIC=ON"
+}
+
+mqtt_cpp()
+{
+    git_tmp_pull https://github.com/eclipse/paho.mqtt.cpp.git
+    cmake_install ${git_dir}/paho.mqtt.cpp ${install_dir}/mqtt_cpp \
+        " \
+         -DPAHO_WITH_SSL=ON \
+         -DPAHO_ENABLE_TESTING=ON \
+         -DPAHO_BUILD_SAMPLES=ON \
+         -DPAHO_BUILD_STATIC=ON \
+         -DPAHO_MQTT_C_INCLUDE_DIRS=/home/shenlan/usr/mqtt_c/include \
+         -DPAHO_MQTT_C_LIBRARIES=`ls /home/shenlan/usr/mqtt_c/lib/*.so` \
+         "
+
+         # -DCMAKE_PREFIX_PATH=../git_tmp/paho.mqtt.c \
+         # -DCMAKE_PREFIX_PATH=${HOME}/usr/mqtt_c"
+
+         # -DPAHO_MQTT_C_INCLUDE_DIRS=/home/shenlan/usr/mqtt_c/include \
+         # -DPAHO_WITH_SSL=OFF \
+         # -DPAHO_MQTT_C_LIBRARIES=\"`builtin cd /home/shenlan/usr/mqtt_c/lib && ls *.so`\" \
 }
 
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
     case ${library} in
+    # mqtt)
+    #     install_mqtt
+    #     ;;
     zip)
         install_zip
         ;;

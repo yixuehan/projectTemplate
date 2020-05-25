@@ -1,15 +1,16 @@
 #!/bin/bash
+image=mariadb
+tag=latest
 
-name=mariadb_study
+name=mariadb_test
+data_dir=/data/${image}/${tag}/mysql
 
 docker stop ${name}
 docker rm ${name}
 
-data_dir=/data/mariadb
-
 docker run --name ${name} \
-           -v ${data_dir}/${name}/datadir:/var/lib/mysql \
+           -v ${data_dir}:/var/lib/mysql \
            --network=host \
            -e MYSQL_ROOT_PASSWORD=mariadb123 \
            -d \
-           mariadb
+           ${image}:${tag}
