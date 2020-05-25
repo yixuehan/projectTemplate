@@ -134,7 +134,7 @@ cmake_install()
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
-    make -j${compile_num}
+    make -j`compile_num`
     make install
 }
 
