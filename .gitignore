@@ -19,3 +19,13 @@
 **/go.mod
 **/go.sum
 /docker/centos/pkg/
+/docker/**/dev_base
+/docker/**/build_dev
+/docker/**/build_ros_dev
+/docker/**/dev
+/docker/**/native_dev
+/docker/**/native_dev_base
+/docker/**/ros
+/docker/**/ros_dev
+
+

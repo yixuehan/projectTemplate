@@ -1,6 +1,6 @@
 #!/bin/bash
 #source ../../syncgit.sh
-arm="_arm"
+arm=_arm
 registry=registry.cn-shanghai.aliyuncs.com/love996
 image=ubuntu1604${arm}
 tag_dev_base=dev_base${arm}
