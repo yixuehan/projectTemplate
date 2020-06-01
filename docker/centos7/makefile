@@ -76,12 +76,12 @@ build_dev:
 	docker run --rm -v ${repo_dir}/sh:${docker_repo_dir}/sh \
 		            -v ${local_dir}/git_tmp:${docker_repo_dir}/git_tmp \
 					-v ${local_dir}/download_tmp:${docker_repo_dir}/download_tmp \
-					-v ${HOME}/.ssh:/root/.ssh \
 					-v ${PWD}/pkg_tmp:/root/usr \
 					-w ${docker_repo_dir}/sh \
 					${registry}/${image}:${tag_dev_base} \
-					./install.sh mysql_conn_cpp #cryptopp #openssl
-					# ./install.sh cmake boost jsoncpp muduo spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev
+					./install.sh ccache libev boost
+					# ./install.sh openssl cmake cryptopp jsoncpp spdlog sqlite3 nlohmann_json FFmpeg hiredis-v sqlite3 aliyun_oss tcmalloc ccache libev boost muduo
+					# openssl
 
 dev:Dockerfile_dev
 	docker build -t ${registry}/${image}:${tag_dev} -f Dockerfile_dev .

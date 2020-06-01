@@ -48,7 +48,7 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/util/cpp
 export CPLUS_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
 
-export LD_LIBRARY_PATH=${lib_path}:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${lib_path}:${LD_LIBRARY_PATH}:.
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OPENCL_LIBRARY_PATH}
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:${LIBRARY_PATH}
@@ -204,19 +204,19 @@ function re_link_gcc()
 ulimit -c unlimited
 
 # devtoolset-7
-if [ "$MKOSTYPE" = "centos" ]
-then
-    grep "release 8" /etc/centos-release &>/dev/null
-    if [ ! $? -eq 0 ]
-    then
-        #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
-        #export PATH=/opt/rh/rh-python36/root/bin:$PATH
-        source /opt/rh/devtoolset-8/enable
-        # source /opt/rh/rh-python36/enable
-        # source /opt/rh/rh-mysql80/enable
-        # scl enable devtoolset-7 bash
-    fi
-fi
+# if [ "$MKOSTYPE = "centos" ]
+# then
+#     grep "release 8" /etc/centos-release &>/dev/null
+#     if [ ! $? -eq 0 ]
+#     then
+#         #export PATH=/opt/rh/devtoolset-7/root/bin:$PATH
+#         #export PATH=/opt/rh/rh-python36/root/bin:$PATH
+#         source /opt/rh/devtoolset-8/enable
+#         # source /opt/rh/rh-python36/enable
+#         source /opt/rh/rh-mysql80/enable
+#         # scl enable devtoolset-7 bash
+#     fi
+# fi
 
 #if [ 4 -eq $SHLVL ] && [ $MKOSTYPE = "centos" ]
 #then
