@@ -4,9 +4,11 @@ repo=$(realpath $(dirname ${BASH_SOURCE})/..)
 
 if [ -e '/etc/centos-release' ]
 then
+    alias update='sudo yum update -y'
     MKOSTYPE=centos
     PYTHON=python3
 else
+    alias update='sudo apt update && sudo apt upgrade -y'
     MKOSTYPE=$(echo `lsb_release -a 2>/dev/null |grep -i distributor| tr A-Z a-z|cut -d':' -f2`)
 fi
 export MKOSTYPE

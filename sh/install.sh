@@ -118,7 +118,7 @@ initdev()
     ${SUDO} ${PIP3} install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
     ${SUDO} ${PIP3} install -U openpyxl \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython \
+		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython matplotlib flask \
     		    -i https://mirrors.aliyun.com/pypi/simple
 
 # ubuntu: sudo -H pip3 install redis -i https://mirrors.aliyun.com/pypi/simple
