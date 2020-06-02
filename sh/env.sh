@@ -254,3 +254,17 @@ function docker_search()
         sed -e "s/^/${Repo}:/"
     done
 }
+
+function use_docker()
+{
+    image=$1
+    uid=$(id -u)
+    gid=$(id -g)
+    username=$(id -u --name)
+    groupname=$(id -g --name)
+    docker run \
+        -it \
+        -v/home:/home \
+        ${image} \
+        bash docker_login.sh ${username} ${groupname} ${uid} ${gid} ${PWD}
+}

@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-import git
 import os
 import sys
-# import threading
-from multiprocessing import Pool
+import threading
+from util.python import util
 
 git_tmp_dir = "git_tmp"
 
