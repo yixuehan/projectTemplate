@@ -268,3 +268,10 @@ function use_docker()
         ${image} \
         bash docker_login.sh ${username} ${groupname} ${uid} ${gid} ${PWD}
 }
+
+function clean_pyc()
+{
+    # find . -name "*.pyc"
+    # find . -name "*.pyc" -exec rm {} \;
+    find . ! -path "*.git*" -name "*.pyc" -type f -ok rm {} \;
+}
