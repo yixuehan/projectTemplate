@@ -53,7 +53,7 @@ export LD_LIBRARY_PATH=${lib_path}:${LD_LIBRARY_PATH}:.
 
 export LIBRARY_PATH=$LD_LIBRARY_PATH:${LIBRARY_PATH}
 
-export PATH=${bin_path}:${PATH}
+export PATH=${bin_path}:${PATH}:${HOME}/util/python
 
 export PS1='[\u@\h \W]\$ '
 
