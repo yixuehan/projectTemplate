@@ -275,3 +275,7 @@ function clean_pyc()
     # find . -name "*.pyc" -exec rm {} \;
     find . ! -path "*.git*" -name "*.pyc" -type f -ok rm {} \;
 }
+
+# update gcc g++
+# sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
+# sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
