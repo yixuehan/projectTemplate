@@ -607,10 +607,19 @@ mqtt_cpp()
          # -DPAHO_MQTT_C_LIBRARIES=\"`builtin cd /home/shenlan/usr/mqtt_c/lib && ls *.so`\" \
 }
 
+install_curl()
+{
+    git_tmp_pull https://github.com/curl/curl.git
+    cmake_install ${git_dir}/curl ${install_dir}/curl
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh
     case ${library} in
+    curl)
+        install_curl
+        ;;
     # mqtt)
     #     install_mqtt
     #     ;;
