@@ -43,7 +43,7 @@ export PAHO_MQTT_C_INCLUDE_DIRS=${libs_dir}/mqtt_c/lib
 #echo $bin_path
 
 export C_INCLUDE_PATH=${include_path}/${C_INCLUDE_PATH}
-export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/util/cpp
+# export C_INCLUDE_PATH=${C_INCLUDE_PATH}:~/util/cpp
 
 export CPLUS_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
