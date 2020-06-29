@@ -217,7 +217,7 @@ download()
 
     if [ ! -f ${_filename} ]
     then
-        wget ${url}
+        wget -c ${url}
         if [ ! $? -eq 0 ]
         then
             rm -rf ${_filename}

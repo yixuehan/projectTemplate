@@ -293,6 +293,7 @@ jsoncpp()
 
 libx264()
 {
+    # yasm
     git_tmp_pull https://github.com/mirror/x264.git
     configure_install ${git_dir}/x264 ${install_dir}/libx264 "--enable-shared --disable-asm"
 }
@@ -489,7 +490,7 @@ opencv()
     version=3.3.0
     # version=3.4.1
     version=3.4.2
-    version=4.2.0
+    version=4.3.0
     download https://github.com/opencv/opencv/archive/${version}.zip opencv-${version}
     cd ${download_dir}/opencv-${version}
     cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}
