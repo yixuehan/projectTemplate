@@ -614,6 +614,12 @@ install_curl()
     cmake_install ${git_dir}/curl ${install_dir}/curl
 }
 
+fmt()
+{
+    git_tmp_pull https://github.com/fmtlib/fmt.git
+    cmake_install ${git_dir}/fmt ${install_dir}/fmt
+}
+
 echo $*
 for library in $* ; do
     cd ${pro_dir}/sh

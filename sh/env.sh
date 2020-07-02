@@ -20,7 +20,8 @@ C_INCLUDE_PATH=${C_INCLUDE_PATH}:${OPENCL_INCLUDE_PATH}
 
 libs_dir=~/usr
 libs=(boost mysql nlohmann_json jsoncpp FFmpeg spdlog json grpc aliyun-oss-cpp-sdk rapidjson cmake openssl sqlite3 vim \
-      hiredis-v opencv ccache muduo cryptopp libev zip ftplibpp protobuf mqtt_c mqtt_cpp mosquitto sqlite_modern_cpp curl yasm libx264)
+      hiredis-v opencv ccache muduo cryptopp libev zip ftplibpp protobuf mqtt_c mqtt_cpp mosquitto sqlite_modern_cpp curl yasm libx264 \
+      fmt)
 for lib in ${libs[@]}
 do
 #    echo ${lib}
@@ -65,7 +66,7 @@ export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 export LOGICAL_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
 export PHYSICAL_NUM=`cat /proc/cpuinfo | grep "physical id" | uniq | wc -l`
 
-export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
+export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig:${PKG_CONFIG_PATH}
 
 #export MANPATH=/home/wangkai/project/thirdLib/${MKOSTYPE}/google_coredumper/man
 
@@ -231,7 +232,6 @@ then
     export CCACHE_SIZE=10G # redundant; set anyway
     export CCACHE_UMASK=0 # shared to world
 fi
-export PKG_CONFIG_PATH=${HOME}/usr/lib/pkgconfig
 
 function clean_git_history()
 {
