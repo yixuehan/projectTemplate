@@ -135,7 +135,7 @@ cmake_install()
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..
-    make -j`compile_num`
+    make -j`compile_num` V=1
     make install
     cd ${old}
 }
@@ -168,7 +168,7 @@ qmake_install()
     cd build
     # qmake PREFIX=${_install_dir} $_qmake_flags ..
     /usr/lib/aarch64-linux-gnu/qt5/bin/qmake PREFIX=${_install_dir} $_qmake_flags ..
-    make -j`compile_num`
+    make -j`compile_num` V=1
     make install
 }
 
@@ -199,7 +199,7 @@ configure_install()
         _config=config
     fi
     ./${_config} --prefix=${_install_dir} $_configure_flags
-    make -j`compile_num`
+    make -j`compile_num` V=1
     make install
 }
 

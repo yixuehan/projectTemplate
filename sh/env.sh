@@ -36,6 +36,7 @@ do
     bin_path=${bin_path}:${libs_dir}/${lib}/bin
 done
 
+export PKG_CONFIG_PATH=${HOME}/usr/libx264/lib/pkgconfig:${PKG_CONFIG_PATH}
 export PAHO_MQTT_C_LIBRARIES=${libs_dir}/mqtt_c/include
 export PAHO_MQTT_C_INCLUDE_DIRS=${libs_dir}/mqtt_c/lib
 

@@ -88,7 +88,7 @@ initdev()
         ubuntu) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
     	    ${SUDO} apt install -y ccache git wget docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
-                                   python3-tk screen lrzsz
+                                   python3-tk screen lrzsz libxml2 libxslt-dev
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
                 ;;
@@ -116,10 +116,10 @@ initdev()
     git config --global credential.helper store
     
     ${SUDO} ${PIP3} install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
-    ${SUDO} ${PIP3} install -U openpyxl \
+    ${SUDO} ${PIP3} install -U openpyxl CPython \
                 GitPython apio requests scons lxml mako numpy wget sqlparser pandas flake8 jaydebeapi jupyter \
-		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython matplotlib flask \
-    		    -i https://mirrors.aliyun.com/pypi/simple
+		        docker-compose toml sqlparse moz-sql-parser Sphinx scrapy redis json5 gitpython flask \
+    		    -i https://pypi.tuna.tsinghua.edu.cn/simple #matplotlib 
 
 # ubuntu: sudo -H pip3 install redis -i https://mirrors.aliyun.com/pypi/simple
 # centos: sudo pip3 install Sphinx -i https://mirrors.aliyun.com/pypi/simple
@@ -305,12 +305,15 @@ FFmpeg()
 
 ffmpeg()
 {
+    sudo apt install libxcb-shm0-dev
     git_tmp_pull https://github.com/FFmpeg/FFmpeg.git
     if [ ${uid} -eq 0 ]
     then
         configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264 --extra-cflags=-I/root/usr/include --extra-ldflags=-L/root/usr/lib"
     else
-        configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264 --extra-cflags=-I${install_dir}/x264/include --extra-ldflags=-L${install_dir}/x264/lib"
+	echo ${PKG_CONFIG_PATH}
+	echo `pkg-config --libs x264`
+        configure_install ${git_dir}/FFmpeg ${install_dir}/FFmpeg "--enable-shared --enable-static --enable-gpl --enable-libx264"
     fi
 }
 
