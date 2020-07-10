@@ -496,7 +496,8 @@ opencv()
     version=4.3.0
     download https://github.com/opencv/opencv/archive/${version}.zip opencv-${version}
     cd ${download_dir}/opencv-${version}
-    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}
+    sudo apt install libopenexr-dev libbz2-dev libgtk2.0-dev pkg-config
+    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version} "-DWITH_GSTREAMER=ON -DWITH_FFMPEG=ON"
     unlink ${install_dir}/opencv || true
     ln -s opencv-${version} ${install_dir}/opencv
 }
