@@ -131,7 +131,7 @@ cmake_install()
     fi
 
     cd ${_src_dir}
-    # rm -rf build
+    rm -rf build
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${_install_dir} $_cmake_flags ..

@@ -496,10 +496,55 @@ opencv()
     version=4.3.0
     download https://github.com/opencv/opencv/archive/${version}.zip opencv-${version}
     cd ${download_dir}/opencv-${version}
-    sudo apt install libopenexr-dev libbz2-dev libgtk2.0-dev pkg-config
-    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version} "-DWITH_GSTREAMER=ON -DWITH_FFMPEG=ON"
+    sudo apt install libopenexr-dev libbz2-dev libgtk2.0-dev pkg-config libgtk-3-dev
+    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version} "-DWITH_FFMPEG=ON"
     unlink ${install_dir}/opencv || true
     ln -s opencv-${version} ${install_dir}/opencv
+    # gstreamer
+    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}-gstreamer "-DWITH_GSTREAMER=ON -DWITH_FFMPEG=ON -DCMAKE_BUILD_TYPE=Debug"
+    # static
+    cmake_install ${download_dir}/opencv-${version} ${install_dir}/opencv-${version}-static \
+        "-DWITH_GSTREAMER=ON -DWITH_FFMPEG=ON \
+         -DWITH_IPP=ON \
+         -DBUILD_WITH_DYNAMIC_IPP=OFF \
+         -DCMAKE_BUILD_TYPE=DEBUG \
+         -DBUILD_JASPER=ON \
+         -DBUILD_JAVA=OFF \
+         -DBUILD_JPEG=ON \
+         -DBUILD_PERF_TESTS=OFF \
+         -DBUILD_PNG=ON \
+         -DBUILD_PROTOBUF=ON \
+         -DBUILD_SHARED_LIBS=OFF \
+         -DBUILD_TESTS=OFF \
+         -DBUILD_TIFF=ON \
+         -DBUILD_ZLIB=ON \
+         -DBUILD_WEBP=ON \
+         -DBUILD_opencv_apps=ON \
+         -DBUILD_opencv_core=ON \
+         -DBUILD_opencv_calib3d=ON \
+         -DBUILD_opencv_dnn=ON \
+         -DBUILD_opencv_features2d=ON \
+         -DBUILD_opencv_flann=ON \
+         -DBUILD_opencv_gapi=ON \
+         -DBUILD_opencv_highgui=ON \
+         -DBUILD_opencv_imgcodecs=ON \
+         -DBUILD_opencv_imgproc=ON \
+         -DBUILD_opencv_java_bindings_generator=ON \
+         -DBUILD_opencv_js=ON \
+         -DBUILD_opencv_ml=ON \
+         -DBUILD_opencv_objdetect=ON \
+         -DBUILD_opencv_photo=ON \
+         -DBUILD_opencv_python2=OFF \
+         -DBUILD_opencv_python3=ON \
+         -DBUILD_opencv_python_bindings_generator=ON \
+         -DBUILD_opencv_stitching=ON \
+         -DBUILD_opencv_ts=ON \
+         -DBUILD_opencv_video=ON \
+         -DBUILD_opencv_videoio=ON \
+         -DWITH_GTK=ON \
+         -DWITH_GTK_2_X=ON \
+         -DWITH_LAPACK=ON \
+        "
 }
 
 yasm()

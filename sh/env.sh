@@ -88,6 +88,7 @@ alias docker++='docker run --rm -v${PWD}:/workdir -w/workdir gcc g++ -std=c++2a 
 alias g++='ccache g++ -std=c++1z -Wall'
 alias screen='screen -U'
 # alias scons='python3 $(which scons)'
+alias uncommit='git reset --soft HEAD^'
 
 function scons()
 {
