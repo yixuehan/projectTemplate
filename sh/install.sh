@@ -66,7 +66,7 @@ uid=$(id -u)
 if [ ! ${uid} -eq 0 ]
 then
     case $MKOSTYPE in
-    	ubuntu|centos8)
+    	ubuntu|centos8|deepin)
             SUDO="sudo -H"
         ;;
         centos) 
@@ -85,7 +85,7 @@ initdev()
 {
     tools="lrzsz git wget ctags curl screen"
     case $MKOSTYPE in
-        ubuntu) 
+        ubuntu|deepin) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
     	    ${SUDO} apt install -y ccache git wget docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
                                    python3-tk screen lrzsz libxml2 libxslt-dev
