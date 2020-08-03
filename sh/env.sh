@@ -57,11 +57,12 @@ export LIBRARY_PATH=$LD_LIBRARY_PATH:${LIBRARY_PATH}
 
 export PATH=${bin_path}:${PATH}:${HOME}/util/python
 
-export PS1='[\u@\h \W]\$ '
+# export PS1='[\u@\h \W]\$ '
+export PS1='[\u \W]\$ '
 
-export MKHOME=${repo}/mak
+# export MKHOME=${repo}/mak
 # export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages:${HOME}/gencode
-export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
+# export PYTHONPATH=$PYTHONPATH:${HOME}/usr/lib/python3.6/site-packages
 # export PYTHONPATH=$PYTHONPATH:${HOME}/gencode
 
 export LOGICAL_NUM=`cat /proc/cpuinfo | grep "processor" | wc -l`
@@ -276,6 +277,16 @@ function clean_pyc()
     # find . -name "*.pyc"
     # find . -name "*.pyc" -exec rm {} \;
     find . ! -path "*.git*" -name "*.pyc" -type f -ok rm {} \;
+}
+
+function cc_gst()
+{
+    if [ $# -lt 1 ]
+    then
+        echo "$0 source.c"
+        return 1
+    fi
+    gcc $1 -o $(echo $1 | cut -d '.' -f1) `pkg-config --cflags --libs gstreamer-video-1.0 gstreamer-audio-1.0 gtk+-3.0 gstreamer-1.0 gstreamer-pbutils-1.0`
 }
 
 # update gcc g++
