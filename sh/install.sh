@@ -87,7 +87,7 @@ initdev()
     case $MKOSTYPE in
         ubuntu|deepin) 
             ${SUDO} apt update && ${SUDO} apt upgrade -y
-    	    ${SUDO} apt install -y ccache git wget docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
+    	    ${SUDO} apt install -y ccache git vim wget docker.io python3-dev build-essential ctags g++ libssl-dev python3-pip curl valgrind \
                                    python3-tk screen lrzsz libxml2 libxslt-dev gconf2
     
                 #${SUDO} apt install vim-nox vim-gnome vim-athena vim-gtk -y
@@ -354,7 +354,7 @@ quazip()
 install_cmake()
 {
     curr_version=$(cmake --version | head -n1 | cut -d' ' -f3)
-    version=3.16.4
+    version=3.18.1
     if [ "${curr_version}x" == "${version}x" ]
     then
         return 0
@@ -668,6 +668,15 @@ fmt()
     git_tmp_pull https://github.com/fmtlib/fmt.git
     cmake_install ${git_dir}/fmt ${install_dir}/fmt
 }
+
+deepin()
+{
+    git_tmp_pull https://gitee.com/wszqkzqk/deepin-wine-for-ubuntu.git
+    cd ${git_dir}/deepin-wine-for-ubuntu
+    bash install_2.8.22.sh
+    wget -O- https://deepin-wine.i-m.dev/setup.sh | sh
+}
+
 
 echo $*
 for library in $* ; do
