@@ -90,6 +90,7 @@ alias g++='ccache g++ -std=c++1z -Wall'
 alias screen='screen -U'
 # alias scons='python3 $(which scons)'
 alias uncommit='git reset --soft HEAD^'
+alias focus_new_windows='gconftool-2 --set /apps/metacity/general/focus_new_windows --type string strict'
 
 function scons()
 {
@@ -292,3 +293,19 @@ function cc_gst()
 # update gcc g++
 # sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
 # sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
+function cpuset_all()
+{
+    x=0
+    while [ ${x} -lt ${LOGICAL_NUM} ]
+    do
+        echo "cpufreq-set -c ${x} -g ${1}"
+        cpufreq-set -c ${x} -g ${1}
+        let x=${x}+1
+    done
+}
+
+function check_mem()
+{
+    echo "valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all $@"
+    valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all $@
+}
