@@ -28,4 +28,5 @@
 /docker/**/ros
 /docker/**/ros_dev
 
-
+**/*.deb
+**/*.rpm

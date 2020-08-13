@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # chrome
-sudo wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/
-wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -
-#wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-sudo apt update
+#sudo wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/
+#wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -
+# wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+# sudo apt update
 
 # gnome
 # sudo apt install -y google-chrome-stable gnome
-sudo apt install -y google-chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
 # sudo apt install openvpn network-manager-openvpn network-manager-openvpn-gnome
 
