@@ -14,7 +14,7 @@ sudo apt install -y ./google-chrome-stable_current_amd64.deb
 # sudo apt install openvpn network-manager-openvpn network-manager-openvpn-gnome
 
 # input method
-# sudo apt install -y fcitx-table-wubi fcitx-frontend-qt5
+sudo apt install -y fcitx-table-wubi fcitx-frontend-qt5
 
 #
 # ppa.launchpad.net
